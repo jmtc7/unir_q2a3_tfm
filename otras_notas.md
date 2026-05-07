@@ -44,4 +44,3 @@ OCR - Optical Character Recognition o reconocimiento óptico de caracteres
 CNN - Convolutional Neural Network o red neuronal convolucional
 LLM - Large Language Model o gran modelo de lenguaje. Modelos de IA que procesan y/o generan texto, como GPT-4, LLaMA o BERT.
 VLM - Vision Language Model o modelo de lenguaje visual. Combina modelos de IA de visión artificial con modelos LLM.
-
