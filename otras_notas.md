@@ -44,3 +44,75 @@ OCR - Optical Character Recognition o reconocimiento óptico de caracteres
 CNN - Convolutional Neural Network o red neuronal convolucional
 LLM - Large Language Model o gran modelo de lenguaje. Modelos de IA que procesan y/o generan texto, como GPT-4, LLaMA o BERT.
 VLM - Vision Language Model o modelo de lenguaje visual. Combina modelos de IA de visión artificial con modelos LLM.
+
+
+---
+
+# Arquitectura propuesta
+Mi idea: Un sistema que pueda ingerir reportes de error. Incluiría:
+- **Ingesta** de reportes (en JSONs o PDF estandarizados al principio, pero podría añadirse soporte a manuscritos)
+  - El usuario debe especificar el tipo de entrada (JSON, PDF, manuscrito, etc.).
+  - Cada tipo de entrada se dirigirá al sistema de ingesta adecuado.
+  - Los reportes deben de incluir valores de las variables relevantes.
+  - Los reportes podrían especificar el *motivo de la preocupación*, que podrían ir desde ruidos/vibraciones/olores extraños hasta máquina parada, pasando por fugas de líquidos o generación de humo.
+    - Los agentes juzgarán si se necesita intervenir o si todas las variables tienen valores normales.
+- **Agentes IA** que consulten manuales, estado actual de la máquina y/o estados anteriores y responda sugiriendo qué hacer en función de un manual (que deberíamos hacer nosotros).
+  - Si al agente le falta información, debe de detectarlo e informar al usuario.
+  - El agente debe de entender el problema, detectar su origen (temperatura/presión/etc. demasiado baja/alta) y proponer cómo solucionarlo modificando otra variable en base al contenido del *manual*, que debería tener reglas como:
+    - Mucha temperatura? -> Bajar presión.
+    - Poca presión? -> Bajar temperatura.
+    - Pequeña fuga/ruido/vibración extraña pero variables normales? -> No pasa nada, pero bajar velocidad por precaución.
+    - Grandes fugas/ruido/vibraciones pero variables normales? -> Apagar y llamar a un técnico.
+    - Mucha presión y poca temperatura? -> Apagado de emergencia.
+      - Problemas como este podrían tener asociado un nivel de severidad mayor y generar **alertas** (email u otro).
+  - Necesitaríamos **un agente** que interprete el **problema** (pasar de informe a problema) y **otro** que interprete los **manuales** (pasar de problema a solución).
+  - Podría preguntarse si la sugerencia ha resuelto o no la incidencia. Si no, se generaría una **alerta** (email u otro).
+- Un **registro de incidencias** reportadas, la respuesta dada y si se resolvió o no la incidencia.
+  - Base de datos SQL? Log CSV?
+  - Podría poblarse con datos ficticios previos para llenar el dashboard y que los ejemplos sean más visuales.
+- Un **dashboard** que muestre el historial de incidencias, la sugerencia dada, si se pudo resolver y si se generó una alerta.
+  - Puede incluir fecha y hora siguiendo formato ISO.
+  - Puede tener otra pestaña que permita analizar las incidencias con:
+    - Frecuencia en el tiempo (quizás en X periodo se generan más a causa de un aprendiz manejando la máquina, condiciones externas estacionales o periodos de alta producción).
+    - Valores de las variables que generaron alertas que no pudieron resolverse, con un gráfico de dispersión done las coordenadas de los puntos sean los valores de las variables y su color sea el nivel de severidad.
+    - KPIs como:
+      - Número de reportes por día, semana, mes o año.
+      - Número de fallos que pudieron resolverse vs irresolubles, o ratio de errores irresolubles.
+
+
+**Alternativa** (muy diferente a lo que hemos definido, más bien son las partes que *quitaría* del proyecto para simplificarlo): Un sistema que monitorice una planta de producción o máquina y detecte posibles fallos o situaciones de alerta. Necesitaría:
+- **Ingesta** de datos (temperatura, presión, etc.) con sistema de streaming
+  - Como POC inicial, podrían ser mensajes JSON pasados manualmente uno a uno desde terminal.
+  - Idealmente podría ser ROS o Kafka y podrían leer de un archivo y enviar un mensaje por segundo o algo así.
+- Un algoritmo que detecte **valores peligrosos**. Podría ser:
+  - ML a entrenar con los datos del tren.
+  - Checks manuales que verifiquen si alguna de las variables es demasiado baja o alta
+- **Dashboard** que muestre los datos capturados. Podría incluir:
+  - Gráfica con valores históricos (tipo system monitor del PC).
+  - Datos actuales exactos (presión, temperatura, etc.).
+    - Mostrar **alertas** con colores y/o animaciones y quizás enviándolas por email?
+
+
+## Reunión de Alineamiento y Kickoff del Desarrollo del 16 de Mayo:
+**Orden del día**:
+1. Exposición de las ideas de proyecto de cada uno.
+2. Debate y elección de una de ellas o una combinación de varias.
+3. Definición de componentes técnicos para hacer un POC básico y división de tareas.
+
+Las **conclusiones** extraidas son:
+- Estamos de acuerdo en la **arquitectura**.
+  - Haremos sistema con 1 agente orquestador (Efrel), un agente que lea reportes en PDF o manuscritos y genere JSONs con los fallos (José Miguel) y un agente que, dado un JSON, genere una respuesta en base a los manuales (Víctor).
+- Haremos más adelante:
+  - El **dashboard**, que lo haremos al final, ya que la parte de los agentes es el *core* del proyecto y es la que nos interesa a los 3.
+  - Dejaremos como *nice to have* un potencial **predictor** de fallos para evitar complejidad.
+- Respecto a las **herramientas**, usaremos **n8n** porque es visual y permite trabajar **offline** y en **local** de forma **gratuita** con imágenes **Docker**.
+  - **Databricks** también tiene agentes similares preconfigurados y suscripción **gratuita** para aprender, pero debe utilizarse estando **online**. Es una alternativa.
+  - **CrewAI** también puede usarse en **local** pero necesita de **más programación**.
+- Las **tareas** a hacer son:
+  - Cada uno, empezar a **implementar** su parte con n8n.
+  - **Yo** (José Miguel) debo añadir un párrafo al documento explicando la **arquitectura final y** las **implementaciones** que estamos empezando.
+    - Aprovechar y revisar si el Objetivo Específico 2 existe o sigue faltando.
+  - **TODOS** deben añadir las **referencias** utilizadas en **APA 7**.
+
+
+---
