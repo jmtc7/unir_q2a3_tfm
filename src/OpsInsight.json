@@ -1,0 +1,193 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Reporte de Incidencia",
+        "formDescription": "Indicar las presiones en bares (bar), la corriente en amperios (A), la temperatura en grados centígrados (ºC). Para las señales eléctricas, marcar la casilla si está encendida y dejar sin marcar si está apagada.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Fecha",
+              "fieldType": "date",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Máquina problemática",
+              "fieldType": "dropdown",
+              "defaultValue": "MetroPT3",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "MetroPT3"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Nombre del operario",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Descripción del problema",
+              "fieldType": "textarea",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Presión del compresor (TP2)",
+              "fieldType": "number",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Presión del panel neumático (TP3)",
+              "fieldType": "number",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Presión al descargar el filtro ciclónico (H1)",
+              "fieldType": "number",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Presión al descargar los secadores (DV)",
+              "fieldType": "number",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Presión del depósito de aire (R)",
+              "fieldType": "number",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "COMP",
+              "fieldType": "checkbox",
+              "fieldOptions": {
+                "values": [
+                  {}
+                ]
+              }
+            },
+            {
+              "fieldLabel": "DV Electric",
+              "fieldType": "checkbox",
+              "fieldOptions": {
+                "values": [
+                  {}
+                ]
+              }
+            },
+            {
+              "fieldLabel": "TOWERS",
+              "fieldType": "checkbox",
+              "fieldOptions": {
+                "values": [
+                  {}
+                ]
+              }
+            },
+            {
+              "fieldLabel": "MPG",
+              "fieldType": "checkbox",
+              "fieldOptions": {
+                "values": [
+                  {}
+                ]
+              }
+            },
+            {
+              "fieldLabel": "LPS",
+              "fieldType": "checkbox",
+              "fieldOptions": {
+                "values": [
+                  {}
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Pressure Switch",
+              "fieldType": "checkbox",
+              "fieldOptions": {
+                "values": [
+                  {}
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Oil Level",
+              "fieldType": "checkbox",
+              "fieldOptions": {
+                "values": [
+                  {}
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Corriente del motor (A)",
+              "fieldType": "number",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Temperatura del aceite (ºC)",
+              "fieldType": "number",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.5,
+      "position": [
+        -688,
+        -320
+      ],
+      "id": "8b5450a3-3824-4189-bb80-8d64bcba88dd",
+      "name": "On form submission",
+      "webhookId": "c67f4276-d475-4fdf-8678-693f6179c5aa",
+      "notesInFlow": true,
+      "notes": "Formulario online"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Simplificar acceso al JSON (siempre habrá un único item)\nconst item = $input.first().json;\n\n// Función para convertir de checkboxes a booleanos\nfunction checkboxToBool(value)\n{\n  // [] => false, [\"\"] => true\n  if (Array.isArray(value))\n  {\n    return value.length > 0;\n  }\n  \n  return Boolean(value);\n}\n\n// Construir salida\nreturn {\n  \"fecha\": item[\"Fecha\"],\n  \"maquina\": item[\"Máquina problemática\"],\n  \"operario\": item[\"Nombre del operario\"],\n  \"descripcion\": item[\"Descripción del problema\"],\n\n  \"variables\": {\n    \"presiones\": {\n      \"tp2\": item[\"Presión del compresor (TP2)\"],\n      \"tp3\": item[\"Presión del panel neumático (TP3)\"],\n      \"h1\": item[\"Presión al descargar el filtro ciclónico (H1)\"],\n      \"dv\": item[\"Presión al descargar los secadores (DV)\"],\n      \"r\": item[\"Presión del depósito de aire (R)\"],\n    },\n\n    \"senales_electricas\": {\n      \"comp\": checkboxToBool(item[\"COMP\"]),\n      \"dv_electric\": checkboxToBool(item[\"DV Electric\"]),\n      \"towers\": checkboxToBool(item[\"TOWERS\"]),\n      \"mpg\": checkboxToBool(item[\"MPG\"]),\n      \"lps\": checkboxToBool(item[\"LPS\"]),\n      \"pressure_switch\": checkboxToBool(item[\"Pressure Switch\"]),\n      \"oil_level\": checkboxToBool(item[\"Oil Level\"]),\n    },\n\n    \"corriente_motor\": item[\"Corriente del motor (A)\"],\n    \"temperatura_aceite\": item[\"Temperatura del aceite (ºC)\"],\n  }\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -448,
+        -320
+      ],
+      "id": "a973a9c8-7011-44f8-8f0c-e916b7eda85d",
+      "name": "Code in JavaScript",
+      "notesInFlow": true,
+      "notes": "Encuesta -> JSON deseado"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "7e5e4d19-775b-4e52-afaa-b72c6ff70546",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "4e6d8812c2c971815a6e9a87640a2265b770dc88239f3b09a6c772e6272091fc"
+  },
+  "id": "ddvD7U9VxprLp6Z8",
+  "tags": []
+}
