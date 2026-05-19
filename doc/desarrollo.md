@@ -1,2 +1,22 @@
-# Desarrollo
-Para **familiarizarme con n8n**, seguí su [tutorial de iniciación](https://docs.n8n.io/try-it-out/tutorial-first-workflow/), que muestra cómo crear un *workflow* que, cada semana, recupere datos de la NASA sobre erupciones solares y genere un informe u otro en función de su categoría.
+# Notas sobre el Desarrollo
+Para **familiarizarme con n8n**, seguí su [tutorial de iniciación](https://docs.n8n.io/try-it-out/tutorial-first-workflow/), que muestra cómo crear un *workflow* que, cada semana, recupere datos de la NASA sobre erupciones solares y genere un informe u otro en función de su categoría. También hice su [curso para principiantes](https://www.youtube.com/watch?v=4BVTkqbn_tY&list=PLlET0GsrLUL59YbxstZE71WszP3pVnZfI) (2h) y su [curso avanzado](https://www.youtube.com/watch?v=TFTLMQLozCI&list=PLlET0GsrLUL5bxmx5c1H1Ms_OtOPYZIEG) (1h 30min).
+- En el **curso para principantes** se presentan los conceptos y funcionalidades básicos, los tipos de nodos y los nodos más comunes. También se muestra cómo acceder al ***log*** de ejecuciones de *workflows* y nodos, **gestionar errores** con los *error workflows* (desde *settings* y utilizando los nodos *error trigger* y *stop and error*), **debuggear** (con el log de ejecuciones y el editor), crear **versiones**, obtener [**templates**](https://n8n.io/workflows/) de la comunidad, configurar **usuarios y roles** (owner, admins y members) y **colaborar** con otras personas.
+- En el **curso avanzado** se muestra cómo trabajar con datos complejos, se introducen algunos nodos avanzados, se profundiza en los datos de salida, los *subworkflows* y los *error workflows*, se construye un ejemplo completo y se muestra cómo gestionar ficheros.
+
+Me baso en [una plantilla](https://n8n.io/workflows/8460-extract-invoice-data-from-pdfs-to-json-with-gemini-ai-and-xml-transformation/) para extraer datos de un PDF digital extrayendo todo su texto, generando una plantilla y pidiéndole a un LLM que la rellene.
+- Como **LLM**, utilizo [**Ollama**](https://github.com/ollama/ollama/blob/main/README.md#quickstart) en local porque es gratuito. Sigo la [guía de n8n](https://docs.n8n.io/integrations/builtin/credentials/ollama/) para configurar las credenciales, utilizando `http://ollama:11434` como credencial.
+- El ***prompt*** utilizado para el LLM es: `Extrae la información del siguiente reporte de incidencia y reescribela como un JSON válido siguiendo este esquema: {{ $json.estructura_json }} Incidencia: {{ $json.texto_limpio }}`.
+
+> **NOTA**: Para que los dos contenedores puedan comunicarse, debería de crear una red Docker con `docker network create ai-stack` y utilizarla al crear los contenedores, añadiendo el argumento `--network ai-stack`. Sin embargo, si uso `docker-compose`, ambos contenedores compartirán red automáticamente, además de facilitar la instalación.
+
+Con respecto a los **modelos** disponibles con **Ollama**, **Qwen2.5** es extremadamente bueno siguiendo formatos JSON estrictos, es  menos *creativo* (positivo para nuestro *usecase*), tiene mejor consistencia estructural, menos errores de parsingy es muy sólido en extracción de datos. Por otro lado, **Llama3.1** ofrece mejor razonamiento general, mejor lenguaje natural y da explicaciones más *inteligentes*. Sin embargo, es más propenso a añadir texto fuera de los formatos especificados e *interpretar* en vez de extraer. Por ello, **Qwen** es mejor para generar los JSONs de incidentes pero **Llama** puede ser mejor para proponer soluciones en base al manual.
+- Otras opciones son **Qwen3.6**, que es más nuevo y potente en razonamiento general, pero está menos probado en *tooling* real, por lo que hay más riesgo de que *interprete* en vez de extraer. Por su parte, **Gemma4** es muy bueno en razonamiento general y en lenguaje natural, pero es peor respetando estructuras rígidas y extracción determinista.
+- Para obtener QWen2.5, se puede ejecutar `docker exec -it ollama ollama pull qwen2.5` desde dentro de la imagen Docker de Ollama.
+
+## Trabajo Futuro
+El **agente de ingesta** podría mejorarse de las siguientes maneras:
+- Añadir la opción de **ingerir fotos** de reportes de incidencias rellenados a mano.
+- Añadir un `docker-compose` y actualizar `README.md` diciendo que se haga `docker compose up -d`.
+- **Verificar** que estén todos los campos y que sean de los tipos adecuados y, si no, lanzar un error.
+- El PDF se sube a través de un **formulario online**. Podría ser un webhook que espere un mensaje de una web en local desde la que el usuario podría subir una foto, un PDF o rellenar la encuesta.
+  - También podría proporcionársele desde carpetas monitorizadas (con *local file trigger*) o almacenamiento en la nube como Google Drive, OneDrive o Amazon S3.

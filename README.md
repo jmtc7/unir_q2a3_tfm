@@ -22,8 +22,10 @@ La arquitectura se basa en un **agente IA que ingiera PDFs** con reportes de inc
 
 
 ## Guía de Instalación y Uso
+### Prerrequisitos
 Como **prerrequisitos**, se asume que ya se dispone de una **instalación funcional de [Docker Desktop](https://www.docker.com/products/docker-desktop/)**.
 
+### Instalación de n8n
 Para los agentes de IA, utilizamos [n8n](https://docs.n8n.io/hosting/installation/docker/). Comenzamos por crear un **contenedor Docker** a partir de la [imagen oficial](https://hub.docker.com/r/n8nio/n8n) con:
 
 ```bash
@@ -31,7 +33,7 @@ Para los agentes de IA, utilizamos [n8n](https://docs.n8n.io/hosting/installatio
 docker volume create n8n_data
 
 # Crear contenedor docker a partir de la imagen n8nio/n8n
-docker run -it --rm \
+docker run -it \
  --name n8n \
  -p 5678:5678 \
  -e GENERIC_TIMEZONE="Europe/Madrid" \
@@ -42,4 +44,15 @@ docker run -it --rm \
  docker.n8n.io/n8nio/n8n
 ```
 
-Una vez lanzado el contenedor, se monta el volumen `n8n_data` en `/home/node/.n8n/` y podremos crear un usuario maestro desde [http://localhost:5678/setup](http://localhost:5678/setup) y utilizar n8n desde [http://localhost:5678/home/workflows](http://localhost:5678/home/workflows).
+Una vez lanzado el contenedor, se monta el volumen `n8n_data` en `/home/node/.n8n/` (donde se guardarán los datos) y podremos crear un usuario maestro desde [http://localhost:5678/setup](http://localhost:5678/setup) y utilizar n8n desde [http://localhost:5678/home/workflows](http://localhost:5678/home/workflows). Para lanzar y parar el contenedor, puedes utilizar `docker start n8n` y `docker stop n8n`, respectivamente, o hacerlo desde Docker Desktop.
+
+### Instalación de Ollama
+También necesitarás **instalar Ollama**, el LLM utilizado por los agentes. Para ello, tal y como se indica en su [guía de inicio rápido](https://github.com/ollama/ollama/blob/main/README.md#quickstart), descarga y crea un contenedor Docker con:
+
+```bash
+docker run -d \
+  --name ollama \
+  -p 11434:11434 \
+  -v ollama:/root/.ollama \
+  ollama/ollama
+```

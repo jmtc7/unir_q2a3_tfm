@@ -1,5 +1,5 @@
 {
-  "name": "My workflow",
+  "name": "OpsInsight",
   "nodes": [
     {
       "parameters": {
@@ -139,8 +139,8 @@
       "type": "n8n-nodes-base.formTrigger",
       "typeVersion": 2.5,
       "position": [
-        -688,
-        -320
+        -1072,
+        -512
       ],
       "id": "8b5450a3-3824-4189-bb80-8d64bcba88dd",
       "name": "On form submission",
@@ -155,13 +155,165 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -448,
-        -320
+        -896,
+        -512
       ],
       "id": "a973a9c8-7011-44f8-8f0c-e916b7eda85d",
       "name": "Code in JavaScript",
       "notesInFlow": true,
       "notes": "Encuesta -> JSON deseado"
+    },
+    {
+      "parameters": {
+        "content": "# Ingesta Documental",
+        "height": 576,
+        "width": 928
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1136,
+        -640
+      ],
+      "typeVersion": 1,
+      "id": "81fc09a9-eb9b-4825-8416-773a3b733de3",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Formulario online",
+        "height": 224,
+        "width": 416,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1120,
+        -576
+      ],
+      "typeVersion": 1,
+      "id": "b49be497-edb5-487e-ba1b-d262803bfa11",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "formTitle": "Reportar una Incidencia con un PDF",
+        "formDescription": "Formulario para reportar incidencias mediante reportes digitales en formato PDF.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Archivo PDF",
+              "fieldType": "file",
+              "acceptFileTypes": ".pdf, .PDF",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.5,
+      "position": [
+        -1072,
+        -272
+      ],
+      "id": "c6f9d8d9-1485-4e04-93ea-3e237f839cea",
+      "name": "On form submission1",
+      "webhookId": "c03bd076-7422-4db2-9090-77542c24dbe5",
+      "notesInFlow": true,
+      "notes": "Ingesta de PDFs"
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "binaryPropertyName": "Archivo_PDF",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        -896,
+        -272
+      ],
+      "id": "c7e58b8d-b5d2-4e6c-bb7d-016feeaadbfb",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "content": "## Reporte digital en PDF",
+        "height": 256,
+        "width": 896,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1120,
+        -336
+      ],
+      "typeVersion": 1,
+      "id": "882e7575-ffc2-4422-8ab5-a95cc899ac35",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fc1c60ba-48fd-48b9-9f6a-aed961e9d16f",
+              "name": "texto_limpio",
+              "value": "={{ $json.text.replace(/\\n/g, ' ') }}",
+              "type": "string"
+            },
+            {
+              "id": "c13fbef1-11b3-476c-98d6-a543bffd862a",
+              "name": "estructura_json",
+              "value": "={\n  \"fecha\": \"\",\n  \"hora\": \"\",\n  \"maquina\": \"\",\n  \"operario\": \"\",\n  \"descripcion\": \"\",\n  \"variables\": {\n    \"presiones\": {\n      \"tp2\": 0,\n      \"tp3\": 0,\n      \"h1\": 0,\n      \"dv\": 0,\n      \"r\": 0\n    },\n    \"senales\": {\n      \"comp\": false,\n      \"dv_electric\": false,\n      \"towers\": false,\n      \"mpg\": false,\n      \"lps\": false,\n      \"pressure_switch\": false,\n      \"oil_level\": false\n    },\n    \"corriente_motor\": 0,\n    \"temperatura_aceite\": 0\n  }\n}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -720,
+        -272
+      ],
+      "id": "6ead5a2c-3e7a-4003-b8d7-35f5dbb31aa5",
+      "name": "Edit Fields",
+      "notesInFlow": true,
+      "notes": "Preparar texto y JSON"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Extrae la información del siguiente reporte de incidencia y reescribela como un JSON válido siguiendo este esquema:\n\n{{ $json.estructura_json }}\n\nIncidencia:\n\n{{ $json.texto_limpio }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.ollama",
+      "typeVersion": 1,
+      "position": [
+        -544,
+        -272
+      ],
+      "id": "25d2853a-b771-4b8e-81ef-6a8399d221f9",
+      "name": "Message a model1",
+      "credentials": {
+        "ollamaApi": {
+          "id": "TmL1NRZXkVIsIrwY",
+          "name": "Ollama account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -176,6 +328,39 @@
           }
         ]
       ]
+    },
+    "On form submission1": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Message a model1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
@@ -183,7 +368,7 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "7e5e4d19-775b-4e52-afaa-b72c6ff70546",
+  "versionId": "20f721b9-09a5-4a13-b7c0-a8f5cfabed72",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "4e6d8812c2c971815a6e9a87640a2265b770dc88239f3b09a6c772e6272091fc"
