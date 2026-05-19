@@ -1,6 +1,5 @@
 {
     "fecha": "2026-05-18",
-    "hora": "12:47",
     "maquina": "MetroPT3",
     "operario": "José Miguel Torres Cámara",
     "descripcion": "La máquina está funcionando bajo carga sin problema, pero hace un ruido extraño.",
@@ -8,11 +7,11 @@
     {
         "presiones":
         {
-        "presion_tp2": 12.4,
-        "presion_tp3": 10.9,
-        "presion_h1": 3.6,
-        "presion_dv": 0.0,
-        "presion_r": 11.1
+        "tp2": 12.4,
+        "tp3": 10.9,
+        "h1": 3.6,
+        "dv": 0.0,
+        "r": 11.1
         },
         "senales_electricas":
         {
