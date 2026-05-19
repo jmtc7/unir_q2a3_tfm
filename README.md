@@ -1,80 +1,45 @@
 # Trabajo de Final de Máster (TFM)
+Este repositorio continene información, datos y documentos desarrollados para mi TFM del máster en Big Data y Visual Analytics de la UNIR. Los archivos se estructuran de la siguiente forma:
+- [`datos/`](datos/): Carpeta con los **datos** utilizados para desarrollar y testear la solución. Algunos de los archivos clave son:
+  - [`plantilla_reporte_incidencia.odt`](datos/plantilla_reporte_incidencia.odt): Plantilla que los usuarios utilizarán para reportar incidencias. Puede rellenarse virtualmente y generar un PDF a partir de ella o imprimirse para rellenarse a mano y darle al sistema una foto del formulario rellenado a mano.
+  - [`ejemplo_incidencia.pdf`](datos/ejemplo_incidencia.pdf): Ejemplo de un reporte de incidencia digital en PDF que deberá ser tratado por el agente de ingesta documental para generar un JSON con la información clave.
+  - [`ejemplo_incidencia.json`](datos/ejemplo_incidencia.json): Ejemplo de JSON que deberá generar el agente de ingesta y que debe recibir el agente de análisis documental.
+  - [`manual_MetroPT3.md`](datos/manual_MetroPT3.md): Manual en MarkDown de una supuesta máquina MetroPT3. Se basa en los datos del [dataset MetroPT3](https://archive.ics.uci.edu/dataset/791/metropt+3+dataset), que contiene datos reales de la Unidad de Producción de Aire (APU) de un metro.
+- [`doc/`](doc/): Carpeta con **documentación** detallada sobre:
+  - [`propuesta.md`](doc/propuesta.md): La **propuesta de TFM escogida**, incluyendo sus objetivos, metodología y entregables.
+  - [`entregas.md`](doc/entregas.md): El **contenido** esperado en cada una **de las entregas intermedias** a realizar.
+  - [`desarrollo.md`](doc/desarrollo.md): Detalles técnicos sobre el desarrollo del trabajo.
 
-## Detalles sobre las Entregas
-Las **fechas importantes** son las siguientes:
-- **Entrega 1 - Borrador inicial**: Para el **15 de abril**. Debe incluir la estructura de **capítulos**, el **planteamiento** y la justificación del problema (contexto), la **metodología** del trabajo (métodos, técnicas y herramientas que se utilizarán), el **estado del arte** y los **objetivos**. El **estado del arte** debería de estar **totalmente acabado**.
-- **Entrega 2 - Borrador intermedio**: Para el **13 de mayo**. Debe incluir las **recomendaciones** del tutor, **terminar objetivos y metodología** e incluir los **avances** realizados, así como borradores de la **introducción, resultados y conclusiones**.
-- **Entrega 3 - Borrador final**: Para el **17 de junio**. Debe incluir las **recomendaciones del tutor** y haber **terminado introducción, desarrollo, resultados y conclusiones** y haber añadido un **resumen**.
-  - En función de su madurez, el tutor nos dirá si podemos entregar en convocatoria ordinaria o si deberemos esperar a la extraordinaria.
-  - Puede que recibamos algún comentario menor, pero debe de ser prácticamente lo que vayamos a entregar en el predepósito.
-- **Predepósito** (convocatoria ordinaria): Para el **15 de julio**. Tras el predepósito NO deberían de haber cambios más allá de pequeñas correcciones de erratas. El contenido debería de ser lo mismo que se deposite.
-- **Predepósito** (convocatoria extraordinaria): Para el **9 de septiembre**.
-
-
-## Consideraciones a Tener en Cuenta
-- Mi **tutor** de TFM será Rafael Martínez Ranera.
-- Deberíamos intentar cumplir el ***plannnig* semanal** sugerido.
-  - El **tutor** NO hará seguimiento semanal, él dará **comentarios** escritos **y una sesión en vivo** con cada grupo **tras cada entrega**. Las sesiones quedarán grabadas.
-- En la pestaña *Fases TFE* del campus virtual encontraremos archivos con las **reglas a seguir**, incluyendo una [plantilla grupal](material/plantilla_grupal.docx) con una **guía de estilo**.
-- Para los **TFMs en grupo**, **todos** los miembros **deben de estar al tanto de todo** el proyecto, NO basta con dividirlo en varios bloques y que cada uno se encargue de una parte e ignore las otras.
-- Respecto a la **evaluación**:
-  - La **memoria** es un **70%** de la nota y la **presentación** es un **30%**.
-  - Con **2 entregas NO aptas, se suspende** el TFM. Por eso, el profesor NO las dará como no aptas para evitar esta situación.
-- Existen ciertos **requisitos**:
-  - La extensión mínima en un TFE grupal es de 90 páginas.
-  - Deben incluirse al menos **20 citas** y seguir el estándar **APA7**.
-  - El TFM debe de tener **menos de un 20% de plagio** en TurnItIn para poder ser entregado.
+El trabajo consiste en un sistema que ayude a los operarios de una planta industrial a reaccionar ante incidencias con máquinas complejas. Además, este sistema, registra dichas incidencias y facilita su inspeción y análisis a través de un *dashboard*.
 
 
-## Propuesta Escogida - Desarrollo de un Cuadro de Mando Conectado a Sistemas OCR Automatizados con Agentes
-Haré un TFM en modalidad **RedProyectum**, es decir, se desarrollará en el contexto de un proyecto empresarial, en concreto, de **Sopra Steria**.
+## Arquitectura 
+La arquitectura se basa en un **agente IA que ingiera PDFs** con reportes de incidencias y **genere JSONs** con la información clave, que luego se le pasan a **otro** agente que **consulta los manuales para proponer una acción** al operario. Las incidencias se **registran en un CSV y en una base de datos** relacional SQL. En base a esta, se ofrece un ***dashboard*** con el **registro** de incidencias así como varios **KPIs y gráficas** y facilitan su análisis. Esto se representa en el siguiente esquema:
 
-Mi propuesta es la **propuesta 19**, cuyo **título** es: **Diseño y desarrollo de una plataforma inteligente de monitorización operativa mediante cuadros de mando conectados a sistemas OCR, análisis visual y automatización con agentes**.
+<p align="center">
+  <img src="imgs/arquitectura/arquitectura.drawio.png" height="200">
+</p>
 
-El **objetivo general** es construir un sistema completo de **monitorización del estado de tareas** diarias en una organización industrial o de servicios, **integrando** fuentes de datos heterogéneas como **bases de datos** internas, capturas **OCR** de formularios en papel y análisis de **imágenes**, y presentando toda la información en un **cuadro de mando** centralizado.
 
-Los **objetivos específicos** son: 
-- Deﬁnir y estructurar el **alcance de las tareas que se monitorizarán**, identiﬁcando qué **procesos** diarios generan datos, qué **indicadores** representan su estado y qué **fuentes** son ﬁables.
-- Diseñar una **arquitectura modular basada en agentes** que analicen documentos, imágenes u otros soportes para validar el estado real de las tareas.
-- **Implementar** ﬂujos de **automatización** mediante plataformas como **n8n o Activepieces** que extraigan datos, invoquen modelos OCR o servicios de análisis visual y actualicen registros en bases de datos.
-- Construir un **cuadro de mando interactivo** capaz de mostrar métricas clave, incidencias, estado de ejecución de procesos y evidencias asociadas.
-- Integrar **modelos LLM** locales o desplegados en CPU para interpretar documentos, comprobar coherencia entre reportes y detectar desviaciones.
-- **Evaluar el sistema** en un caso representativo de entorno real como logística, mantenimiento, retail, inspección técnica o servicios de campo.
+## Guía de Instalación y Uso
+Como **prerrequisitos**, se asume que ya se dispone de una **instalación funcional de [Docker Desktop](https://www.docker.com/products/docker-desktop/)**.
 
-Los **elementos y actividades clave** del proyecto son:
-- **Análisis de procesos reales**: identiﬁcación de las tareas diarias que deben monitorizarse, puntos de captura de datos, actores involucrados y posibles ineﬁciencias en el ﬂujo actual.
-- **Diseño de pipelines de captura**: digitalización de checklist en papel mediante OCR, ingestión de imágenes provenientes de aplicaciones móviles internas y consultas a bases de datos operativas.
-- **Integración con n8n o Activepieces** para automatizar ﬂujos de captura, limpieza y validación de información.
-- **Desarrollo de agentes basados en LLM** locales capaces de analizar la documentación capturada y veriﬁcar si el estado reportado coincide con el estado esperado. Los agentes deberán operar bajo reglas deﬁnidas por el equipo del proyecto.
-- **Diseño de un cuadro de mando interactivo** usando tecnologías web y frameworks como Dash, Streamlit o superset empresarial.
-- **Implementación de mecanismos de alerta** basados en reglas y en razonamiento del agente (por ejemplo, detección de inconsistencias entre checklist OCR y registros de base de datos).
-- **Evaluación** mediante escenarios simulados o datos anonimizados, midiendo precisión del OCR, ﬁabilidad de las detecciones visuales y utilidad del cuadro de mando.
-- **Recopilación de un conjunto mínimo de datos** reales o simulados que permita evaluar el funcionamiento completo de la plataforma.
+Para los agentes de IA, utilizamos [n8n](https://docs.n8n.io/hosting/installation/docker/). Comenzamos por crear un **contenedor Docker** a partir de la [imagen oficial](https://hub.docker.com/r/n8nio/n8n) con:
 
-La **metodología** a seguir será:
-- Fase de **descubrimiento**: análisis de requisitos reales, identiﬁcación de fuentes de datos y deﬁnición de indicadores de control. El estudiante deberá acotar el alcance y seleccionar un subconjunto de tareas operativas para monitorizar.
-- Fase de **arquitectura**: diseño de un sistema compuesto por módulosindependientes que incluyan captura OCR, análisis visual, agente de veriﬁcación documental, base de datos índice y cuadro de mando.
-- Fase de **integración**: desarrollo de pipelines en n8n o Activepieces con conectores a OCR, a servicios de análisis visual y a modelos LLM.
-- Construcción de un **esquema de datos** que permita registrar eventos, incidencias y estados parciales.
-- Fase de **desarrollo del agente**: conﬁguración de un modelo de lenguaje capaz de analizar documentos OCR y describir el estado de cada tarea, marcar inconsistencias y sugerir acciones correctoras.
-- Fase de **construcción del *dashboard***: implementación de vistas que muestren estado global, incidencias abiertas, informes generados y evidencias visuales asociadas.
-- Fase de **evaluación**: análisis de precisión, latencia, exhaustividad y detección temprana de fallos. Comparación entre estados esperados y estados detectados por el sistema.
+```bash
+# Crear volumen de datos persistente
+docker volume create n8n_data
 
-Se recomienda el uso de las siguientes **tecnologías**: Python, Tesseract OCR o PaddleOCR, LLM locales con llama.cpp, CLIP o SigLIP para análisis visual, n8n o Activepieces, bases de datos SQL o NoSQL, Dash o Streamlit para visualización.
+# Crear contenedor docker a partir de la imagen n8nio/n8n
+docker run -it --rm \
+ --name n8n \
+ -p 5678:5678 \
+ -e GENERIC_TIMEZONE="Europe/Madrid" \
+ -e TZ="Europe/Madrid" \
+ -e N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true \
+ -e N8N_RUNNERS_ENABLED=true \
+ -v n8n_data:/home/node/.n8n \
+ docker.n8n.io/n8nio/n8n
+```
 
-Deberán **entregarse**:
-- **Arquitectura** completa documentada.
-- ***Pipelines* de captación y automatización** en n8n o Activepieces.
-- **Agente de análisis** documental y visual.
-- **Cuadro de mando** funcional conectado a las fuentes.
-- **Informe** técnico con análisis, evaluaciones y discusión crítica.
-
-Los **aspectos evaluables** son:
-- Grado de **integración de fuentes** heterogéneas.
-- Correcta **deﬁnición del alcance** y claridad en el modelado del **ﬂujo operativo**.
-- Rigor del agente para **detectar inconsistencias**.
-- Calidad del **cuadro de mando** y utilidad de los **indicadores**.
-- **Robustez** técnica y **reproducibilidad**.
-
-También **debe considerarse** que el proyecto es adecuado para contextos reales como logística, mantenimiento industrial, operaciones en retail, salud ocupacional o inspecciones de campo. El estudiante deberá demostrar capacidad para acotar el problema, deﬁnir requisitos reales y proponer una arquitectura moderna basada en IA Generativa y agentes.
-
+Una vez lanzado el contenedor, se monta el volumen `n8n_data` en `/home/node/.n8n/` y podremos crear un usuario maestro desde [http://localhost:5678/setup](http://localhost:5678/setup) y utilizar n8n desde [http://localhost:5678/home/workflows](http://localhost:5678/home/workflows).
