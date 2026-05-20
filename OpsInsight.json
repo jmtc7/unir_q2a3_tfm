@@ -315,7 +315,7 @@
     {
       "parameters": {
         "content": "# Validación del JSON\nTODO",
-        "height": 576,
+        "height": 848,
         "width": 416,
         "color": 3
       },
@@ -331,7 +331,7 @@
     {
       "parameters": {
         "content": "# Registro de Incidencias\nTODO",
-        "height": 576,
+        "height": 848,
         "width": 416,
         "color": 5
       },
@@ -347,7 +347,7 @@
     {
       "parameters": {
         "content": "# Análisis Documental\nTODO",
-        "height": 576,
+        "height": 848,
         "width": 416,
         "color": 4
       },
@@ -363,7 +363,7 @@
     {
       "parameters": {
         "content": "# Dashboard\nTODO",
-        "height": 576,
+        "height": 848,
         "width": 416,
         "color": 7
       },
@@ -498,7 +498,7 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "76c1b42a-095e-4e06-9f43-575ac49172c9",
+  "versionId": "c1bda1fa-2287-4e02-9963-dc889a1fed62",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "9f9b15948ac0cabd97d7730cb7a79cef7ff8cf9c567e668e052c4eead1ee7ffb"
