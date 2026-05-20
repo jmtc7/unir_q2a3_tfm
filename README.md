@@ -25,34 +25,13 @@ La arquitectura se basa en un **agente IA que ingiera PDFs** con reportes de inc
 ### Prerrequisitos
 Como **prerrequisitos**, se asume que ya se dispone de una **instalación funcional de [Docker Desktop](https://www.docker.com/products/docker-desktop/)**.
 
-### Instalación de n8n
-Para los agentes de IA, utilizamos [n8n](https://docs.n8n.io/hosting/installation/docker/). Comenzamos por crear un **contenedor Docker** a partir de la [imagen oficial](https://hub.docker.com/r/n8nio/n8n) con:
+### Instalación (con Docker)
+El *workflow* está automatizado con [n8n](https://n8n.io), desde donde se utilizan LLMs ejecutados en local con [Ollama](https://ollama.com/). Para utilizar este *stack*, se utilizan **contenedores [Docker](https://www.docker.com/)**. Gran parte de la instalación está automatizada el archivo [`docker-compose.yaml`](docker-compose.yaml), que realiza lo siguiente:
+- Crea un **contenedor `ollama`** que abrirá un **servicio** en [ollama:11434](http://ollama:11434). Este se basa en la **imagen** [ollama/ollama](https://hub.docker.com/r/ollama/ollama). También se crea un **volumen de datos** persistente llamado `ollama` que se aloja en `/root/.ollama`.
+- Crea un **contenedor `n8n`**, con **servicio** en [localhost:5678](http://localhost:5678), basado en la **imagen** [n8nio/n8n](https://hub.docker.com/r/n8nio/n8n) y que usa el **volumen** `n8n_data` (alojado en `/home/node/.n8n`). También se configuran varias **variables de entorno**, incluyendo el uso de la zona horaria `Europe/Madrid`. Finalmente, se le declara como **dependiente** del contenedor `ollama` para que puedan comunicarse.
 
-```bash
-# Crear volumen de datos persistente
-docker volume create n8n_data
+> **Instalación alternativa**: La instalación con Docker Compose es fuertemente recomendada por su simplicidad, reproducibilidad y manejo automático de redes Docker y volúmenes de datos. Sin embargo, si por cualquier motivo NO quieres utilizar Docker Compose, puedes seguir el [tutorial de instalación alternativo](doc/instalacion_alternativa.md).
 
-# Crear contenedor docker a partir de la imagen n8nio/n8n
-docker run -it \
- --name n8n \
- -p 5678:5678 \
- -e GENERIC_TIMEZONE="Europe/Madrid" \
- -e TZ="Europe/Madrid" \
- -e N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true \
- -e N8N_RUNNERS_ENABLED=true \
- -v n8n_data:/home/node/.n8n \
- docker.n8n.io/n8nio/n8n
-```
+Para **crear estos contenedores** y ejecutarlos, debes utilizar `docker compose up -d` (`-d` es para que los contenedores se ejecuten en segundo plano). Una vez creados, podrás detenerlos y volverlos a lanzar con `docker stop [contenedor]` y `docker start [contenedor]`.
 
-Una vez lanzado el contenedor, se monta el volumen `n8n_data` en `/home/node/.n8n/` (donde se guardarán los datos) y podremos crear un usuario maestro desde [http://localhost:5678/setup](http://localhost:5678/setup) y utilizar n8n desde [http://localhost:5678/home/workflows](http://localhost:5678/home/workflows). Para lanzar y parar el contenedor, puedes utilizar `docker start n8n` y `docker stop n8n`, respectivamente, o hacerlo desde Docker Desktop.
-
-### Instalación de Ollama
-También necesitarás **instalar Ollama**, el LLM utilizado por los agentes. Para ello, tal y como se indica en su [guía de inicio rápido](https://github.com/ollama/ollama/blob/main/README.md#quickstart), descarga y crea un contenedor Docker con:
-
-```bash
-docker run -d \
-  --name ollama \
-  -p 11434:11434 \
-  -v ollama:/root/.ollama \
-  ollama/ollama
-```
+Una vez creados, es necesario **descargar el LLM** a utilizar. Por defecto, el *workflow* utiliza QWen2.5:3b, que se descarga ejecutando `docker exec -it ollama ollama pull qwen2.5:3b`. Puedes ver la lista de modelos instalados en el contenedor `ollama` ejecutando `docker exec -it ollama ollama list`.
