@@ -14,6 +14,8 @@ Este repositorio continene información, datos y documentos desarrollados para m
 El trabajo consiste en un sistema que ayude a los operarios de una planta industrial a reaccionar ante incidencias con máquinas complejas. Además, este sistema, registra dichas incidencias y facilita su inspeción y análisis a través de un *dashboard*.
 
 
+---
+
 ## Arquitectura 
 La arquitectura se basa en un **agente IA que ingiera PDFs** con reportes de incidencias y **genere JSONs** con la información clave, que luego se le pasan a **otro** agente que **consulta los manuales para proponer una acción** al operario. Las incidencias se **registran en un CSV y en una base de datos** relacional SQL. En base a esta, se ofrece un ***dashboard*** con el **registro** de incidencias así como varios **KPIs y gráficas** y facilitan su análisis. Esto se representa en el siguiente esquema:
 
@@ -28,9 +30,12 @@ Todo esto se implementa en un ***workflow* n8n** que, a alto nivel, utiliza los 
 </p>
 
 
+---
+
 ## Guía de Instalación y Uso
 ### Prerrequisitos
 Como **prerrequisitos**, se asume que ya se dispone de una **instalación funcional de [Docker Desktop](https://www.docker.com/products/docker-desktop/)**.
+
 
 ### Instalación (con Docker)
 El *workflow* está automatizado con [n8n](https://n8n.io), desde donde se utilizan LLMs ejecutados en local con [Ollama](https://ollama.com/). Para utilizar este *stack*, se utilizan **contenedores [Docker](https://www.docker.com/)**. Gran parte de la instalación está automatizada el archivo [`docker-compose.yaml`](docker-compose.yaml), que realiza lo siguiente:
@@ -42,3 +47,13 @@ El *workflow* está automatizado con [n8n](https://n8n.io), desde donde se utili
 Para **crear estos contenedores** y ejecutarlos, debes utilizar `docker compose up -d` (`-d` es para que los contenedores se ejecuten en segundo plano). Una vez creados, podrás detenerlos y volverlos a lanzar con `docker stop [contenedor]` y `docker start [contenedor]`.
 
 Una vez creados, es necesario **descargar el LLM** a utilizar. Por defecto, el *workflow* utiliza QWen2.5:3b, que se descarga ejecutando `docker exec -it ollama ollama pull qwen2.5:3b`. Puedes ver la lista de modelos instalados en el contenedor `ollama` ejecutando `docker exec -it ollama ollama list`.
+
+
+### *Troubleshooting*
+Si en algún momento algo falla, prueba a **reconstruir la imagen sin utilizar cache** con:
+
+```bash
+docker compose down
+docker compose build --no-cache
+docker compose up -d
+```

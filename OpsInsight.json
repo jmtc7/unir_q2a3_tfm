@@ -5,11 +5,11 @@
       "parameters": {
         "content": "# Ingesta Documental",
         "height": 848,
-        "width": 1152
+        "width": 1200
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        0,
+        -16,
         0
       ],
       "typeVersion": 1,
@@ -20,12 +20,12 @@
       "parameters": {
         "content": "## Formulario online",
         "height": 224,
-        "width": 416,
+        "width": 432,
         "color": 2
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        16,
+        0,
         64
       ],
       "typeVersion": 1,
@@ -36,12 +36,12 @@
       "parameters": {
         "content": "## PDF con reporte digital\n",
         "height": 256,
-        "width": 1120,
+        "width": 1168,
         "color": 2
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        16,
+        0,
         304
       ],
       "typeVersion": 1,
@@ -200,7 +200,7 @@
       "type": "n8n-nodes-base.formTrigger",
       "typeVersion": 2.5,
       "position": [
-        64,
+        48,
         128
       ],
       "id": "a108b866-cb97-4344-831c-51810f2a79d8",
@@ -227,7 +227,7 @@
       "type": "n8n-nodes-base.formTrigger",
       "typeVersion": 2.5,
       "position": [
-        64,
+        48,
         368
       ],
       "id": "bc3941d8-bf64-4297-b24d-b73361d48b9f",
@@ -285,7 +285,7 @@
       "type": "@n8n/n8n-nodes-langchain.ollama",
       "typeVersion": 1,
       "position": [
-        608,
+        624,
         368
       ],
       "id": "270db1a3-03d4-4cd7-829e-3249b1d61ecf",
@@ -305,7 +305,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        912,
+        944,
         368
       ],
       "id": "799d2cb4-131f-4bd3-85ee-475139424a5d",
@@ -321,7 +321,7 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1168,
+        1200,
         0
       ],
       "typeVersion": 1,
@@ -337,7 +337,7 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        2032,
+        2064,
         0
       ],
       "typeVersion": 1,
@@ -353,7 +353,7 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1600,
+        1632,
         0
       ],
       "typeVersion": 1,
@@ -369,7 +369,7 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        2464,
+        2496,
         0
       ],
       "typeVersion": 1,
@@ -380,12 +380,12 @@
       "parameters": {
         "content": "## Foto con reporte manuscrito",
         "height": 256,
-        "width": 1120,
+        "width": 784,
         "color": 2
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        16,
+        0,
         576
       ],
       "typeVersion": 1,
@@ -414,7 +414,7 @@
         "formFields": {
           "values": [
             {
-              "fieldLabel": "Fotografía del reporte",
+              "fieldLabel": "Foto del reporte",
               "fieldType": "file",
               "acceptFileTypes": ".png, .PNG, .jpg, .JPG, .jpeg, .JPEG",
               "requiredField": true
@@ -426,13 +426,65 @@
       "type": "n8n-nodes-base.formTrigger",
       "typeVersion": 2.5,
       "position": [
-        64,
+        48,
         640
       ],
       "id": "c4217aad-d7f3-4d34-b319-aae56278a3e0",
       "name": "Ingesta de imágenes",
       "webhookId": "d4f0d891-adb7-4448-ac21-08196596797e",
       "notesInFlow": false
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {\n      hasBinary: !!items[0].binary,\n      keys: items[0].binary ? Object.keys(items[0].binary) : [],\n      full: items[0].binary\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        640
+      ],
+      "id": "ee0893a3-644f-4abe-b1e9-bc12d78edd8a",
+      "name": "Extraer datos binarios"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://ocr:8000/ocr",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "={{ $json.full.Foto_del_reporte }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        432,
+        640
+      ],
+      "id": "8e69dd13-798a-4380-b038-cc1ce8a1e6a3",
+      "name": "Ejecutar OCR"
+    },
+    {
+      "parameters": {
+        "jsCode": "const text = $json.text;\n\nreturn [{ json: { text } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        624,
+        640
+      ],
+      "id": "f343e99c-6d2a-4c10-9c89-9ca3910a8bb1",
+      "name": "Extraer texto del OCR"
     }
   ],
   "pinData": {},
@@ -491,6 +543,50 @@
           }
         ]
       ]
+    },
+    "Ingesta de imágenes": {
+      "main": [
+        [
+          {
+            "node": "Extraer datos binarios",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extraer datos binarios": {
+      "main": [
+        [
+          {
+            "node": "Ejecutar OCR",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ejecutar OCR": {
+      "main": [
+        [
+          {
+            "node": "Extraer texto del OCR",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extraer texto del OCR": {
+      "main": [
+        [
+          {
+            "node": "Limpiar texto y preparar formato del JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
@@ -498,7 +594,7 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "c1bda1fa-2287-4e02-9963-dc889a1fed62",
+  "versionId": "b7065185-d7f7-487f-9301-2b96de3d36d4",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "9f9b15948ac0cabd97d7730cb7a79cef7ff8cf9c567e668e052c4eead1ee7ffb"

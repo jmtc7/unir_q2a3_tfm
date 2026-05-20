@@ -11,6 +11,12 @@ services:
       - ollama:/root/.ollama
     restart: unless-stopped
 
+  ocr:
+    build: ./ocr
+    container_name: ocr
+    ports:
+      - "8001:8000"
+
   n8n:
     image: docker.n8n.io/n8nio/n8n
     container_name: n8n
@@ -19,12 +25,17 @@ services:
     environment:
       - GENERIC_TIMEZONE=Europe/Madrid
       - TZ=Europe/Madrid
+      - N8N_SECURE_MODE=false
+      - N8N_ENABLE_COMMUNITY_NODES=true
+      - EXECUTIONS_PROCESS=main
       - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
       - N8N_RUNNERS_ENABLED=true
     volumes:
       - n8n_data:/home/node/.n8n
+      - ./tmp:/files
     depends_on:
       - ollama
+      - ocr
     restart: unless-stopped
 
 volumes:

@@ -18,6 +18,9 @@ Con respecto a los **modelos** disponibles con **Ollama**, **Qwen2.5** es extrem
     - Otras **alternativas aún más ligeras** (aunque con peor rendimiento) son `qwen2.5:1.5b` y, especialmente, `gemma:2b`.
   - Puedes verificar **qué LLMs hay disponibles** ejecutando `docker exec -it ollama ollama list`.
 
+Para ingerir **formularios rellenados a mano**, utilizo otro contenedor Docker, `ocr`, basado en Python 3.10 y en el que instalo Tesseract OCR. Abro una FastAPI en él disponible en [`localhost:8001/ocr`](http://localhost:8001/ocr) (visible desde [`localhost:8001/docs`](http://localhost:8001/docs) desde el navegador). Desde n8n, puedo utilizarlo utilizando un **nodo *HTTP Request*** con una petición `POST` hacia [`ocr:8000/ocr`](http://ocr:8000/ocr) (NO a `localhost`, ya que dentro de n8n, `localhost` es el contenedor `n8n`, no mi ordenador). En la *request*, se añade un cuerpo `Form-Data (Multipart)` que mande *n8n Binary File* con clave `file` y como valor todo el archivo binario que contiene la imagen.
+- Se puede **testear el servicio `ocr`** desde consola ejecutando `curl -X POST http://localhost:8001/ocr -F "file=@ejemplo_incidencia.jpg"`.
+
 
 ### Análisis Documental
 TODO
