@@ -24,7 +24,7 @@ La arquitectura se basa en un **agente IA que ingiera PDFs** con reportes de inc
 Todo esto se implementa en un ***workflow* n8n** que, a alto nivel, utiliza los siguientes componentes:
 
 <p align="center">
-  <img src="imgs/n8n.png" height="350">
+  <img src="imgs/n8n/0_global.png" height="350">
 </p>
 
 
