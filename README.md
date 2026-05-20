@@ -9,6 +9,7 @@ Este repositorio continene información, datos y documentos desarrollados para m
   - [`propuesta.md`](doc/propuesta.md): La **propuesta de TFM escogida**, incluyendo sus objetivos, metodología y entregables.
   - [`entregas.md`](doc/entregas.md): El **contenido** esperado en cada una **de las entregas intermedias** a realizar.
   - [`desarrollo.md`](doc/desarrollo.md): Detalles técnicos sobre el desarrollo del trabajo.
+- [`OpsInsight.json](OpsInsight.json): *Workflow* de n8n que automatiza la solución (ingesta, análisis y registro de incidencias).
 
 El trabajo consiste en un sistema que ayude a los operarios de una planta industrial a reaccionar ante incidencias con máquinas complejas. Además, este sistema, registra dichas incidencias y facilita su inspeción y análisis a través de un *dashboard*.
 
@@ -18,6 +19,12 @@ La arquitectura se basa en un **agente IA que ingiera PDFs** con reportes de inc
 
 <p align="center">
   <img src="imgs/arquitectura/arquitectura.drawio.png" height="200">
+</p>
+
+Todo esto se implementa en un ***workflow* n8n** que, a alto nivel, utiliza los siguientes componentes:
+
+<p align="center">
+  <img src="imgs/n8n.png" height="350">
 </p>
 
 

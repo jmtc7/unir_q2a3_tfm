@@ -3,6 +3,67 @@
   "nodes": [
     {
       "parameters": {
+        "content": "# Ingesta Documental",
+        "height": 848,
+        "width": 1152
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "2fe7bc17-d820-4594-bf9f-30e6ea5f727e",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Formulario online",
+        "height": 224,
+        "width": 416,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        16,
+        64
+      ],
+      "typeVersion": 1,
+      "id": "a8840e9c-b591-4542-8088-7851699325da",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## PDF con reporte digital\n",
+        "height": 256,
+        "width": 1120,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        16,
+        304
+      ],
+      "typeVersion": 1,
+      "id": "69313ded-964d-4152-9790-1970dee6345a",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Simplificar acceso al JSON (siempre habrá un único item)\nconst item = $input.first().json;\n\n// Función para convertir de checkboxes a booleanos\nfunction checkboxToBool(value)\n{\n  // [] => false, [\"\"] => true\n  if (Array.isArray(value))\n  {\n    return value.length > 0;\n  }\n  \n  return Boolean(value);\n}\n\n// Construir salida\nreturn {\n  \"fecha\": item[\"Fecha\"],\n  \"maquina\": item[\"Máquina problemática\"],\n  \"operario\": item[\"Nombre del operario\"],\n  \"descripcion\": item[\"Descripción del problema\"],\n\n  \"variables\": {\n    \"presiones\": {\n      \"tp2\": item[\"Presión del compresor (TP2)\"],\n      \"tp3\": item[\"Presión del panel neumático (TP3)\"],\n      \"h1\": item[\"Presión al descargar el filtro ciclónico (H1)\"],\n      \"dv\": item[\"Presión al descargar los secadores (DV)\"],\n      \"r\": item[\"Presión del depósito de aire (R)\"],\n    },\n\n    \"senales_electricas\": {\n      \"comp\": checkboxToBool(item[\"COMP\"]),\n      \"dv_electric\": checkboxToBool(item[\"DV Electric\"]),\n      \"towers\": checkboxToBool(item[\"TOWERS\"]),\n      \"mpg\": checkboxToBool(item[\"MPG\"]),\n      \"lps\": checkboxToBool(item[\"LPS\"]),\n      \"pressure_switch\": checkboxToBool(item[\"Pressure Switch\"]),\n      \"oil_level\": checkboxToBool(item[\"Oil Level\"]),\n    },\n\n    \"corriente_motor\": item[\"Corriente del motor (A)\"],\n    \"temperatura_aceite\": item[\"Temperatura del aceite (ºC)\"],\n  }\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        128
+      ],
+      "id": "c16e625f-b726-4b33-89ef-ea8df6b66ca5",
+      "name": "Encuesta -> JSON deseado",
+      "notesInFlow": false
+    },
+    {
+      "parameters": {
         "formTitle": "Reporte de Incidencia",
         "formDescription": "Indicar las presiones en bares (bar), la corriente en amperios (A), la temperatura en grados centígrados (ºC). Para las señales eléctricas, marcar la casilla si está encendida y dejar sin marcar si está apagada.",
         "formFields": {
@@ -143,56 +204,9 @@
         128
       ],
       "id": "a108b866-cb97-4344-831c-51810f2a79d8",
-      "name": "On form submission",
+      "name": "Formulario online",
       "webhookId": "8e9df807-57b4-4166-9bf7-bb01103598f5",
-      "notesInFlow": true,
-      "notes": "Formulario online"
-    },
-    {
-      "parameters": {
-        "jsCode": "// Simplificar acceso al JSON (siempre habrá un único item)\nconst item = $input.first().json;\n\n// Función para convertir de checkboxes a booleanos\nfunction checkboxToBool(value)\n{\n  // [] => false, [\"\"] => true\n  if (Array.isArray(value))\n  {\n    return value.length > 0;\n  }\n  \n  return Boolean(value);\n}\n\n// Construir salida\nreturn {\n  \"fecha\": item[\"Fecha\"],\n  \"maquina\": item[\"Máquina problemática\"],\n  \"operario\": item[\"Nombre del operario\"],\n  \"descripcion\": item[\"Descripción del problema\"],\n\n  \"variables\": {\n    \"presiones\": {\n      \"tp2\": item[\"Presión del compresor (TP2)\"],\n      \"tp3\": item[\"Presión del panel neumático (TP3)\"],\n      \"h1\": item[\"Presión al descargar el filtro ciclónico (H1)\"],\n      \"dv\": item[\"Presión al descargar los secadores (DV)\"],\n      \"r\": item[\"Presión del depósito de aire (R)\"],\n    },\n\n    \"senales_electricas\": {\n      \"comp\": checkboxToBool(item[\"COMP\"]),\n      \"dv_electric\": checkboxToBool(item[\"DV Electric\"]),\n      \"towers\": checkboxToBool(item[\"TOWERS\"]),\n      \"mpg\": checkboxToBool(item[\"MPG\"]),\n      \"lps\": checkboxToBool(item[\"LPS\"]),\n      \"pressure_switch\": checkboxToBool(item[\"Pressure Switch\"]),\n      \"oil_level\": checkboxToBool(item[\"Oil Level\"]),\n    },\n\n    \"corriente_motor\": item[\"Corriente del motor (A)\"],\n    \"temperatura_aceite\": item[\"Temperatura del aceite (ºC)\"],\n  }\n};\n"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        240,
-        128
-      ],
-      "id": "c16e625f-b726-4b33-89ef-ea8df6b66ca5",
-      "name": "Code in JavaScript",
-      "notesInFlow": true,
-      "notes": "Encuesta -> JSON deseado"
-    },
-    {
-      "parameters": {
-        "content": "# Ingesta Documental",
-        "height": 576,
-        "width": 1136
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        0,
-        0
-      ],
-      "typeVersion": 1,
-      "id": "2fe7bc17-d820-4594-bf9f-30e6ea5f727e",
-      "name": "Sticky Note"
-    },
-    {
-      "parameters": {
-        "content": "## Formulario online",
-        "height": 224,
-        "width": 416,
-        "color": 2
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        16,
-        64
-      ],
-      "typeVersion": 1,
-      "id": "a8840e9c-b591-4542-8088-7851699325da",
-      "name": "Sticky Note1"
+      "notesInFlow": false
     },
     {
       "parameters": {
@@ -217,41 +231,9 @@
         368
       ],
       "id": "bc3941d8-bf64-4297-b24d-b73361d48b9f",
-      "name": "On form submission1",
+      "name": "Ingesta de PDFs",
       "webhookId": "a5ad48d8-ea51-4361-8b2e-86f148aed6ac",
-      "notesInFlow": true,
-      "notes": "Ingesta de PDFs"
-    },
-    {
-      "parameters": {
-        "operation": "pdf",
-        "binaryPropertyName": "Archivo_PDF",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.extractFromFile",
-      "typeVersion": 1.1,
-      "position": [
-        240,
-        368
-      ],
-      "id": "ae0f72e7-dce0-486e-ba84-69cf055d604d",
-      "name": "Extract from File"
-    },
-    {
-      "parameters": {
-        "content": "## Reporte digital en PDF",
-        "height": 256,
-        "width": 1104,
-        "color": 2
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        16,
-        304
-      ],
-      "typeVersion": 1,
-      "id": "69313ded-964d-4152-9790-1970dee6345a",
-      "name": "Sticky Note2"
+      "notesInFlow": false
     },
     {
       "parameters": {
@@ -276,13 +258,12 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        416,
+        432,
         368
       ],
       "id": "1954b263-2ff8-4a5d-86df-c1b75c2831b8",
-      "name": "Edit Fields",
-      "notesInFlow": true,
-      "notes": "Preparar texto y JSON"
+      "name": "Limpiar texto y preparar formato del JSON",
+      "notesInFlow": false
     },
     {
       "parameters": {
@@ -304,19 +285,18 @@
       "type": "@n8n/n8n-nodes-langchain.ollama",
       "typeVersion": 1,
       "position": [
-        592,
+        608,
         368
       ],
       "id": "270db1a3-03d4-4cd7-829e-3249b1d61ecf",
-      "name": "Message a model1",
-      "notesInFlow": true,
+      "name": "Generar JSON a partir del texto",
+      "notesInFlow": false,
       "credentials": {
         "ollamaApi": {
           "id": "LCUMVmjmDKC7SGgz",
           "name": "Ollama account"
         }
-      },
-      "notes": "Transformar texto a JSON"
+      }
     },
     {
       "parameters": {
@@ -325,66 +305,187 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        896,
+        912,
         368
       ],
       "id": "799d2cb4-131f-4bd3-85ee-475139424a5d",
-      "name": "Code in JavaScript1",
-      "notesInFlow": true,
-      "notes": "Respuesta -> JSON deseado"
+      "name": "Respuesta -> JSON deseado",
+      "notesInFlow": false
+    },
+    {
+      "parameters": {
+        "content": "# Validación del JSON\nTODO",
+        "height": 576,
+        "width": 416,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1168,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "b11637c8-cd91-48c6-bd7a-2275557bd6a3",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "# Registro de Incidencias\nTODO",
+        "height": 576,
+        "width": 416,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2032,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "3432495a-b775-4ac5-9b94-43715b8fe6f2",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "# Análisis Documental\nTODO",
+        "height": 576,
+        "width": 416,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1600,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "83bb85e3-63f4-4c15-a677-dafeefb6ff87",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "# Dashboard\nTODO",
+        "height": 576,
+        "width": 416,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2464,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "22a0bd11-c5d2-49ee-9192-01eec300a470",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "content": "## Foto con reporte manuscrito",
+        "height": 256,
+        "width": 1120,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        16,
+        576
+      ],
+      "typeVersion": 1,
+      "id": "d3e1ba80-6e3d-4f43-aea1-e7a455d4c470",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "binaryPropertyName": "Archivo_PDF",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        240,
+        368
+      ],
+      "id": "ae0f72e7-dce0-486e-ba84-69cf055d604d",
+      "name": "Extraer texto del PDF"
+    },
+    {
+      "parameters": {
+        "formTitle": "Reportar una Incidencia con un Manuscrito",
+        "formDescription": "Formulario para reportar incidencias mediante imágenes de reportes rellenados a mano.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Fotografía del reporte",
+              "fieldType": "file",
+              "acceptFileTypes": ".png, .PNG, .jpg, .JPG, .jpeg, .JPEG",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.5,
+      "position": [
+        64,
+        640
+      ],
+      "id": "c4217aad-d7f3-4d34-b319-aae56278a3e0",
+      "name": "Ingesta de imágenes",
+      "webhookId": "d4f0d891-adb7-4448-ac21-08196596797e",
+      "notesInFlow": false
     }
   ],
   "pinData": {},
   "connections": {
-    "On form submission": {
+    "Formulario online": {
       "main": [
         [
           {
-            "node": "Code in JavaScript",
+            "node": "Encuesta -> JSON deseado",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "On form submission1": {
+    "Ingesta de PDFs": {
       "main": [
         [
           {
-            "node": "Extract from File",
+            "node": "Extraer texto del PDF",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Extract from File": {
+    "Limpiar texto y preparar formato del JSON": {
       "main": [
         [
           {
-            "node": "Edit Fields",
+            "node": "Generar JSON a partir del texto",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Edit Fields": {
+    "Generar JSON a partir del texto": {
       "main": [
         [
           {
-            "node": "Message a model1",
+            "node": "Respuesta -> JSON deseado",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Message a model1": {
+    "Extraer texto del PDF": {
       "main": [
         [
           {
-            "node": "Code in JavaScript1",
+            "node": "Limpiar texto y preparar formato del JSON",
             "type": "main",
             "index": 0
           }
@@ -397,7 +498,7 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "ab7cd8a5-4281-4b41-b97e-5ae93bf91722",
+  "versionId": "76c1b42a-095e-4e06-9f43-575ac49172c9",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "9f9b15948ac0cabd97d7730cb7a79cef7ff8cf9c567e668e052c4eead1ee7ffb"
