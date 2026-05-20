@@ -139,12 +139,12 @@
       "type": "n8n-nodes-base.formTrigger",
       "typeVersion": 2.5,
       "position": [
-        -1072,
-        -512
+        64,
+        128
       ],
-      "id": "8b5450a3-3824-4189-bb80-8d64bcba88dd",
+      "id": "a108b866-cb97-4344-831c-51810f2a79d8",
       "name": "On form submission",
-      "webhookId": "c67f4276-d475-4fdf-8678-693f6179c5aa",
+      "webhookId": "8e9df807-57b4-4166-9bf7-bb01103598f5",
       "notesInFlow": true,
       "notes": "Formulario online"
     },
@@ -155,10 +155,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -896,
-        -512
+        240,
+        128
       ],
-      "id": "a973a9c8-7011-44f8-8f0c-e916b7eda85d",
+      "id": "c16e625f-b726-4b33-89ef-ea8df6b66ca5",
       "name": "Code in JavaScript",
       "notesInFlow": true,
       "notes": "Encuesta -> JSON deseado"
@@ -167,15 +167,15 @@
       "parameters": {
         "content": "# Ingesta Documental",
         "height": 576,
-        "width": 928
+        "width": 1136
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -1136,
-        -640
+        0,
+        0
       ],
       "typeVersion": 1,
-      "id": "81fc09a9-eb9b-4825-8416-773a3b733de3",
+      "id": "2fe7bc17-d820-4594-bf9f-30e6ea5f727e",
       "name": "Sticky Note"
     },
     {
@@ -187,11 +187,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -1120,
-        -576
+        16,
+        64
       ],
       "typeVersion": 1,
-      "id": "b49be497-edb5-487e-ba1b-d262803bfa11",
+      "id": "a8840e9c-b591-4542-8088-7851699325da",
       "name": "Sticky Note1"
     },
     {
@@ -213,12 +213,12 @@
       "type": "n8n-nodes-base.formTrigger",
       "typeVersion": 2.5,
       "position": [
-        -1072,
-        -272
+        64,
+        368
       ],
-      "id": "c6f9d8d9-1485-4e04-93ea-3e237f839cea",
+      "id": "bc3941d8-bf64-4297-b24d-b73361d48b9f",
       "name": "On form submission1",
-      "webhookId": "c03bd076-7422-4db2-9090-77542c24dbe5",
+      "webhookId": "a5ad48d8-ea51-4361-8b2e-86f148aed6ac",
       "notesInFlow": true,
       "notes": "Ingesta de PDFs"
     },
@@ -231,26 +231,26 @@
       "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1.1,
       "position": [
-        -896,
-        -272
+        240,
+        368
       ],
-      "id": "c7e58b8d-b5d2-4e6c-bb7d-016feeaadbfb",
+      "id": "ae0f72e7-dce0-486e-ba84-69cf055d604d",
       "name": "Extract from File"
     },
     {
       "parameters": {
         "content": "## Reporte digital en PDF",
         "height": 256,
-        "width": 896,
+        "width": 1104,
         "color": 2
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -1120,
-        -336
+        16,
+        304
       ],
       "typeVersion": 1,
-      "id": "882e7575-ffc2-4422-8ab5-a95cc899ac35",
+      "id": "69313ded-964d-4152-9790-1970dee6345a",
       "name": "Sticky Note2"
     },
     {
@@ -266,7 +266,7 @@
             {
               "id": "c13fbef1-11b3-476c-98d6-a543bffd862a",
               "name": "estructura_json",
-              "value": "={\n  \"fecha\": \"\",\n  \"hora\": \"\",\n  \"maquina\": \"\",\n  \"operario\": \"\",\n  \"descripcion\": \"\",\n  \"variables\": {\n    \"presiones\": {\n      \"tp2\": 0,\n      \"tp3\": 0,\n      \"h1\": 0,\n      \"dv\": 0,\n      \"r\": 0\n    },\n    \"senales\": {\n      \"comp\": false,\n      \"dv_electric\": false,\n      \"towers\": false,\n      \"mpg\": false,\n      \"lps\": false,\n      \"pressure_switch\": false,\n      \"oil_level\": false\n    },\n    \"corriente_motor\": 0,\n    \"temperatura_aceite\": 0\n  }\n}",
+              "value": "={\n  \"fecha\": \"\",\n  \"maquina\": \"\",\n  \"operario\": \"\",\n  \"descripcion\": \"\",\n  \"variables\": {\n    \"presiones\": {\n      \"tp2\": 0,\n      \"tp3\": 0,\n      \"h1\": 0,\n      \"dv\": 0,\n      \"r\": 0\n    },\n    \"senales\": {\n      \"comp\": false,\n      \"dv_electric\": false,\n      \"towers\": false,\n      \"mpg\": false,\n      \"lps\": false,\n      \"pressure_switch\": false,\n      \"oil_level\": false\n    },\n    \"corriente_motor\": 0,\n    \"temperatura_aceite\": 0\n  }\n}",
               "type": "string"
             }
           ]
@@ -276,10 +276,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -720,
-        -272
+        416,
+        368
       ],
-      "id": "6ead5a2c-3e7a-4003-b8d7-35f5dbb31aa5",
+      "id": "1954b263-2ff8-4a5d-86df-c1b75c2831b8",
       "name": "Edit Fields",
       "notesInFlow": true,
       "notes": "Preparar texto y JSON"
@@ -288,13 +288,14 @@
       "parameters": {
         "modelId": {
           "__rl": true,
+          "value": "qwen2.5:3b",
           "mode": "list",
-          "value": ""
+          "cachedResultName": "qwen2.5:3b"
         },
         "messages": {
           "values": [
             {
-              "content": "=Extrae la información del siguiente reporte de incidencia y reescribela como un JSON válido siguiendo este esquema:\n\n{{ $json.estructura_json }}\n\nIncidencia:\n\n{{ $json.texto_limpio }}"
+              "content": "=Eres un extractor de datos.\n\nTu tarea es EXTRAER información del texto y devolver SOLO un JSON válido.\n\nREGLAS ESTRICTAS:\n- NO inventes información\n- NO reformules la descripción\n- NO añadas texto explicativo\n- NO incluyas comentarios\n- NO modifiques el significado del texto\n- Si un campo no aparece, deja valor vacío \"\" o -1 o false según corresponda\n- Devuelve SOLO el JSON, sin markdown, sin texto adicional\n\nESQUEMA OBLIGATORIO (respétalo exactamente):\n\n{{ $json.estructura_json }}\n\nMAPEO DE CAMPOS:\n- El campo \"fecha\" es OBLIGATORIO, siempre aparece después de \"Fecha (AAAA-MM-DD):\" y debes copiar EXACTAMENTE el valor que aparece después de ese texto. Nunca lo omitas ni lo infieras.\n- La fecha, el nombre de la máquina, el nombre del operario y la descripción de la incidencia son cadenas de texto. Si no aparecen, deja esos campos como una cadena vacía \"\".\n- Señales eléctricas (COMP, DV Electric, TOWERS, MPG, LPS, Pressure Switch y Oil Level) son booleanos (0 = false, 1 = true)\n- Las presiones, Corriente del motor y temperatura del aceite son números exactos del texto. Si no aparecen, utiliza el número -1.\n\nTEXTO:\n\n{{ $json.texto_limpio }}"
             }
           ]
         },
@@ -303,17 +304,34 @@
       "type": "@n8n/n8n-nodes-langchain.ollama",
       "typeVersion": 1,
       "position": [
-        -544,
-        -272
+        592,
+        368
       ],
-      "id": "25d2853a-b771-4b8e-81ef-6a8399d221f9",
+      "id": "270db1a3-03d4-4cd7-829e-3249b1d61ecf",
       "name": "Message a model1",
+      "notesInFlow": true,
       "credentials": {
         "ollamaApi": {
-          "id": "TmL1NRZXkVIsIrwY",
+          "id": "LCUMVmjmDKC7SGgz",
           "name": "Ollama account"
         }
-      }
+      },
+      "notes": "Transformar texto a JSON"
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\n\n// El LLM devuelve JSON como string dentro de \"content\"\nconst parsed = JSON.parse(item.content);\n\nreturn [\n  {\n    json: parsed\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        896,
+        368
+      ],
+      "id": "799d2cb4-131f-4bd3-85ee-475139424a5d",
+      "name": "Code in JavaScript1",
+      "notesInFlow": true,
+      "notes": "Respuesta -> JSON deseado"
     }
   ],
   "pinData": {},
@@ -361,6 +379,17 @@
           }
         ]
       ]
+    },
+    "Message a model1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
@@ -368,11 +397,11 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "20f721b9-09a5-4a13-b7c0-a8f5cfabed72",
+  "versionId": "ab7cd8a5-4281-4b41-b97e-5ae93bf91722",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "4e6d8812c2c971815a6e9a87640a2265b770dc88239f3b09a6c772e6272091fc"
+    "instanceId": "9f9b15948ac0cabd97d7730cb7a79cef7ff8cf9c567e668e052c4eead1ee7ffb"
   },
-  "id": "ddvD7U9VxprLp6Z8",
+  "id": "IrRxkhpOfDZe36IP",
   "tags": []
 }
