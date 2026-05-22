@@ -32,6 +32,7 @@ services:
       - N8N_RUNNERS_ENABLED=true
     volumes:
       - n8n_data:/home/node/.n8n
+      - ./datos:/home/node/datos
       - ./tmp:/files
     depends_on:
       - ollama
