@@ -50,7 +50,21 @@ Una vez creados, es necesario **descargar el LLM** a utilizar. Por defecto, el *
 
 
 ### *Troubleshooting*
-Si en algún momento algo falla, prueba a **reconstruir la imagen sin utilizar cache** con:
+Si en algún momento algo falla, prueba a **reiniciar todos los contenedores** para volver a cargar el código Python con `volumes`. Para ello, ejecuta:
+
+```bash
+docker compose restart
+docker restart [nombre_contenedor]  # n8n, ocr, ollama, etc.
+```
+
+Si sigue sin funcionar, puedes **volver a crear los contenedores** sin recompilar las imágenes (para ahorrar tiempo), esto volverá a inyectar las **variables de entorno**. Se hace con:
+
+```bash
+docker compose down
+docker compose up -d --force-recreate
+```
+
+Como último recurso, puedes **reconstruir/recompilar las imágenes sin utilizar cache**. Esto permite considerar cambios en `Dockerfile`, `requierements.txt`, paquetes del sistema, variables de `build`, etc. Ejecuta:
 
 ```bash
 docker compose down

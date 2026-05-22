@@ -39,6 +39,7 @@ TODO
 ## Trabajo Futuro
 El **agente de ingesta** podría mejorarse de las siguientes maneras:
 - Añadir la opción de **ingerir fotos** de reportes de incidencias rellenados a mano.
+- Cargar el JSON de ejemplo desde local utilizando un volumen Docker en `.datos/` y el bloque n8n *Read/Write Files from Disk*.
 - **Verificar** que estén todos los campos y que sean de los tipos adecuados y, si no, lanzar un error.
 - El PDF se sube a través de un **formulario online**. Podría ser un webhook que espere un mensaje de una web en local desde la que el usuario podría subir una foto, un PDF o rellenar la encuesta.
   - También podría proporcionársele desde carpetas monitorizadas (con *local file trigger*) o almacenamiento en la nube como Google Drive, OneDrive o Amazon S3.
