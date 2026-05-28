@@ -41,8 +41,84 @@ A continuación se enumeran los valores que se espera tener en las variables mon
   - 7 amperios cuando está operando bajo carga.
   - 9 amperios cuando empieza a operar.
 
+#### Matriz de Tiempos y Recursos de Reparación (Cálculo de MTTR)
+Para la gestión del mantenimiento y el cálculo del Tiempo Medio de Reparación (MTTR), se establecen los siguientes tiempos estándar:
+| Tipo de Intervención | Tiempo Estimado (Horas) | Personal Requerido |
+| :--- | :--- | :--- |
+| Calibración de sensores (LPS, TP2, TP3) | 0.5 - 1.0 h | 1 Técnico |
+| Rellenado de aceite y limpieza de filtros | 2.0 h | 1 Técnico |
+| Sustitución de válvulas (DV Electric, COMP) | 4.0 h | 2 Técnicos |
+| Intervención en Motor Trifásico o Compresor | 8.0 - 12.0 h | Especialista |
+---
+
+#### Guía de Resolución de Problemas (Troubleshooting) y Fallos
+A continuación se detallan los escenarios de fallo detectados para la MetroPT-3:
+
+##### 1. Caída de Presión Crítica (Fuga Masiva)
+*   **Síntomas:** Señal **LPS** encendida (presión < 7 bar) y Presión **R** significativamente inferior a **TP3**.
+*   **Causa probable:** Fuga en el depósito de aire o fallo total en la válvula de descarga.
+*   **Criticidad:** **Alta**.
+*   **Procedimiento:** Parada de emergencia inmediata. Localizar fuga en depósito R y revisar estanqueidad de DV.
+*   **Tiempo estimado:** 4.0 h.
+
+##### 2. Fallo de Lubricación y Sobrecalentamiento
+*   **Síntomas:** Señal **Oil Level** encendida y **Temperatura del aceite** > 90ºC.
+*   **Causa probable:** Fuga de lubricante o fallo en el sistema de refrigeración del compresor.
+*   **Criticidad:** **Alta**.
+*   **Procedimiento:** Detener el equipo. Verificar niveles de aceite y buscar obstrucciones en el circuito de refrigeración.
+*   **Tiempo estimado:** 2.0 h.
+
+##### 3. Fallo Eléctrico en Válvula de Carga
+*   **Síntomas:** La señal **COMP** permanece encendida mientras el motor está a 7A (bajo carga).
+*   **Causa probable:** Fallo eléctrico en el solenoide de la válvula de toma de aire.
+*   **Criticidad:** **Media**.
+*   **Procedimiento:** Revisar conexiones eléctricas de la válvula COMP y MPG. Sustituir solenoide si es necesario.
+*   **Tiempo estimado:** 1.0 h.
+
+##### 4. Desgaste Mecánico Preventivo
+*   **Síntomas:** Reporte de "ruido extraño" o vibración, pero la **Corriente del motor** y las **Presiones** están en rangos nominales [2].
+*   **Causa probable:** Desgaste inicial en correas o rodamientos.
+*   **Criticidad:** **Baja**.
+*   **Procedimiento:** Programar inspección visual en la siguiente ventana de mantenimiento. No requiere parada inmediata.
+*   **Tiempo estimado:** 0.5 h.
 
 ---
 
-## Ejemplos de Fallo
-TODO
+#### Definición del Índice de Criticidad (OE7)
+Para la priorización en el Dashboard, cada incidencia se clasificará según este índice:
+
+1.  **ALTA (Puntuación: 3):** Fallos que comprometen la seguridad, implican parada total del sistema de aire del metro o riesgo de rotura del motor (ej. LPS persistente o Oil Level).
+2.  **MEDIA (Puntuación: 2):** Fallos que degradan el rendimiento pero permiten la operación temporal (ej. fallos en la alternancia de TOWERS).
+3.  **BAJA (Puntuación: 1):** Avisos preventivos, ruidos o desviaciones menores que no afectan a las variables críticas de presión.
+
+---
+
+#### Estimación de Costes de Intervención (KPI Económico)
+Para el cálculo del impacto económico de las incidencias, se aplicarán los siguientes costes estándar:
+
+| Concepto | Coste Unitario | Notas |
+| :--- | :--- | :--- |
+| Mano de Obra Técnica | 45 €/hora | Aplicable a técnicos internos. |
+| Especialista Externo | 90 €/hora | Requerido para fallos en motor o APU. |
+| Kit de Filtros y Aceite | 120 € | Material fungible básico. |
+| Solenoide/Válvula Repuesto | 350 € | Coste medio de componentes neumáticos. |
+| Parada de Línea No Programada | 500 €/hora | Coste de oportunidad por indisponibilidad. |
+
+
+---
+
+#### Protocolos de Seguridad y Parada de Emergencia
+En caso de fallos clasificados como **ALTA** criticidad, el operario debe seguir el protocolo LOTO (Lockout/Tagout):
+
+1.  **Desactivación:** Accionar la seta de emergencia y cortar el suministro eléctrico del motor.
+2.  **Purgado:** Vaciar el depósito **R** manualmente si la presión **TP3** es inestable para evitar explosiones.
+3.  **Bloqueo:** Colocar candado de seguridad en el interruptor principal antes de cualquier inspección física en el compresor.
+
+---
+
+#### Lógica de Correlación de Variables (Diagnóstico Avanzado)
+*   **Relación Presión-Carga:** Si la corriente del motor sube a **9A** pero la presión **TP2** no aumenta, existe una obstrucción mecánica o fallo en la transmisión.
+*   **Relación Temperatura-Aceite:** Un incremento rápido de temperatura (>5ºC en 10 min) sin cambio en la carga indica degradación crítica del aceite o fallo del ventilador.
+*   **Relación LPS-Depósito:** Si **LPS** se activa pero el motor está a **7A**, el fallo es de estanqueidad (fuga masiva) y no de potencia eléctrica.
+
+
