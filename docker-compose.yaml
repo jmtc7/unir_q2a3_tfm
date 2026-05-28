@@ -12,7 +12,7 @@ services:
     restart: unless-stopped
 
   ocr:
-    build: ./ocr
+    build: ./ocr/paddle
     container_name: ocr
     ports:
       - "8001:8000"

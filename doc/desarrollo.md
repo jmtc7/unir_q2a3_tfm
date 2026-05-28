@@ -18,8 +18,17 @@ Con respecto a los **modelos** disponibles con **Ollama**, **Qwen2.5** es extrem
     - Otras **alternativas aún más ligeras** (aunque con peor rendimiento) son `qwen2.5:1.5b` y, especialmente, `gemma:2b`.
   - Puedes verificar **qué LLMs hay disponibles** ejecutando `docker exec -it ollama ollama list`.
 
-Para ingerir **formularios rellenados a mano**, utilizo otro contenedor Docker, `ocr`, basado en Python 3.10 y en el que instalo Tesseract OCR. Abro una FastAPI en él disponible en [`localhost:8001/ocr`](http://localhost:8001/ocr) (visible desde [`localhost:8001/docs`](http://localhost:8001/docs) desde el navegador). Desde n8n, puedo utilizarlo utilizando un **nodo *HTTP Request*** con una petición `POST` hacia [`ocr:8000/ocr`](http://ocr:8000/ocr) (NO a `localhost`, ya que dentro de n8n, `localhost` es el contenedor `n8n`, no mi ordenador). En la *request*, se añade un cuerpo `Form-Data (Multipart)` que mande *n8n Binary File* con clave `file` y como valor todo el archivo binario que contiene la imagen.
-- Se puede **testear el servicio `ocr`** desde consola ejecutando `curl -X POST http://localhost:8001/ocr -F "file=@ejemplo_incidencia.jpg"`.
+Para ingerir **formularios rellenados a mano**, utilizo otro contenedor Docker, `ocr`, basado en Python 3.10 y en el que instalo varios algoritmos OCR (Tesseract, Paddle, etc.). Abro una FastAPI en él disponible en [`localhost:8001/ocr`](http://localhost:8001/ocr) (visible desde [`localhost:8001/docs`](http://localhost:8001/docs) desde el navegador). Desde n8n, puedo utilizarlo utilizando un **nodo *HTTP Request*** con una petición `POST` hacia [`ocr:8000/ocr`](http://ocr:8000/ocr) (NO a `localhost`, ya que dentro de n8n, `localhost` es el contenedor `n8n`, no mi ordenador). En la *request*, se añade un cuerpo `Form-Data (Multipart)` que mande *n8n Binary File* con clave `file` y como valor todo el archivo binario que contiene la imagen.
+- Puedes verificar si la API está funcionando visualizando el Swagger UI desde [`localhost:8001/docs/`](http://localhost:8001/docs#/).
+- Se puede **testear el servicio `ocr`** desde consola ejecutando `curl -X POST http://localhost:8001/ocr -F "file=@datos/ejemplo_incidencia.jpg"`.
+- En la carpeta `ocr/` del repositorio están todas las opciones OCR. Para utilizar una u otra se debe modificar el `docker-compose.yaml` para que utilice el `Dockerfile` y el `app.py` de la carpeta deseada.
+  - Para Paddle OCR, fue importante especificar las buenas versiones en el `Dockerfile`: `paddleocr==2.7.3` y `paddlepaddle==2.6.2`. También tuve que añadir varios flags para desactivar el backend moderno de Paddle porque usa usa oneDNN/PIR, incompatible con CPU Docker.
+  - **NOTA**: Tras modificar el `docker-file.yam`, es necesario reconstruir las imágenes con:
+    ```bash
+    docker compose down
+    docker compose build --no-cache
+    docker compose up -d
+    ```
 
 
 ### Análisis Documental
