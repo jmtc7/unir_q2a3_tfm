@@ -26,7 +26,7 @@ services:
     restart: unless-stopped
 
   ocr:
-    build: ./ocr
+    build: ./ocr/paddle
     container_name: ocr
     ports:
       - "8001:8000"
@@ -46,8 +46,8 @@ services:
       - N8N_RUNNERS_ENABLED=true
     volumes:
       - n8n_data:/home/node/.n8n
-      - ./tmp:/files
       - ./datos:/home/node/.n8n-files
+      - ./tmp:/files
     depends_on:
       - ollama
       - ocr
