@@ -2,6 +2,20 @@ version: "3.8"
 
 services:
 
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: opsinsight_db
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: 1234
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      
   ollama:
     image: ollama/ollama
     container_name: ollama
@@ -37,8 +51,10 @@ services:
     depends_on:
       - ollama
       - ocr
+      - db
     restart: unless-stopped
 
 volumes:
   n8n_data:
   ollama:
+  mysql_data:
