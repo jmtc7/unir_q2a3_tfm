@@ -3,49 +3,113 @@
   "nodes": [
     {
       "parameters": {
-        "content": "# Ingesta Documental",
+        "content": "# Validación del JSON\nTODO",
         "height": 848,
-        "width": 1200
+        "width": 416,
+        "color": 3
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -16,
+        1952,
         0
       ],
       "typeVersion": 1,
-      "id": "2fe7bc17-d820-4594-bf9f-30e6ea5f727e",
+      "id": "b11637c8-cd91-48c6-bd7a-2275557bd6a3",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "# Registro de Incidencias\nTODO",
+        "height": 848,
+        "width": 416,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2816,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "3432495a-b775-4ac5-9b94-43715b8fe6f2",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "# Análisis Documental\nTODO",
+        "height": 848,
+        "width": 416,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2384,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "83bb85e3-63f4-4c15-a677-dafeefb6ff87",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "# Dashboard\nTODO",
+        "height": 848,
+        "width": 416,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3248,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "22a0bd11-c5d2-49ee-9192-01eec300a470",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "content": "# Ingesta Documental",
+        "height": 848,
+        "width": 1072
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        864,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "4f8d8066-052b-4ab6-b169-98e4cc01715e",
       "name": "Sticky Note"
     },
     {
       "parameters": {
         "content": "## Formulario online",
         "height": 224,
-        "width": 432,
+        "width": 400,
         "color": 2
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        0,
+        880,
         64
       ],
       "typeVersion": 1,
-      "id": "a8840e9c-b591-4542-8088-7851699325da",
+      "id": "08d977d8-59c9-4be1-a85e-34aa825b4a6c",
       "name": "Sticky Note1"
     },
     {
       "parameters": {
         "content": "## PDF con reporte digital\n",
         "height": 256,
-        "width": 1168,
+        "width": 1040,
         "color": 2
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        0,
+        880,
         304
       ],
       "typeVersion": 1,
-      "id": "69313ded-964d-4152-9790-1970dee6345a",
+      "id": "201fe3fe-c1e6-4696-ae4e-ae03dba6d360",
       "name": "Sticky Note2"
     },
     {
@@ -55,10 +119,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        240,
+        1088,
         128
       ],
-      "id": "c16e625f-b726-4b33-89ef-ea8df6b66ca5",
+      "id": "b6790ec7-35aa-44f2-813e-c21280c4c20c",
       "name": "Encuesta -> JSON deseado",
       "notesInFlow": false
     },
@@ -200,12 +264,12 @@
       "type": "n8n-nodes-base.formTrigger",
       "typeVersion": 2.5,
       "position": [
-        48,
+        928,
         128
       ],
-      "id": "a108b866-cb97-4344-831c-51810f2a79d8",
+      "id": "c4222b95-7ef4-4828-be44-a472f3d75b95",
       "name": "Formulario online",
-      "webhookId": "8e9df807-57b4-4166-9bf7-bb01103598f5",
+      "webhookId": "3532fe86-f710-4e61-a386-9822a9513896",
       "notesInFlow": false
     },
     {
@@ -227,42 +291,12 @@
       "type": "n8n-nodes-base.formTrigger",
       "typeVersion": 2.5,
       "position": [
-        48,
+        928,
         368
       ],
-      "id": "bc3941d8-bf64-4297-b24d-b73361d48b9f",
+      "id": "03233a2b-dcc6-42e0-a611-171bac16185d",
       "name": "Ingesta de PDFs",
-      "webhookId": "a5ad48d8-ea51-4361-8b2e-86f148aed6ac",
-      "notesInFlow": false
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "fc1c60ba-48fd-48b9-9f6a-aed961e9d16f",
-              "name": "texto_limpio",
-              "value": "={{ $json.text.replace(/\\n/g, ' ') }}",
-              "type": "string"
-            },
-            {
-              "id": "c13fbef1-11b3-476c-98d6-a543bffd862a",
-              "name": "estructura_json",
-              "value": "={\n  \"fecha\": \"\",\n  \"maquina\": \"\",\n  \"operario\": \"\",\n  \"descripcion\": \"\",\n  \"variables\": {\n    \"presiones\": {\n      \"tp2\": 0,\n      \"tp3\": 0,\n      \"h1\": 0,\n      \"dv\": 0,\n      \"r\": 0\n    },\n    \"senales\": {\n      \"comp\": false,\n      \"dv_electric\": false,\n      \"towers\": false,\n      \"mpg\": false,\n      \"lps\": false,\n      \"pressure_switch\": false,\n      \"oil_level\": false\n    },\n    \"corriente_motor\": 0,\n    \"temperatura_aceite\": 0\n  }\n}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        432,
-        368
-      ],
-      "id": "1954b263-2ff8-4a5d-86df-c1b75c2831b8",
-      "name": "Limpiar texto y preparar formato del JSON",
+      "webhookId": "28debb09-7c72-4010-83d3-b3745f7a5318",
       "notesInFlow": false
     },
     {
@@ -276,7 +310,7 @@
         "messages": {
           "values": [
             {
-              "content": "=Eres un extractor de datos.\n\nTu tarea es EXTRAER información del texto y devolver SOLO un JSON válido.\n\nREGLAS ESTRICTAS:\n- NO inventes información\n- NO reformules la descripción\n- NO añadas texto explicativo\n- NO incluyas comentarios\n- NO modifiques el significado del texto\n- Si un campo no aparece, deja valor vacío \"\" o -1 o false según corresponda\n- Devuelve SOLO el JSON, sin markdown, sin texto adicional\n\nESQUEMA OBLIGATORIO (respétalo exactamente):\n\n{{ $json.estructura_json }}\n\nMAPEO DE CAMPOS:\n- El campo \"fecha\" es OBLIGATORIO, siempre aparece después de \"Fecha (AAAA-MM-DD):\" y debes copiar EXACTAMENTE el valor que aparece después de ese texto. Nunca lo omitas ni lo infieras.\n- La fecha, el nombre de la máquina, el nombre del operario y la descripción de la incidencia son cadenas de texto. Si no aparecen, deja esos campos como una cadena vacía \"\".\n- Señales eléctricas (COMP, DV Electric, TOWERS, MPG, LPS, Pressure Switch y Oil Level) son booleanos (0 = false, 1 = true)\n- Las presiones, Corriente del motor y temperatura del aceite son números exactos del texto. Si no aparecen, utiliza el número -1.\n\nTEXTO:\n\n{{ $json.texto_limpio }}"
+              "content": "=Eres un extractor de datos. Tu tarea es EXTRAER información del texto y devolver SOLO un JSON válido.\n\nREGLAS ESTRICTAS:\n- NO inventes información. Si un campo no aparece, deja valor vacío \"\" o -1 o false según corresponda\n- NO añadas texto explicativo ni comentarios\n- NO modifiques los nombres de los campos del JSON de ejemplo\n- NO modifiques la estructura del JSON de ejemplo\n\nEste es el JSON de ejemplo. Cambia únicamente los valores de sus campos:\n\n{\n    \"fecha\": \"\",\n    \"maquina\": \"\",\n    \"operario\": \"\",\n    \"descripcion\": \"\",\n    \"variables\":\n    {\n        \"presiones\":\n        {\n            \"tp2\": 0,\n            \"tp3\": 0,\n            \"h1\": 0,\n            \"dv\": 0,\n            \"r\": 0\n        },\n        \"senales_electricas\":\n        {\n            \"comp\": false,\n            \"dv_electric\": false,\n            \"towers\": false,\n            \"mpg\": false,\n            \"lps\": false,\n            \"pressure_switch\": false,\n            \"oil_level\": false\n        },\n        \"corriente_motor\": 0,\n        \"temperatura_aceite\": 0\n    }\n}\n\nEl texto del que debes extraer los datos es el siguiente:\n\n{{ $json.text }}"
             }
           ]
         },
@@ -285,10 +319,10 @@
       "type": "@n8n/n8n-nodes-langchain.ollama",
       "typeVersion": 1,
       "position": [
-        624,
+        1408,
         368
       ],
-      "id": "270db1a3-03d4-4cd7-829e-3249b1d61ecf",
+      "id": "2b612cc6-344e-4c3e-9eb9-0784764bb4b3",
       "name": "Generar JSON a partir del texto",
       "notesInFlow": false,
       "credentials": {
@@ -305,91 +339,27 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        944,
+        1696,
         368
       ],
-      "id": "799d2cb4-131f-4bd3-85ee-475139424a5d",
+      "id": "cadb8cba-6d61-46bc-b3b1-c77d866b76da",
       "name": "Respuesta -> JSON deseado",
       "notesInFlow": false
     },
     {
       "parameters": {
-        "content": "# Validación del JSON\nTODO",
-        "height": 848,
-        "width": 416,
-        "color": 3
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        1200,
-        0
-      ],
-      "typeVersion": 1,
-      "id": "b11637c8-cd91-48c6-bd7a-2275557bd6a3",
-      "name": "Sticky Note3"
-    },
-    {
-      "parameters": {
-        "content": "# Registro de Incidencias\nTODO",
-        "height": 848,
-        "width": 416,
-        "color": 5
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        2064,
-        0
-      ],
-      "typeVersion": 1,
-      "id": "3432495a-b775-4ac5-9b94-43715b8fe6f2",
-      "name": "Sticky Note4"
-    },
-    {
-      "parameters": {
-        "content": "# Análisis Documental\nTODO",
-        "height": 848,
-        "width": 416,
-        "color": 4
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        1632,
-        0
-      ],
-      "typeVersion": 1,
-      "id": "83bb85e3-63f4-4c15-a677-dafeefb6ff87",
-      "name": "Sticky Note5"
-    },
-    {
-      "parameters": {
-        "content": "# Dashboard\nTODO",
-        "height": 848,
-        "width": 416,
-        "color": 7
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        2496,
-        0
-      ],
-      "typeVersion": 1,
-      "id": "22a0bd11-c5d2-49ee-9192-01eec300a470",
-      "name": "Sticky Note6"
-    },
-    {
-      "parameters": {
         "content": "## Foto con reporte manuscrito",
         "height": 256,
-        "width": 784,
+        "width": 592,
         "color": 2
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        0,
+        880,
         576
       ],
       "typeVersion": 1,
-      "id": "d3e1ba80-6e3d-4f43-aea1-e7a455d4c470",
+      "id": "d44e282f-603b-4908-8235-63109efa1407",
       "name": "Sticky Note7"
     },
     {
@@ -401,10 +371,10 @@
       "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1.1,
       "position": [
-        240,
+        1088,
         368
       ],
-      "id": "ae0f72e7-dce0-486e-ba84-69cf055d604d",
+      "id": "4720666a-954c-4eee-9042-774b4b769ac4",
       "name": "Extraer texto del PDF"
     },
     {
@@ -426,26 +396,50 @@
       "type": "n8n-nodes-base.formTrigger",
       "typeVersion": 2.5,
       "position": [
-        48,
+        928,
         640
       ],
-      "id": "c4217aad-d7f3-4d34-b319-aae56278a3e0",
+      "id": "9b2a3181-137b-4739-9620-2a6714305b8a",
       "name": "Ingesta de imágenes",
-      "webhookId": "d4f0d891-adb7-4448-ac21-08196596797e",
+      "webhookId": "e0750147-8207-4278-a6f5-f649289f744f",
       "notesInFlow": false
     },
     {
       "parameters": {
-        "jsCode": "return [\n  {\n    json: {\n      hasBinary: !!items[0].binary,\n      keys: items[0].binary ? Object.keys(items[0].binary) : [],\n      full: items[0].binary\n    }\n  }\n];"
+        "jsCode": "const text = $json.text;\n\nreturn [{ json: { text } }];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        240,
+        1248,
         640
       ],
-      "id": "ee0893a3-644f-4abe-b1e9-bc12d78edd8a",
-      "name": "Extraer datos binarios"
+      "id": "f629fff7-51d5-4eac-a904-9e999934a078",
+      "name": "Extraer texto del OCR"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fc1c60ba-48fd-48b9-9f6a-aed961e9d16f",
+              "name": "texto_limpio",
+              "value": "={{ $json.text.replace(/\\n/g, ' ') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1248,
+        368
+      ],
+      "id": "f005850d-f453-4afa-8bed-1f7c08aae301",
+      "name": "Limpiar texto",
+      "notesInFlow": false
     },
     {
       "parameters": {
@@ -458,7 +452,7 @@
             {
               "parameterType": "formBinaryData",
               "name": "file",
-              "inputDataFieldName": "={{ $json.full.Foto_del_reporte }}"
+              "inputDataFieldName": "Foto_del_reporte"
             }
           ]
         },
@@ -467,24 +461,11 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        432,
+        1088,
         640
       ],
-      "id": "8e69dd13-798a-4380-b038-cc1ce8a1e6a3",
+      "id": "43062bfa-6d9d-4d39-9ea8-1cfd0c86118c",
       "name": "Ejecutar OCR"
-    },
-    {
-      "parameters": {
-        "jsCode": "const text = $json.text;\n\nreturn [{ json: { text } }];"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        624,
-        640
-      ],
-      "id": "f343e99c-6d2a-4c10-9c89-9ca3910a8bb1",
-      "name": "Extraer texto del OCR"
     }
   ],
   "pinData": {},
@@ -511,17 +492,6 @@
         ]
       ]
     },
-    "Limpiar texto y preparar formato del JSON": {
-      "main": [
-        [
-          {
-            "node": "Generar JSON a partir del texto",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Generar JSON a partir del texto": {
       "main": [
         [
@@ -537,7 +507,7 @@
       "main": [
         [
           {
-            "node": "Limpiar texto y preparar formato del JSON",
+            "node": "Limpiar texto",
             "type": "main",
             "index": 0
           }
@@ -548,18 +518,29 @@
       "main": [
         [
           {
-            "node": "Extraer datos binarios",
+            "node": "Ejecutar OCR",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Extraer datos binarios": {
+    "Extraer texto del OCR": {
       "main": [
         [
           {
-            "node": "Ejecutar OCR",
+            "node": "Generar JSON a partir del texto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limpiar texto": {
+      "main": [
+        [
+          {
+            "node": "Generar JSON a partir del texto",
             "type": "main",
             "index": 0
           }
@@ -576,17 +557,6 @@
           }
         ]
       ]
-    },
-    "Extraer texto del OCR": {
-      "main": [
-        [
-          {
-            "node": "Limpiar texto y preparar formato del JSON",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
     }
   },
   "active": false,
@@ -594,7 +564,7 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "b7065185-d7f7-487f-9301-2b96de3d36d4",
+  "versionId": "87ff708f-206f-4787-8354-d093bfe8aa3b",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "9f9b15948ac0cabd97d7730cb7a79cef7ff8cf9c567e668e052c4eead1ee7ffb"
