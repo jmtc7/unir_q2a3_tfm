@@ -1,5 +1,5 @@
 {
-  "name": "OpsInsight",
+  "name": "OpsInsight_rag",
   "nodes": [
     {
       "parameters": {
@@ -10,43 +10,43 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1952,
+        976,
         0
       ],
       "typeVersion": 1,
-      "id": "b11637c8-cd91-48c6-bd7a-2275557bd6a3",
+      "id": "c361e75d-ddd8-48b1-bcfa-bb36799a58f3",
       "name": "Sticky Note3"
     },
     {
       "parameters": {
-        "content": "# Registro de Incidencias\nTODO",
+        "content": "# Registro de Incidencias\nCSV y MySQL",
         "height": 848,
-        "width": 416,
+        "width": 560,
         "color": 5
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        2816,
+        2512,
         0
       ],
       "typeVersion": 1,
-      "id": "3432495a-b775-4ac5-9b94-43715b8fe6f2",
+      "id": "d0d9a4d2-854f-4410-8ec7-7578ed16929a",
       "name": "Sticky Note4"
     },
     {
       "parameters": {
-        "content": "# Análisis Documental\nTODO",
+        "content": "# Análisis Documental\nJSON de incidencia + manual",
         "height": 848,
-        "width": 416,
+        "width": 1088,
         "color": 4
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        2384,
+        1408,
         0
       ],
       "typeVersion": 1,
-      "id": "83bb85e3-63f4-4c15-a677-dafeefb6ff87",
+      "id": "5aba52db-0666-4cb8-afd8-b1c1b1e3cd83",
       "name": "Sticky Note5"
     },
     {
@@ -58,12 +58,542 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        3248,
+        3088,
         0
       ],
       "typeVersion": 1,
-      "id": "22a0bd11-c5d2-49ee-9192-01eec300a470",
+      "id": "054879f4-0ede-4ff0-8808-3a52e91060fe",
       "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "content": "# Lectura del Disco Local\nLeer el manual",
+        "height": 256,
+        "width": 416,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -32,
+        864
+      ],
+      "typeVersion": 1,
+      "id": "34401b4f-2b9d-49c2-97fc-9fb966a60c5a",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "model": "qwen2.5:3b",
+        "options": {
+          "temperature": 0.2
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        2160,
+        448
+      ],
+      "id": "ddd100f6-2c00-487d-8fc6-d7473b3c9f20",
+      "name": "Ollama Chat Model",
+      "credentials": {
+        "ollamaApi": {
+          "id": "LCUMVmjmDKC7SGgz",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "memoryKey": {
+          "__rl": true,
+          "mode": "list",
+          "value": "vector_store_key"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1.3,
+      "position": [
+        1472,
+        384
+      ],
+      "id": "370a8bce-2ef8-4eb7-8afd-b1c100406e75",
+      "name": "Simple Vector Store"
+    },
+    {
+      "parameters": {
+        "model": "nomic-embed-text:latest"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "typeVersion": 1,
+      "position": [
+        1472,
+        688
+      ],
+      "id": "d65251a8-4008-4ff2-a684-fecee4583616",
+      "name": "Embeddings Ollama",
+      "credentials": {
+        "ollamaApi": {
+          "id": "LCUMVmjmDKC7SGgz",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fileSelector": "/home/node/.n8n-files/manual_MetroPT3.md",
+        "options": {
+          "dataPropertyName": "data"
+        }
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        112,
+        944
+      ],
+      "id": "994a341f-4c72-4e2e-913b-a38ead2cb1a6",
+      "name": "Read/Write Files from Disk"
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "textSplittingMode": "custom",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        1632,
+        528
+      ],
+      "id": "8ac979ad-f802-4c31-b286-4057a94fb066",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a73a389e-9dce-4c98-a88f-e05c55fa1700",
+              "name": "fecha",
+              "value": "={{ $now.toISO() }}",
+              "type": "string"
+            },
+            {
+              "id": "f46ef8fd-78fe-4fd3-a169-c816797d0732",
+              "name": "maquina",
+              "value": "={{ $('Edit Fields').item.json.maquina }}",
+              "type": "string"
+            },
+            {
+              "id": "b40b8c98-f5be-4210-929b-2451971f9369",
+              "name": "operario",
+              "value": "={{ $('Edit Fields').item.json.operario }}",
+              "type": "string"
+            },
+            {
+              "id": "6d0949aa-786d-4723-8f54-870c6660c1a4",
+              "name": "descripcion",
+              "value": "={{ $('Edit Fields').item.json.descripcion }}",
+              "type": "string"
+            },
+            {
+              "id": "25396225-eeb2-410b-840b-b80da20267f1",
+              "name": "Solution_proposed",
+              "value": "={{ $json.output.replace(/\\n/g, \" \") }}",
+              "type": "string"
+            },
+            {
+              "id": "28d2e364-be52-48a4-805e-d8d906709a0d",
+              "name": "presiones_tp2",
+              "value": "={{ $('Edit Fields').item.json.variables.presiones.tp2 }}",
+              "type": "number"
+            },
+            {
+              "id": "4e3baf25-1a04-48d5-b5ee-7377ae518c51",
+              "name": "presiones_tp3",
+              "value": "={{ $('Edit Fields').item.json.variables.presiones.tp3 }}",
+              "type": "number"
+            },
+            {
+              "id": "2fc4a386-63e1-4676-acb1-ad65b785d591",
+              "name": "presiones_h1",
+              "value": "={{ $('Edit Fields').item.json.variables.presiones.h1 }}",
+              "type": "number"
+            },
+            {
+              "id": "35ba6c8c-6fa2-4811-ac43-b10bb7bed5f2",
+              "name": "presiones_dv",
+              "value": "={{ $('Edit Fields').item.json.variables.presiones.dv }}",
+              "type": "number"
+            },
+            {
+              "id": "f55c7589-f06f-458b-aabe-e9d9d69e9678",
+              "name": "presiones_r",
+              "value": "={{ $('Edit Fields').item.json.variables.presiones.r }}",
+              "type": "number"
+            },
+            {
+              "id": "aff2bdf4-2c44-4b03-826c-ca812b7080c1",
+              "name": "senales_electricas_comp",
+              "value": "={{ $('Edit Fields').item.json.variables.senales_electricas.comp }}",
+              "type": "number"
+            },
+            {
+              "id": "eb0ec53e-65d3-4033-a274-e4e37c0b74cb",
+              "name": "senales_electricas_dv_electric",
+              "value": "={{ $('Edit Fields').item.json.variables.senales_electricas.dv_electric }}",
+              "type": "number"
+            },
+            {
+              "id": "72a8c96c-df86-4368-a996-6713f0c0322b",
+              "name": "senales_electricas_towers",
+              "value": "={{ $('Edit Fields').item.json.variables.senales_electricas.towers }}",
+              "type": "number"
+            },
+            {
+              "id": "919d5d03-558f-4440-acb3-c3d8a4d5e844",
+              "name": "senales_electricas_mpg",
+              "value": "={{ $('Edit Fields').item.json.variables.senales_electricas.mpg }}",
+              "type": "number"
+            },
+            {
+              "id": "a9a0e4eb-9160-4cc1-8d73-6522cc188fa8",
+              "name": "senales_electricas_lps",
+              "value": "={{ $('Edit Fields').item.json.variables.senales_electricas.lps }}",
+              "type": "number"
+            },
+            {
+              "id": "eea4dd3c-0866-45c8-8db8-fc6b0890f284",
+              "name": "senales_electricas_pressure_switch",
+              "value": "={{ $('Edit Fields').item.json.variables.senales_electricas.pressure_switch }}",
+              "type": "number"
+            },
+            {
+              "id": "26824e71-01eb-420e-a70d-244054c91b43",
+              "name": "senales_electricas_oil_level",
+              "value": "={{ $('Edit Fields').item.json.variables.senales_electricas.oil_level }}",
+              "type": "number"
+            },
+            {
+              "id": "ced817a1-62ec-4231-b747-098e6c2359fc",
+              "name": "corriente_motor",
+              "value": "={{ $('Edit Fields').item.json.variables.corriente_motor }}",
+              "type": "number"
+            },
+            {
+              "id": "c714eb13-d61d-4950-9cb1-89acdbb599e8",
+              "name": "temperatura_aceite",
+              "value": "={{ $('Edit Fields').item.json.variables.temperatura_aceite }}",
+              "type": "number"
+            },
+            {
+              "id": "921fad04-0f40-4542-a947-b74cad2f8e92",
+              "name": "criticidad",
+              "value": "={{ (($json.output.split(/clasificación/i).pop().match(/\\b(alta|media|baja)\\b/i) || [null, 'Baja'])[1]) }}",
+              "type": "string"
+            },
+            {
+              "id": "9e417f03-39a7-403c-ad5c-a29528cb3487",
+              "name": "tiempo_reparacion",
+              "value": "={{ parseInt(($json.output.split(/tiempo estimado/i).pop().match(/\\d+/)?.[0]) || 0) }}",
+              "type": "string"
+            },
+            {
+              "id": "0848c31b-b283-4f62-b273-f13603aa5fc6",
+              "name": "coste_estimado",
+              "value": "={{ parseInt(($json.output.split(/cost(e|o) estimado/i).pop().match(/\\d+/)?.[0]) || 0) }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2544,
+        128
+      ],
+      "id": "e57895ba-ec07-4c2f-9c9d-007a5cdac101",
+      "name": "Prepare register"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        2704,
+        128
+      ],
+      "id": "2328f804-5bdc-4746-943a-18de04e42169",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "/home/node/.n8n-files/historico_incidencias.csv",
+        "options": {
+          "append": true
+        }
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        2880,
+        128
+      ],
+      "id": "572647a6-e30a-43e6-8f8a-5660ca3cff13",
+      "name": "Read/Write Files from Disk1"
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "registro_incidencias",
+          "mode": "list",
+          "cachedResultName": "registro_incidencias"
+        },
+        "dataMode": "defineBelow",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "fecha",
+              "value": "={{ $json.fecha }}"
+            },
+            {
+              "column": "maquina",
+              "value": "={{ $json.maquina }}"
+            },
+            {
+              "column": "descripcion",
+              "value": "={{ $json.descripcion }}"
+            },
+            {
+              "column": "solucion_propuesta",
+              "value": "={{ $json.Solution_proposed }}"
+            },
+            {
+              "column": "presion_tp2",
+              "value": "={{ $json.presiones_tp2 }}"
+            },
+            {
+              "column": "presion_tp3",
+              "value": "={{ $json.presiones_tp3 }}"
+            },
+            {
+              "column": "nivel_h1",
+              "value": "={{ $json.presiones_h1 }}"
+            },
+            {
+              "column": "criticidad",
+              "value": "={{ $json.criticidad }}"
+            },
+            {
+              "column": "nivel_h1",
+              "value": "={{ $json.presiones_h1 }}"
+            },
+            {
+              "column": "solucion_propuesta",
+              "value": "={{ $json.Solution_proposed }}"
+            },
+            {
+              "column": "operario",
+              "value": "={{ $json.operario }}"
+            },
+            {
+              "column": "tiempo_estimado",
+              "value": "={{ $json.tiempo_reparacion }}"
+            },
+            {
+              "column": "coste_estimado",
+              "value": "={{ $json.coste_estimado }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        2704,
+        304
+      ],
+      "id": "e69ecb9e-ebfc-4ad5-9bda-72a27c2cd19f",
+      "name": "Insert rows in a table",
+      "credentials": {
+        "mySql": {
+          "id": "udeCICpoe6gcFOLx",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT * FROM registro_incidencias ORDER BY id DESC LIMIT 5;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        2880,
+        304
+      ],
+      "id": "502de5a8-4aef-46f8-90e5-e13809f471a6",
+      "name": "Execute a SQL query",
+      "credentials": {
+        "mySql": {
+          "id": "udeCICpoe6gcFOLx",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "memoryKey": {
+          "__rl": true,
+          "mode": "list",
+          "value": "vector_store_key"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1.3,
+      "position": [
+        2144,
+        592
+      ],
+      "id": "c9335222-0974-40d3-8fa0-9ed4735a18c7",
+      "name": "Simple Vector Store2"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Capturamos los datos que vienen del técnico\nconst fecha = $json.fecha;\nconst maquina = $json.maquina;\nconst operario = $json.operario;\nconst desc = $json.descripcion;\nconst presiones = $json.variables.presiones;\nconst temperatura = $json.variables.temperatura_aceite;\n\n// Construimos una única cadena de texto limpia (String)\nconst consultaLimpia = `El operario ${operario} reporta una incidencia en la máquina ${maquina} el día ${fecha}. \nDescripción del problema: \"${desc}\". \nEstado de la máquina: Presión TP2 de ${presiones.tp2} bar, TP3 de ${presiones.tp3} bar, H1 de ${presiones.h1} bar. Temperatura del aceite: ${temperatura}°C. \nPor favor, busca en el manual qué significa este comportamiento o ruido extraño con estas presiones.`;\n\n// Devolvemos el texto en una propiedad llamada \"query_texto\"\nreturn {\n  query_texto: consultaLimpia\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2000,
+        128
+      ],
+      "id": "324ca0e4-ea48-4cdb-ba5e-0d83d3afdc29",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "description": "Useful for when you need to answer questions about the machine operation, errors, and manual (MetroPT3). Input must be a plain text search query. ",
+        "topK": 2
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolVectorStore",
+      "typeVersion": 1.1,
+      "position": [
+        2224,
+        320
+      ],
+      "id": "db6296f0-0131-4c64-a1a8-8d3ed97740d4",
+      "name": "buscador_manual"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Analiza esta incidencia y busca la solución en el manual: {{ $json.query_texto }}",
+        "options": {
+          "systemMessage": "CRITICAL TECHNICAL INSTRUCTION: Whenever you call the 'buscador_manual' tool, the 'input' MUST be a single plain text string (e.g., \"ruido extraño presion tp2\"). You are strictly FORBIDDEN from passing a JSON object, braces {}, or multiple fields into the tool query. Extract the core symptom from the data and search using text only.\n\n---\n\nEres un experto en mantenimiento industrial especializado en la Unidad de Producción de Aire (APU) MetroPT3. Tu misión es diagnosticar incidencias utilizando exclusivamente la información del manual_MetroPT3.md.\n\nInstrucciones de Razonamiento:\n1. Analiza los valores de los sensores recibidos (presiones TP2, TP3, R, corriente del motor, etc.) y compáralos con las 'Condiciones de Operación Normales' del manual.\n2. Identifica si el problema coincide con algún escenario de la 'Guía de Resolución de Problemas' (usa la herramienta 'buscador_manual' para consultarlo usando solo texto).\n3. Determina la criticidad basándote en la seguridad: si hay riesgo de rotura o parada no programada, es Alta; si hay degradación, es Media; si es preventivo o leve, es Baja.\n4. Consulta la 'Matriz de Tiempos' para proponer una solución técnica y un tiempo estimado de intervención.\n\nFormato Obligatorio de Salida: Al final de todo el texto, es estrictamente obligatorio incluir estas tres líneas exactas y separadas: \nClasificación: [Alta/Media/Baja] \nTiempo Estimado: [X] horas \nCoste Estimado: [X] €"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        2160,
+        128
+      ],
+      "id": "5444e896-ea80-478e-860d-b6da258c41e9",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "chunkOverlap": 200,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        1632,
+        688
+      ],
+      "id": "fc5cc432-3daf-4afa-9f22-4134ebcf8185",
+      "name": "Recursive Character Text Splitter"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        1744,
+        384
+      ],
+      "id": "b4768b53-aaa6-4219-9ae4-9eafc6cb8ac3",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "content": "# RAG",
+        "height": 512,
+        "width": 512,
+        "color": "#021F03"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1424,
+        320
+      ],
+      "typeVersion": 1,
+      "id": "d3465d5a-bac4-4af2-bc34-a7ce82452011",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "content": "# Análisis",
+        "height": 656,
+        "width": 528,
+        "color": "#021F03"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1952,
+        64
+      ],
+      "typeVersion": 1,
+      "id": "3f09b4ff-7944-43ae-98f8-75f60d61c64a",
+      "name": "Sticky Note10"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fc1c60ba-48fd-48b9-9f6a-aed961e9d16f",
+              "name": "texto_limpio",
+              "value": "={{ $json.text.replace(/\\n/g, ' ') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        272,
+        368
+      ],
+      "id": "5d40d262-fdd3-4a99-b7b9-2211cf84ac73",
+      "name": "Limpiar texto",
+      "notesInFlow": false
     },
     {
       "parameters": {
@@ -73,12 +603,12 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        864,
+        -112,
         0
       ],
       "typeVersion": 1,
-      "id": "4f8d8066-052b-4ab6-b169-98e4cc01715e",
-      "name": "Sticky Note"
+      "id": "d10c6b22-1c0a-47e0-a522-a4d2d2269964",
+      "name": "Sticky Note11"
     },
     {
       "parameters": {
@@ -89,12 +619,12 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        880,
+        -96,
         64
       ],
       "typeVersion": 1,
-      "id": "08d977d8-59c9-4be1-a85e-34aa825b4a6c",
-      "name": "Sticky Note1"
+      "id": "a3636b35-53da-4c10-9f8b-a62a41e847af",
+      "name": "Sticky Note12"
     },
     {
       "parameters": {
@@ -105,12 +635,12 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        880,
+        -96,
         304
       ],
       "typeVersion": 1,
-      "id": "201fe3fe-c1e6-4696-ae4e-ae03dba6d360",
-      "name": "Sticky Note2"
+      "id": "7f43ff94-56d7-4e9c-9a7d-8de05667d9c6",
+      "name": "Sticky Note13"
     },
     {
       "parameters": {
@@ -119,11 +649,11 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1088,
+        112,
         128
       ],
-      "id": "b6790ec7-35aa-44f2-813e-c21280c4c20c",
-      "name": "Encuesta -> JSON deseado",
+      "id": "9a200355-d370-4bcc-9500-6d7ebe5b2023",
+      "name": "Encuesta -> JSON deseado1",
       "notesInFlow": false
     },
     {
@@ -264,39 +794,12 @@
       "type": "n8n-nodes-base.formTrigger",
       "typeVersion": 2.5,
       "position": [
-        928,
+        -48,
         128
       ],
-      "id": "c4222b95-7ef4-4828-be44-a472f3d75b95",
-      "name": "Formulario online",
-      "webhookId": "3532fe86-f710-4e61-a386-9822a9513896",
-      "notesInFlow": false
-    },
-    {
-      "parameters": {
-        "formTitle": "Reportar una Incidencia con un PDF",
-        "formDescription": "Formulario para reportar incidencias mediante reportes digitales en formato PDF.",
-        "formFields": {
-          "values": [
-            {
-              "fieldLabel": "Archivo PDF",
-              "fieldType": "file",
-              "acceptFileTypes": ".pdf, .PDF",
-              "requiredField": true
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.formTrigger",
-      "typeVersion": 2.5,
-      "position": [
-        928,
-        368
-      ],
-      "id": "03233a2b-dcc6-42e0-a611-171bac16185d",
-      "name": "Ingesta de PDFs",
-      "webhookId": "28debb09-7c72-4010-83d3-b3745f7a5318",
+      "id": "5d730144-45a9-4f13-8bd4-0ab716a87561",
+      "name": "Formulario online1",
+      "webhookId": "08c21a02-320d-4881-918e-b2b715cb9f7a",
       "notesInFlow": false
     },
     {
@@ -319,11 +822,11 @@
       "type": "@n8n/n8n-nodes-langchain.ollama",
       "typeVersion": 1,
       "position": [
-        1408,
+        432,
         368
       ],
-      "id": "2b612cc6-344e-4c3e-9eb9-0784764bb4b3",
-      "name": "Generar JSON a partir del texto",
+      "id": "7b9bbc55-d510-4cf8-804a-70d82d38cc43",
+      "name": "Generar JSON a partir del texto1",
       "notesInFlow": false,
       "credentials": {
         "ollamaApi": {
@@ -334,20 +837,6 @@
     },
     {
       "parameters": {
-        "jsCode": "const item = $input.first().json;\n\n// El LLM devuelve JSON como string dentro de \"content\"\nconst parsed = JSON.parse(item.content);\n\nreturn [\n  {\n    json: parsed\n  }\n];"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        1696,
-        368
-      ],
-      "id": "cadb8cba-6d61-46bc-b3b1-c77d866b76da",
-      "name": "Respuesta -> JSON deseado",
-      "notesInFlow": false
-    },
-    {
-      "parameters": {
         "content": "## Foto con reporte manuscrito",
         "height": 256,
         "width": 592,
@@ -355,27 +844,39 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        880,
+        -96,
         576
       ],
       "typeVersion": 1,
-      "id": "d44e282f-603b-4908-8235-63109efa1407",
-      "name": "Sticky Note7"
+      "id": "68821107-6915-4888-b89e-302e29e31a09",
+      "name": "Sticky Note14"
     },
     {
       "parameters": {
-        "operation": "pdf",
-        "binaryPropertyName": "Archivo_PDF",
+        "formTitle": "Reportar una Incidencia con un PDF",
+        "formDescription": "Formulario para reportar incidencias mediante reportes digitales en formato PDF.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Archivo PDF",
+              "fieldType": "file",
+              "acceptFileTypes": ".pdf, .PDF",
+              "requiredField": true
+            }
+          ]
+        },
         "options": {}
       },
-      "type": "n8n-nodes-base.extractFromFile",
-      "typeVersion": 1.1,
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.5,
       "position": [
-        1088,
+        -48,
         368
       ],
-      "id": "4720666a-954c-4eee-9042-774b4b769ac4",
-      "name": "Extraer texto del PDF"
+      "id": "24319865-ede5-4efe-9769-a7a967103b5c",
+      "name": "Ingesta de PDFs",
+      "webhookId": "785c498e-35ed-431a-a3ec-9a7523de8e9a",
+      "notesInFlow": false
     },
     {
       "parameters": {
@@ -396,49 +897,12 @@
       "type": "n8n-nodes-base.formTrigger",
       "typeVersion": 2.5,
       "position": [
-        928,
+        -48,
         640
       ],
-      "id": "9b2a3181-137b-4739-9620-2a6714305b8a",
+      "id": "de5aa9b7-f419-4071-bad1-90047c4ea646",
       "name": "Ingesta de imágenes",
-      "webhookId": "e0750147-8207-4278-a6f5-f649289f744f",
-      "notesInFlow": false
-    },
-    {
-      "parameters": {
-        "jsCode": "const text = $json.text;\n\nreturn [{ json: { text } }];"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        1248,
-        640
-      ],
-      "id": "f629fff7-51d5-4eac-a904-9e999934a078",
-      "name": "Extraer texto del OCR"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "fc1c60ba-48fd-48b9-9f6a-aed961e9d16f",
-              "name": "texto_limpio",
-              "value": "={{ $json.text.replace(/\\n/g, ' ') }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        1248,
-        368
-      ],
-      "id": "f005850d-f453-4afa-8bed-1f7c08aae301",
-      "name": "Limpiar texto",
+      "webhookId": "aa02092e-061f-451b-8ea1-954d4fd0f527",
       "notesInFlow": false
     },
     {
@@ -461,20 +925,269 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        1088,
+        112,
         640
       ],
-      "id": "43062bfa-6d9d-4d39-9ea8-1cfd0c86118c",
+      "id": "9886e1cf-86df-418d-8c5d-3781779e9979",
       "name": "Ejecutar OCR"
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "binaryPropertyName": "Archivo_PDF",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        112,
+        368
+      ],
+      "id": "54d2cb05-95ba-455b-b762-0a9ce1cb9441",
+      "name": "Extraer texto del PDF"
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\n\n// El LLM devuelve JSON como string dentro de \"content\"\nconst parsed = JSON.parse(item.content);\n\nreturn [\n  {\n    json: parsed\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        720,
+        368
+      ],
+      "id": "e4f18de5-fff8-46c6-aa8e-75d017d1138f",
+      "name": "Respuesta -> JSON deseado",
+      "notesInFlow": false
+    },
+    {
+      "parameters": {
+        "jsCode": "const text = $json.text;\n\nreturn [{ json: { text } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        272,
+        640
+      ],
+      "id": "91d9490a-569e-499e-b3dc-e6005eb68776",
+      "name": "Extraer texto del OCR"
     }
   ],
   "pinData": {},
   "connections": {
-    "Formulario online": {
+    "Ollama Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "buscador_manual",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Vector Store": {
       "main": [
         [
           {
-            "node": "Encuesta -> JSON deseado",
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Ollama": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Simple Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          },
+          {
+            "node": "Simple Vector Store2",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read/Write Files from Disk": {
+      "main": [
+        [
+          {
+            "node": "Simple Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Simple Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare register": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Insert rows in a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert rows in a table": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Vector Store2": {
+      "ai_vectorStore": [
+        [
+          {
+            "node": "buscador_manual",
+            "type": "ai_vectorStore",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "buscador_manual": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Prepare register",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limpiar texto": {
+      "main": [
+        [
+          {
+            "node": "Generar JSON a partir del texto1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Formulario online1": {
+      "main": [
+        [
+          {
+            "node": "Encuesta -> JSON deseado1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Read/Write Files from Disk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generar JSON a partir del texto1": {
+      "main": [
+        [
+          {
+            "node": "Respuesta -> JSON deseado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Encuesta -> JSON deseado1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
             "type": "main",
             "index": 0
           }
@@ -488,15 +1201,36 @@
             "node": "Extraer texto del PDF",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "Read/Write Files from Disk",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
     },
-    "Generar JSON a partir del texto": {
+    "Ingesta de imágenes": {
       "main": [
         [
           {
-            "node": "Respuesta -> JSON deseado",
+            "node": "Ejecutar OCR",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Read/Write Files from Disk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ejecutar OCR": {
+      "main": [
+        [
+          {
+            "node": "Extraer texto del OCR",
             "type": "main",
             "index": 0
           }
@@ -514,11 +1248,11 @@
         ]
       ]
     },
-    "Ingesta de imágenes": {
+    "Respuesta -> JSON deseado": {
       "main": [
         [
           {
-            "node": "Ejecutar OCR",
+            "node": "Code in JavaScript",
             "type": "main",
             "index": 0
           }
@@ -529,29 +1263,7 @@
       "main": [
         [
           {
-            "node": "Generar JSON a partir del texto",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Limpiar texto": {
-      "main": [
-        [
-          {
-            "node": "Generar JSON a partir del texto",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Ejecutar OCR": {
-      "main": [
-        [
-          {
-            "node": "Extraer texto del OCR",
+            "node": "Generar JSON a partir del texto1",
             "type": "main",
             "index": 0
           }
@@ -562,13 +1274,14 @@
   "active": false,
   "settings": {
     "executionOrder": "v1",
-    "binaryMode": "separate"
+    "binaryMode": "separate",
+    "availableInMCP": false
   },
-  "versionId": "87ff708f-206f-4787-8354-d093bfe8aa3b",
+  "versionId": "363c93cb-d6b6-440b-b364-375c5e5333fa",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "9f9b15948ac0cabd97d7730cb7a79cef7ff8cf9c567e668e052c4eead1ee7ffb"
   },
-  "id": "IrRxkhpOfDZe36IP",
+  "id": "UPAWvT4PJcRrUvoB",
   "tags": []
 }
