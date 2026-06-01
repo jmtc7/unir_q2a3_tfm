@@ -1,0 +1,11 @@
+{
+  "name": "opsinsight-validacion",
+  "version": "1.0.0",
+  "description": "Validación estructural y semántica de reportes de incidencia MetroPT-3 para el workflow n8n de OpsInsight",
+  "type": "module",
+  "main": "validador.js",
+  "scripts": {
+    "test": "node --test"
+  },
+  "license": "MIT"
+}
