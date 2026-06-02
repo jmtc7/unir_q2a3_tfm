@@ -184,19 +184,19 @@
             {
               "id": "f46ef8fd-78fe-4fd3-a169-c816797d0732",
               "name": "maquina",
-              "value": "={{ $('Edit Fields').item.json.maquina }}",
+              "value": "={{ $('Edit Fields (demo)').item.json.maquina }}",
               "type": "string"
             },
             {
               "id": "b40b8c98-f5be-4210-929b-2451971f9369",
               "name": "operario",
-              "value": "={{ $('Edit Fields').item.json.operario }}",
+              "value": "={{ $('Edit Fields (demo)').item.json.operario }}",
               "type": "string"
             },
             {
               "id": "6d0949aa-786d-4723-8f54-870c6660c1a4",
               "name": "descripcion",
-              "value": "={{ $('Edit Fields').item.json.descripcion }}",
+              "value": "={{ $('Edit Fields (demo)').item.json.descripcion }}",
               "type": "string"
             },
             {
@@ -208,85 +208,85 @@
             {
               "id": "28d2e364-be52-48a4-805e-d8d906709a0d",
               "name": "presiones_tp2",
-              "value": "={{ $('Edit Fields').item.json.variables.presiones.tp2 }}",
+              "value": "={{ $('Edit Fields (demo)').item.json.variables.presiones.tp2 }}",
               "type": "number"
             },
             {
               "id": "4e3baf25-1a04-48d5-b5ee-7377ae518c51",
               "name": "presiones_tp3",
-              "value": "={{ $('Edit Fields').item.json.variables.presiones.tp3 }}",
+              "value": "={{ $('Edit Fields (demo)').item.json.variables.presiones.tp3 }}",
               "type": "number"
             },
             {
               "id": "2fc4a386-63e1-4676-acb1-ad65b785d591",
               "name": "presiones_h1",
-              "value": "={{ $('Edit Fields').item.json.variables.presiones.h1 }}",
+              "value": "={{ $('Edit Fields (demo)').item.json.variables.presiones.h1 }}",
               "type": "number"
             },
             {
               "id": "35ba6c8c-6fa2-4811-ac43-b10bb7bed5f2",
               "name": "presiones_dv",
-              "value": "={{ $('Edit Fields').item.json.variables.presiones.dv }}",
+              "value": "={{ $('Edit Fields (demo)').item.json.variables.presiones.dv }}",
               "type": "number"
             },
             {
               "id": "f55c7589-f06f-458b-aabe-e9d9d69e9678",
               "name": "presiones_r",
-              "value": "={{ $('Edit Fields').item.json.variables.presiones.r }}",
+              "value": "={{ $('Edit Fields (demo)').item.json.variables.presiones.r }}",
               "type": "number"
             },
             {
               "id": "aff2bdf4-2c44-4b03-826c-ca812b7080c1",
               "name": "senales_electricas_comp",
-              "value": "={{ $('Edit Fields').item.json.variables.senales_electricas.comp }}",
+              "value": "={{ $('Edit Fields (demo)').item.json.variables.senales_electricas.comp }}",
               "type": "number"
             },
             {
               "id": "eb0ec53e-65d3-4033-a274-e4e37c0b74cb",
               "name": "senales_electricas_dv_electric",
-              "value": "={{ $('Edit Fields').item.json.variables.senales_electricas.dv_electric }}",
+              "value": "={{ $('Edit Fields (demo)').item.json.variables.senales_electricas.dv_electric }}",
               "type": "number"
             },
             {
               "id": "72a8c96c-df86-4368-a996-6713f0c0322b",
               "name": "senales_electricas_towers",
-              "value": "={{ $('Edit Fields').item.json.variables.senales_electricas.towers }}",
+              "value": "={{ $('Edit Fields (demo)').item.json.variables.senales_electricas.towers }}",
               "type": "number"
             },
             {
               "id": "919d5d03-558f-4440-acb3-c3d8a4d5e844",
               "name": "senales_electricas_mpg",
-              "value": "={{ $('Edit Fields').item.json.variables.senales_electricas.mpg }}",
+              "value": "={{ $('Edit Fields (demo)').item.json.variables.senales_electricas.mpg }}",
               "type": "number"
             },
             {
               "id": "a9a0e4eb-9160-4cc1-8d73-6522cc188fa8",
               "name": "senales_electricas_lps",
-              "value": "={{ $('Edit Fields').item.json.variables.senales_electricas.lps }}",
+              "value": "={{ $('Edit Fields (demo)').item.json.variables.senales_electricas.lps }}",
               "type": "number"
             },
             {
               "id": "eea4dd3c-0866-45c8-8db8-fc6b0890f284",
               "name": "senales_electricas_pressure_switch",
-              "value": "={{ $('Edit Fields').item.json.variables.senales_electricas.pressure_switch }}",
+              "value": "={{ $('Edit Fields (demo)').item.json.variables.senales_electricas.pressure_switch }}",
               "type": "number"
             },
             {
               "id": "26824e71-01eb-420e-a70d-244054c91b43",
               "name": "senales_electricas_oil_level",
-              "value": "={{ $('Edit Fields').item.json.variables.senales_electricas.oil_level }}",
+              "value": "={{ $('Edit Fields (demo)').item.json.variables.senales_electricas.oil_level }}",
               "type": "number"
             },
             {
               "id": "ced817a1-62ec-4231-b747-098e6c2359fc",
               "name": "corriente_motor",
-              "value": "={{ $('Edit Fields').item.json.variables.corriente_motor }}",
+              "value": "={{ $('Edit Fields (demo)').item.json.variables.corriente_motor }}",
               "type": "number"
             },
             {
               "id": "c714eb13-d61d-4950-9cb1-89acdbb599e8",
               "name": "temperatura_aceite",
-              "value": "={{ $('Edit Fields').item.json.variables.temperatura_aceite }}",
+              "value": "={{ $('Edit Fields (demo)').item.json.variables.temperatura_aceite }}",
               "type": "number"
             },
             {
@@ -1041,6 +1041,32 @@
       ],
       "id": "b77674a0-6675-4754-8e4d-0cc89f03632a",
       "name": "Reporte inválido"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -80,
+        944
+      ],
+      "id": "d88a26b8-0019-41e9-9f8e-0ea0e51c87fd",
+      "name": "When clicking 'Execute workflow'"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "{\n    \"fecha\": \"2026-05-18\",\n    \"maquina\": \"MetroPT3\",\n    \"operario\": \"José Miguel Torres Cámara\",\n    \"descripcion\": \"La máquina está funcionando bajo carga sin problema, pero hace un ruido extraño.\",\n    \"variables\": {\n        \"presiones\": {\n            \"tp2\": 12.4,\n            \"tp3\": 10.9,\n            \"h1\": 3.6,\n            \"dv\": 0,\n            \"r\": 11.1\n        },\n        \"senales_electricas\": {\n            \"comp\": 0,\n            \"dv_electric\": 1,\n            \"towers\": 1,\n            \"mpg\": 0,\n            \"lps\": 0,\n            \"pressure_switch\": 0,\n            \"oil_level\": 0\n        },\n        \"corriente_motor\": 6.8,\n        \"temperatura_aceite\": 63\n    }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1936,
+        384
+      ],
+      "id": "f434b090-befc-4f4f-93d1-98e4036ba164",
+      "name": "Edit Fields (demo)"
     }
   ],
   "pinData": {},
@@ -1207,7 +1233,7 @@
       "main": [
         [
           {
-            "node": "Validar incidencia",
+            "node": "Edit Fields (demo)",
             "type": "main",
             "index": 0
           }
@@ -1362,6 +1388,28 @@
         [
           {
             "node": "Reporte inválido",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking 'Execute workflow'": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields (demo)": {
+      "main": [
+        [
+          {
+            "node": "Validar incidencia",
             "type": "main",
             "index": 0
           }
