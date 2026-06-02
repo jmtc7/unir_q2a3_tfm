@@ -33,6 +33,8 @@ Para ingerir **formularios rellenados a mano**, utilizo otro contenedor Docker, 
 
 ### Validación del JSON
 
+<p align="center"><img src="../imgs/n8n/2_validacion.png" height="300"></p>
+
 Entre la Ingesta y el Análisis se intercala un módulo de **validación en dos capas** que actúa como *gate* de calidad. Ver [`doc/validacion.md`](validacion.md) para la especificación completa.
 
 **Capa 1 — Estructural (bloqueante)**: verifica que el JSON tiene todos los campos requeridos, los tipos correctos y rangos físicamente posibles. Si falla, el ítem se desvía al nodo *Reporte inválido* y se registra en la BD con `validacion_ok=0` sin pasar al agente.
@@ -50,6 +52,8 @@ Entre la Ingesta y el Análisis se intercala un módulo de **validación en dos 
 La lógica vive en `src/validacion/validador.js` (función pura, 19 tests con `node:test`) y se inyecta en un nodo *Code* de n8n mediante el script `src/validacion/build-n8n.js`. Esto garantiza que el código testeado y el del *workflow* nunca divergen.
 
 ### Análisis Documental
+
+<p align="center"><img src="../imgs/n8n/3_analisis.png" height="300"></p>
 
 El análisis lo realiza un **AI Agent** de n8n conectado a un LLM local (llama3.2:3b vía Ollama) y equipado con un *tool* de búsqueda vectorial (*buscador_manual*) que consulta el `manual_MetroPT3.md` indexado con embeddings `nomic-embed-text`.
 
@@ -70,6 +74,8 @@ Las incidencias se persisten en dos lugares:
 Todos los registros — tanto los válidos como los rechazados por el validador — quedan en la BD. Los rechazados tienen `validacion_ok=0` y `criticidad='ERROR'`. Los fallos de infraestructura (nodo caído, LLM sin respuesta) los captura el workflow `OpsInsight_ErrorHandler` (nodo *Error Trigger*) y los registra con `criticidad='SISTEMA_ERROR'`. Esto da **visibilidad completa** del pipeline en el dashboard.
 
 ### Dashboard
+
+<p align="center"><img src="../imgs/grafana/dashboard.png" height="350"></p>
 
 El dashboard de monitorización se implementa con **Grafana 11.4** conectado al MySQL del stack. Se aprovisiona automáticamente al arrancar el contenedor `grafana` (sin configuración manual) gracias a los ficheros en `grafana/provisioning/`.
 

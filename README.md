@@ -27,10 +27,25 @@ La arquitectura se basa en un **agente IA que ingiera reportes** de incidencias 
   <img src="imgs/arquitectura/arquitectura.drawio.png" height="200">
 </p>
 
-Todo esto se implementa en un ***workflow* n8n** que, a alto nivel, utiliza los siguientes componentes. En la carpeta [`imgs/n8n/`](imgs/n8n/) hay vistas detalladas de cada componente.
+Todo esto se implementa en un ***workflow* n8n** que, a alto nivel, utiliza los siguientes componentes:
 
 <p align="center">
   <img src="imgs/n8n/0_global.png" height="350">
+</p>
+
+Las cinco zonas del *workflow* y sus vistas detalladas:
+
+| Zona | Imagen |
+| :--- | :--- |
+| Ingesta Documental (formulario, PDF, OCR) | ![Ingesta](imgs/n8n/1_ingesta.png) |
+| Validación del JSON (estructural + semántica) | ![Validación](imgs/n8n/2_validacion.png) |
+| Análisis Documental (RAG + AI Agent) | ![Análisis](imgs/n8n/3_analisis.png) |
+| Registro de Incidencias (MySQL + CSV) | ![Registro](imgs/n8n/4_registro.png) |
+
+El dashboard de monitorización en Grafana (`localhost:3000`):
+
+<p align="center">
+  <img src="imgs/grafana/dashboard.png" height="400">
 </p>
 
 
