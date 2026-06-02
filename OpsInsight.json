@@ -3,7 +3,7 @@
   "nodes": [
     {
       "parameters": {
-        "content": "# Validación del JSON\nTODO",
+        "content": "# Validación del JSON\nEstructural + Semántica\n(src/validacion/)",
         "height": 848,
         "width": 416,
         "color": 3
@@ -821,7 +821,7 @@
         "messages": {
           "values": [
             {
-              "content": "=Eres un extractor de datos. Tu tarea es EXTRAER información del texto y devolver SOLO un JSON válido.\n\nREGLAS ESTRICTAS:\n- NO inventes información. Si un campo no aparece, deja valor vacío \"\" o -1 o false según corresponda\n- NO añadas texto explicativo ni comentarios\n- NO modifiques los nombres de los campos del JSON de ejemplo\n- NO modifiques la estructura del JSON de ejemplo\n\nEste es el JSON de ejemplo. Cambia únicamente los valores de sus campos:\n\n{\n    \"fecha\": \"\",\n    \"maquina\": \"\",\n    \"operario\": \"\",\n    \"descripcion\": \"\",\n    \"variables\":\n    {\n        \"presiones\":\n        {\n            \"tp2\": 0,\n            \"tp3\": 0,\n            \"h1\": 0,\n            \"dv\": 0,\n            \"r\": 0\n        },\n        \"senales_electricas\":\n        {\n            \"comp\": false,\n            \"dv_electric\": false,\n            \"towers\": false,\n            \"mpg\": false,\n            \"lps\": false,\n            \"pressure_switch\": false,\n            \"oil_level\": false\n        },\n        \"corriente_motor\": 0,\n        \"temperatura_aceite\": 0\n    }\n}\n\nEl texto del que debes extraer los datos es el siguiente:\n\n{{ $json.text }}"
+              "content": "=Eres un extractor de datos. Tu tarea es EXTRAER información del texto y devolver SOLO un JSON válido.\n\nREGLAS ESTRICTAS:\n- NO inventes información. Si un campo no aparece, deja valor vacío \"\" o 0 según corresponda\n- NO añadas texto explicativo, comentarios ni bloques de código (```json)\n- NO modifiques los nombres de los campos del JSON de ejemplo\n- NO modifiques la estructura del JSON de ejemplo\n- Las señales eléctricas SIEMPRE deben ser 0 (apagado/inactivo) o 1 (encendido/activo). NUNCA uses true/false\n\nEste es el JSON de ejemplo. Cambia únicamente los valores de sus campos:\n\n{\n    \"fecha\": \"\",\n    \"maquina\": \"\",\n    \"operario\": \"\",\n    \"descripcion\": \"\",\n    \"variables\":\n    {\n        \"presiones\":\n        {\n            \"tp2\": 0,\n            \"tp3\": 0,\n            \"h1\": 0,\n            \"dv\": 0,\n            \"r\": 0\n        },\n        \"senales_electricas\":\n        {\n            \"comp\": 0,\n            \"dv_electric\": 0,\n            \"towers\": 0,\n            \"mpg\": 0,\n            \"lps\": 0,\n            \"pressure_switch\": 0,\n            \"oil_level\": 0\n        },\n        \"corriente_motor\": 0,\n        \"temperatura_aceite\": 0\n    }\n}\n\nEl texto del que debes extraer los datos es el siguiente:\n\n{{ $json.text }}"
             }
           ]
         },
@@ -989,8 +989,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1680,
-        128
+        1000,
+        256
       ],
       "id": "9dd520af-3580-49d3-b704-21cdbf5234a9",
       "name": "Validar incidencia"
@@ -1023,8 +1023,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        1840,
-        128
+        1200,
+        256
       ],
       "id": "eeaa392e-e328-4cb7-95e4-66c36925cf3a",
       "name": "¿Reporte válido?"
@@ -1036,8 +1036,8 @@
       "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
       "position": [
-        1840,
-        -32
+        1200,
+        64
       ],
       "id": "b77674a0-6675-4754-8e4d-0cc89f03632a",
       "name": "Reporte inválido"
