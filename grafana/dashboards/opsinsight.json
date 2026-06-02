@@ -1,0 +1,407 @@
+{
+  "uid": "opsinsight-v1",
+  "title": "OpsInsight — Monitorización Operativa MetroPT-3",
+  "description": "Cuadro de mando para el seguimiento de incidencias industriales, validación de reportes y KPIs operativos.",
+  "tags": ["opsinsight", "tfm", "MetroPT-3"],
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "30s",
+  "annotations": { "list": [] },
+  "links": [],
+  "panels": [
+
+    {
+      "id": 1,
+      "type": "stat",
+      "title": "Total Incidencias",
+      "description": "Número total de reportes de incidencia registrados.",
+      "gridPos": { "h": 4, "w": 6, "x": 0, "y": 0 },
+      "datasource": { "type": "mysql", "uid": "opsinsight-mysql" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "fixed", "fixedColor": "blue" },
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "blue", "value": null }] },
+          "unit": "short",
+          "noValue": "0"
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "datasource": { "type": "mysql", "uid": "opsinsight-mysql" },
+          "format": "table",
+          "rawSql": "SELECT COUNT(*) AS \"Total\" FROM registro_incidencias",
+          "refId": "A"
+        }
+      ]
+    },
+
+    {
+      "id": 2,
+      "type": "stat",
+      "title": "Reportes con Validación OK",
+      "description": "Porcentaje de reportes que superaron la validación estructural.",
+      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 0 },
+      "datasource": { "type": "mysql", "uid": "opsinsight-mysql" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red",    "value": null },
+              { "color": "yellow", "value": 80   },
+              { "color": "green",  "value": 100  }
+            ]
+          },
+          "unit": "percent",
+          "min": 0,
+          "max": 100,
+          "noValue": "—"
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "datasource": { "type": "mysql", "uid": "opsinsight-mysql" },
+          "format": "table",
+          "rawSql": "SELECT ROUND(AVG(validacion_ok) * 100, 1) AS \"Validación OK %\" FROM registro_incidencias",
+          "refId": "A"
+        }
+      ]
+    },
+
+    {
+      "id": 3,
+      "type": "stat",
+      "title": "Coste Total Estimado",
+      "description": "Suma del coste estimado de todas las intervenciones registradas.",
+      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 0 },
+      "datasource": { "type": "mysql", "uid": "opsinsight-mysql" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green",  "value": null },
+              { "color": "yellow", "value": 500  },
+              { "color": "red",    "value": 1500 }
+            ]
+          },
+          "unit": "currencyEUR",
+          "noValue": "0 €"
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "datasource": { "type": "mysql", "uid": "opsinsight-mysql" },
+          "format": "table",
+          "rawSql": "SELECT COALESCE(SUM(CAST(coste_estimado AS DECIMAL(10,2))), 0) AS \"Coste Total\" FROM registro_incidencias",
+          "refId": "A"
+        }
+      ]
+    },
+
+    {
+      "id": 4,
+      "type": "stat",
+      "title": "Tiempo Medio de Reparación",
+      "description": "Media del tiempo estimado de intervención sobre todas las incidencias (MTTR).",
+      "gridPos": { "h": 4, "w": 6, "x": 18, "y": 0 },
+      "datasource": { "type": "mysql", "uid": "opsinsight-mysql" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green",  "value": null },
+              { "color": "yellow", "value": 4    },
+              { "color": "red",    "value": 8    }
+            ]
+          },
+          "unit": "h",
+          "decimals": 1,
+          "noValue": "—"
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto",
+        "text": {}
+      },
+      "targets": [
+        {
+          "datasource": { "type": "mysql", "uid": "opsinsight-mysql" },
+          "format": "table",
+          "rawSql": "SELECT ROUND(AVG(CAST(tiempo_estimado AS DECIMAL(10,1))), 1) AS \"MTTR (h)\" FROM registro_incidencias WHERE tiempo_estimado IS NOT NULL AND tiempo_estimado != ''",
+          "refId": "A"
+        }
+      ]
+    },
+
+    {
+      "id": 5,
+      "type": "barchart",
+      "title": "Distribución por Criticidad",
+      "description": "Número de incidencias agrupadas por nivel de criticidad (Alta / Media / Baja).",
+      "gridPos": { "h": 9, "w": 9, "x": 0, "y": 4 },
+      "datasource": { "type": "mysql", "uid": "opsinsight-mysql" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisBorderShow": false,
+            "axisGridShow": true,
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "lineWidth": 1
+          },
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "Alta" },
+            "properties": [{ "id": "color", "value": { "fixedColor": "red", "mode": "fixed" } }]
+          },
+          {
+            "matcher": { "id": "byName", "options": "Media" },
+            "properties": [{ "id": "color", "value": { "fixedColor": "orange", "mode": "fixed" } }]
+          },
+          {
+            "matcher": { "id": "byName", "options": "Baja" },
+            "properties": [{ "id": "color", "value": { "fixedColor": "green", "mode": "fixed" } }]
+          }
+        ]
+      },
+      "options": {
+        "barRadius": 0.05,
+        "barWidth": 0.6,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": { "displayMode": "list", "placement": "bottom", "showLegend": false },
+        "orientation": "auto",
+        "showValue": "always",
+        "stacking": "none",
+        "tooltip": { "mode": "single", "sort": "none" },
+        "xField": "criticidad",
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 100
+      },
+      "targets": [
+        {
+          "datasource": { "type": "mysql", "uid": "opsinsight-mysql" },
+          "format": "table",
+          "rawSql": "SELECT criticidad, COUNT(*) AS incidencias FROM registro_incidencias WHERE criticidad IS NOT NULL AND criticidad != '' GROUP BY criticidad ORDER BY FIELD(criticidad,'Alta','Media','Baja')",
+          "refId": "A"
+        }
+      ]
+    },
+
+    {
+      "id": 6,
+      "type": "piechart",
+      "title": "Estado de Validación",
+      "description": "Proporción de reportes que pasaron (OK) o fallaron (Error) la validación estructural.",
+      "gridPos": { "h": 9, "w": 6, "x": 9, "y": 4 },
+      "datasource": { "type": "mysql", "uid": "opsinsight-mysql" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "hideFrom": { "legend": false, "tooltip": false, "viz": false } },
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "OK" },
+            "properties": [{ "id": "color", "value": { "fixedColor": "green", "mode": "fixed" } }]
+          },
+          {
+            "matcher": { "id": "byName", "options": "Error" },
+            "properties": [{ "id": "color", "value": { "fixedColor": "red", "mode": "fixed" } }]
+          }
+        ]
+      },
+      "options": {
+        "legend": { "displayMode": "table", "placement": "bottom", "showLegend": true, "values": ["value", "percent"] },
+        "pieType": "donut",
+        "tooltip": { "mode": "single", "sort": "none" },
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "/^cantidad$/", "values": true }
+      },
+      "targets": [
+        {
+          "datasource": { "type": "mysql", "uid": "opsinsight-mysql" },
+          "format": "table",
+          "rawSql": "SELECT IF(validacion_ok = 1, 'OK', 'Error') AS estado, COUNT(*) AS cantidad FROM registro_incidencias GROUP BY validacion_ok",
+          "refId": "A"
+        }
+      ]
+    },
+
+    {
+      "id": 7,
+      "type": "barchart",
+      "title": "Alertas Semánticas Detectadas",
+      "description": "Frecuencia de cada tipo de inconsistencia semántica detectada por el validador contra el manual MetroPT-3.",
+      "gridPos": { "h": 9, "w": 9, "x": 15, "y": 4 },
+      "datasource": { "type": "mysql", "uid": "opsinsight-mysql" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "fixed", "fixedColor": "orange" },
+          "custom": {
+            "axisBorderShow": false,
+            "axisGridShow": true,
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "lineWidth": 1
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "options": {
+        "barRadius": 0.05,
+        "barWidth": 0.6,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": { "displayMode": "list", "placement": "bottom", "showLegend": false },
+        "orientation": "horizontal",
+        "showValue": "always",
+        "stacking": "none",
+        "tooltip": { "mode": "single", "sort": "none" },
+        "xField": "codigo",
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 100
+      },
+      "targets": [
+        {
+          "datasource": { "type": "mysql", "uid": "opsinsight-mysql" },
+          "format": "table",
+          "rawSql": "SELECT jt.codigo, COUNT(*) AS ocurrencias FROM registro_incidencias r, JSON_TABLE(r.alertas_validacion, '$[*]' COLUMNS (codigo VARCHAR(50) PATH '$.codigo')) AS jt WHERE r.alertas_validacion IS NOT NULL AND r.alertas_validacion != '[]' GROUP BY jt.codigo ORDER BY ocurrencias DESC LIMIT 10",
+          "refId": "A"
+        }
+      ]
+    },
+
+    {
+      "id": 8,
+      "type": "table",
+      "title": "Registro de Incidencias",
+      "description": "Listado completo de incidencias registradas con su diagnóstico y estado de validación.",
+      "gridPos": { "h": 10, "w": 24, "x": 0, "y": 13 },
+      "datasource": { "type": "mysql", "uid": "opsinsight-mysql" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "left",
+            "cellOptions": { "type": "auto" },
+            "inspect": false,
+            "minWidth": 80
+          },
+          "color": { "mode": "thresholds" },
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "text", "value": null }] }
+        },
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "criticidad" },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": { "type": "color-background", "mode": "basic" }
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  { "type": "value", "options": { "Alta":  { "color": "red",    "index": 0 } } },
+                  { "type": "value", "options": { "Media": { "color": "orange", "index": 1 } } },
+                  { "type": "value", "options": { "Baja":  { "color": "green",  "index": 2 } } }
+                ]
+              },
+              { "id": "custom.width", "value": 80 }
+            ]
+          },
+          {
+            "matcher": { "id": "byName", "options": "validacion" },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": { "type": "color-background", "mode": "basic" }
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  { "type": "value", "options": { "✓ OK":    { "color": "green", "index": 0 } } },
+                  { "type": "value", "options": { "✗ Error": { "color": "red",   "index": 1 } } }
+                ]
+              },
+              { "id": "custom.width", "value": 90 }
+            ]
+          },
+          {
+            "matcher": { "id": "byName", "options": "id" },
+            "properties": [{ "id": "custom.width", "value": 50 }]
+          },
+          {
+            "matcher": { "id": "byName", "options": "fecha" },
+            "properties": [{ "id": "custom.width", "value": 110 }]
+          },
+          {
+            "matcher": { "id": "byName", "options": "coste" },
+            "properties": [{ "id": "custom.width", "value": 90 }]
+          },
+          {
+            "matcher": { "id": "byName", "options": "tiempo" },
+            "properties": [{ "id": "custom.width", "value": 80 }]
+          }
+        ]
+      },
+      "options": {
+        "cellHeight": "sm",
+        "footer": { "countRows": false, "show": false },
+        "showHeader": true,
+        "sortBy": [{ "desc": true, "displayName": "id" }]
+      },
+      "targets": [
+        {
+          "datasource": { "type": "mysql", "uid": "opsinsight-mysql" },
+          "format": "table",
+          "rawSql": "SELECT id, LEFT(fecha, 19) AS fecha, maquina, operario, criticidad, CONCAT(tiempo_estimado, ' h') AS tiempo, CONCAT(CAST(coste_estimado AS DECIMAL(10,0)), ' €') AS coste, IF(validacion_ok = 1, '✓ OK', '✗ Error') AS validacion, LEFT(COALESCE(solucion_propuesta, ''), 120) AS diagnostico FROM registro_incidencias ORDER BY id DESC LIMIT 50",
+          "refId": "A"
+        }
+      ]
+    }
+
+  ]
+}

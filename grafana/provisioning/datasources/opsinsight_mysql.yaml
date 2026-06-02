@@ -1,0 +1,17 @@
+apiVersion: 1
+
+datasources:
+  - name: OpsInsight MySQL
+    type: mysql
+    uid: opsinsight-mysql
+    url: db:3306
+    database: opsinsight_db
+    user: admin
+    secureJsonData:
+      password: "1234"
+    jsonData:
+      maxOpenConns: 0
+      maxIdleConns: 2
+      connMaxLifetime: 14400
+    isDefault: true
+    editable: true
