@@ -76,3 +76,22 @@ Por motivos de seguridad, n8n no exporta las credenciales de conexión al export
 2. **Filtrado y Limpieza (Nodo Limit & Code):** Se asegura la recepción de un único ítem estructurado para evitar ejecuciones duplicadas en Ollama.
 3. **Agente IA Operativo:** El nodo `AI Agent` (conectado a Ollama) recibe el JSON formateado y consume el contexto del manual de la máquina para calcular automáticamente los KPIs económicos (costes por hora técnicos/externos, parada de línea) y tiempos estimados de reparación.
 4. **Persistencia (MySQL):** Los resultados del diagnóstico se guardan automáticamente en la tabla `incidencias` para alimentar el cuadro de mando.
+
+
+## Evolución y Optimización de la Arquitectura (Mejoras sobre la Versión Base)
+
+Tomando como punto de partida la versión inicial del flujo desarrollada por Jose Miguel, se detectaron ineficiencias críticas de diseño asíncrono y de concurrencia en entornos locales. El workflow original sufría del "Efecto Eco" (duplicidad de ejecuciones en la base de datos) y colapsaba el rendimiento del servidor. 
+
+A través de un rediseño centrado en la linealidad y la gestión eficiente de la memoria de n8n, se han implementado las siguientes mejoras estructurales:
+
+### 1. Desacoplamiento del Pipeline de Ingesta del RAG (Carga del Manual)
+* **Problema en la versión base:** El nodo de lectura del manual (`Read/Write Files from Disk`) compartía disparadores y flujo lineal con la entrada de incidencias. Cada vez que un operario enviaba un formulario, el sistema se veía obligado a re-leer el PDF/MD completo, re-trocearlo y recalcular miles de vectores en bucle. Esto provocaba tiempos de espera inasumibles de hasta 30 minutos por incidencia.
+* **Solución implementada:** Se ha aislado por completo la rama del RAG (Ingesta Documental). El manual de la máquina ahora se procesa e indexa de forma estática una única vez. La base de datos vectorial de n8n retiene la información de manera persistente en memoria, permitiendo que el `AI Agent` acceda al contexto en milisegundos de forma invisible, sin necesidad de cables físicos de ejecución que reinicien el flujo.
+
+### 2. Eliminación de Ejecuciones Duplicadas y Datos Residuales ("Fantasmas")
+* **Problema en la versión base:** Debido a la naturaleza iterativa del nodo `AI Agent` de LangChain (que realiza varias pasadas internas para evaluar herramientas) y a la lentitud de procesamiento de los LLMs locales (Ollama con Qwen), el nodo del agente emitía dos ítems de salida de manera asíncrona: uno con el diagnóstico real y otro residual con valores en vacío debido a las cláusulas de salvaguarda del código. Esto provocaba que toda la sección de registro (`Prepare register`, `Insert rows`, etc.) se ejecutara dos veces, inyectando filas duplicadas e inventadas en MySQL (ej. Operario No Identificado).
+* **Solución implementada:** Se ha introducido un nodo de unificación de flujos mediante una lógica de embudo lineal. Se ha garantizado que el agente de IA solo propague un único ítem limpio hacia los nodos de persistencia. Con esto se ha erradicado por completo la duplicidad de registros, asegurando que cada envío de formulario genere única y estrictamente una fila real en la base de datos.
+
+### 3. Modularidad en la Ingesta de Datos (Soporte Omnicanal Real)
+* **Problema en la versión base:** El flujo de datos adolecía de cruces de cables que mezclaban las variables de los reportes digitales (PDF) y manuscritos (OCR) con los del formulario online, confundiendo al agente de IA al recibir esquemas de datos híbridos.
+* **Solución implementada:** Se ha reorganizado el lienzo en zonas de responsabilidad independientes mediante notas adhesivas estructuradas (Formulario Online, PDF con reporte digital, Foto con reporte manuscrito). Cada canal extrae y normaliza los datos de manera aislada antes de confluir de forma limpia en el procesador JavaScript común. Esto dota al sistema de una arquitectura robusta, escalable y preparada para producción.
