@@ -412,6 +412,14 @@
             {
               "column": "coste_estimado",
               "value": "={{ $json.coste_estimado }}"
+            },
+            {
+              "column": "validacion_ok",
+              "value": "={{ $('Validar incidencia').item.json._validacion.valido ? 1 : 0 }}"
+            },
+            {
+              "column": "alertas_validacion",
+              "value": "={{ JSON.stringify($('Validar incidencia').item.json._validacion.inconsistencias) }}"
             }
           ]
         },
@@ -972,6 +980,67 @@
       ],
       "id": "91d9490a-569e-499e-b3dc-e6005eb68776",
       "name": "Extraer texto del OCR"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// ============================================================================\n// AUTOGENERADO por build-n8n.js — NO editar a mano.\n// Fuente de verdad: src/validacion/validador.js (cubierto por validador.test.js)\n// Pegar este contenido en un nodo \"Code\" de n8n (Run Once for Each Item).\n// ============================================================================\n// ===========================================================================\r\n// Validador de reportes de incidencia MetroPT-3 (OpsInsight)\r\n// ---------------------------------------------------------------------------\r\n// Función PURA, sin dependencias de n8n: recibe el JSON del reporte y devuelve\r\n// el resultado de la validación. El nodo Code de n8n solo la envuelve.\r\n//\r\n// Resultado:\r\n//   {\r\n//     valido: boolean,                 // false si hay errores estructurales\r\n//     errores: [{ campo, mensaje }],   // capa 1 - estructura/tipos/rangos\r\n//     inconsistencias: [               // capa 2 - coherencia con el manual\r\n//       { codigo, mensaje, severidad } // severidad: 'alta' | 'media' | 'baja'\r\n//     ]\r\n//   }\r\n//\r\n// Regla de diseño: si la validación ESTRUCTURAL falla, NO se evalúa la capa\r\n// semántica (no tiene sentido analizar la coherencia de datos malformados).\r\n// ===========================================================================\r\n\r\n// --- Umbrales configurables (justificados por el manual MetroPT-3) ---------\r\nconst UMBRALES = {\r\n  // Bajo carga (dv_electric=1), la presión DV debe ser ~0 bar.\r\n  DV_MAX_BAJO_CARGA: 0.5,\r\n  // R debe ser \"cercana\" a TP3. Tolerancia absoluta en bar.\r\n  R_TP3_TOLERANCIA: 1.5,\r\n  // LPS se enciende si la presión del depósito (R) cae por debajo de este valor.\r\n  PRESION_UMBRAL_LPS: 7,\r\n  // Corriente del motor: valores nominales y tolerancia para considerarla \"cercana\".\r\n  CORRIENTE_NOMINALES: [0, 4, 7, 9],\r\n  CORRIENTE_TOLERANCIA: 1.5,\r\n};\r\n\r\n// --- Esquema esperado del reporte ------------------------------------------\r\nconst PRESIONES = [\"tp2\", \"tp3\", \"h1\", \"dv\", \"r\"];\r\nconst SENALES = [\r\n  \"comp\",\r\n  \"dv_electric\",\r\n  \"towers\",\r\n  \"mpg\",\r\n  \"lps\",\r\n  \"pressure_switch\",\r\n  \"oil_level\",\r\n];\r\n\r\nconst esNumero = (v) => typeof v === \"number\" && Number.isFinite(v);\r\nconst esBinario = (v) => v === 0 || v === 1;\r\n\r\n// ---------------------------------------------------------------------------\r\n// CAPA 1 — Validación estructural\r\n// ---------------------------------------------------------------------------\r\nfunction validarEstructura(json) {\r\n  const errores = [];\r\n\r\n  if (json === null || typeof json !== \"object\" || Array.isArray(json)) {\r\n    errores.push({ campo: \"(raíz)\", mensaje: \"El reporte no es un objeto JSON válido.\" });\r\n    return errores;\r\n  }\r\n\r\n  // Campos de texto obligatorios\r\n  for (const campo of [\"fecha\", \"maquina\", \"operario\", \"descripcion\"]) {\r\n    if (typeof json[campo] !== \"string\" || json[campo].trim() === \"\") {\r\n      errores.push({ campo, mensaje: `El campo '${campo}' es obligatorio y debe ser texto no vacío.` });\r\n    }\r\n  }\r\n\r\n  // Bloque variables\r\n  const variables = json.variables;\r\n  if (variables === null || typeof variables !== \"object\" || Array.isArray(variables)) {\r\n    errores.push({ campo: \"variables\", mensaje: \"Falta el bloque 'variables' o no es un objeto.\" });\r\n    return errores; // sin variables no podemos validar lo de dentro\r\n  }\r\n\r\n  // Presiones\r\n  const presiones = variables.presiones;\r\n  if (presiones === null || typeof presiones !== \"object\" || Array.isArray(presiones)) {\r\n    errores.push({ campo: \"variables.presiones\", mensaje: \"Falta el bloque 'presiones' o no es un objeto.\" });\r\n  } else {\r\n    for (const p of PRESIONES) {\r\n      const v = presiones[p];\r\n      if (v === undefined) {\r\n        errores.push({ campo: `variables.presiones.${p}`, mensaje: `Falta la presión '${p}'.` });\r\n      } else if (!esNumero(v)) {\r\n        errores.push({ campo: `variables.presiones.${p}`, mensaje: `La presión '${p}' debe ser numérica.` });\r\n      } else if (v < 0) {\r\n        errores.push({ campo: `variables.presiones.${p}`, mensaje: `La presión '${p}' no puede ser negativa.` });\r\n      }\r\n    }\r\n  }\r\n\r\n  // Señales eléctricas\r\n  const senales = variables.senales_electricas;\r\n  if (senales === null || typeof senales !== \"object\" || Array.isArray(senales)) {\r\n    errores.push({ campo: \"variables.senales_electricas\", mensaje: \"Falta el bloque 'senales_electricas' o no es un objeto.\" });\r\n  } else {\r\n    for (const s of SENALES) {\r\n      const v = senales[s];\r\n      if (v === undefined) {\r\n        errores.push({ campo: `variables.senales_electricas.${s}`, mensaje: `Falta la señal '${s}'.` });\r\n      } else if (!esBinario(v)) {\r\n        errores.push({ campo: `variables.senales_electricas.${s}`, mensaje: `La señal '${s}' debe ser binaria (0 o 1).` });\r\n      }\r\n    }\r\n  }\r\n\r\n  // Corriente del motor\r\n  if (!esNumero(variables.corriente_motor)) {\r\n    errores.push({ campo: \"variables.corriente_motor\", mensaje: \"La corriente del motor debe ser numérica.\" });\r\n  } else if (variables.corriente_motor < 0) {\r\n    errores.push({ campo: \"variables.corriente_motor\", mensaje: \"La corriente del motor no puede ser negativa.\" });\r\n  }\r\n\r\n  // Temperatura del aceite\r\n  if (!esNumero(variables.temperatura_aceite)) {\r\n    errores.push({ campo: \"variables.temperatura_aceite\", mensaje: \"La temperatura del aceite debe ser numérica.\" });\r\n  }\r\n\r\n  return errores;\r\n}\r\n\r\n// ---------------------------------------------------------------------------\r\n// CAPA 2 — Validación semántica (coherencia con el manual)\r\n// ---------------------------------------------------------------------------\r\nfunction validarSemantica(json) {\r\n  const inconsistencias = [];\r\n  const { presiones, senales_electricas: s, corriente_motor } = json.variables;\r\n\r\n  // R1 — COMP (sin carga) y DV_Electric (bajo carga) no pueden estar ambas activas.\r\n  if (s.comp === 1 && s.dv_electric === 1) {\r\n    inconsistencias.push({\r\n      codigo: \"COMP_DV_ELECTRIC\",\r\n      mensaje: \"COMP (compresor sin carga/apagado) y DV_Electric (compresor bajo carga) están ambas activas; son estados mutuamente excluyentes.\",\r\n      severidad: \"media\",\r\n    });\r\n  }\r\n\r\n  // R2 — Bajo carga (dv_electric=1), la presión DV debe ser ~0 bar.\r\n  if (s.dv_electric === 1 && presiones.dv > UMBRALES.DV_MAX_BAJO_CARGA) {\r\n    inconsistencias.push({\r\n      codigo: \"DV_BAJO_CARGA\",\r\n      mensaje: `El compresor opera bajo carga (DV_Electric=1) pero la presión DV es ${presiones.dv} bar (debería ser ~0).`,\r\n      severidad: \"media\",\r\n    });\r\n  }\r\n\r\n  // R3 — R debe ser cercana a TP3 (presión del panel neumático).\r\n  if (Math.abs(presiones.r - presiones.tp3) > UMBRALES.R_TP3_TOLERANCIA) {\r\n    inconsistencias.push({\r\n      codigo: \"R_LEJOS_TP3\",\r\n      mensaje: `La presión del depósito R (${presiones.r} bar) difiere de TP3 (${presiones.tp3} bar) más de lo esperado; posible fuga o lectura errónea.`,\r\n      severidad: \"alta\",\r\n    });\r\n  }\r\n\r\n  // R4 — LPS coherente con la presión del depósito: LPS=1 ⟺ R < 7 bar.\r\n  const presionBaja = presiones.r < UMBRALES.PRESION_UMBRAL_LPS;\r\n  if (s.lps === 1 && !presionBaja) {\r\n    inconsistencias.push({\r\n      codigo: \"LPS_INCOHERENTE\",\r\n      mensaje: `LPS está encendida pero la presión R (${presiones.r} bar) no es inferior a ${UMBRALES.PRESION_UMBRAL_LPS} bar.`,\r\n      severidad: \"media\",\r\n    });\r\n  } else if (s.lps === 0 && presionBaja) {\r\n    inconsistencias.push({\r\n      codigo: \"LPS_INCOHERENTE\",\r\n      mensaje: `La presión R (${presiones.r} bar) es inferior a ${UMBRALES.PRESION_UMBRAL_LPS} bar pero LPS está apagada.`,\r\n      severidad: \"media\",\r\n    });\r\n  }\r\n\r\n  // R5 — Corriente del motor cercana a algún valor nominal {0,4,7,9}A.\r\n  const distancia = Math.min(\r\n    ...UMBRALES.CORRIENTE_NOMINALES.map((n) => Math.abs(corriente_motor - n))\r\n  );\r\n  if (distancia > UMBRALES.CORRIENTE_TOLERANCIA) {\r\n    inconsistencias.push({\r\n      codigo: \"CORRIENTE_FUERA_RANGO\",\r\n      mensaje: `La corriente del motor (${corriente_motor} A) está lejos de los valores nominales (0/4/7/9 A).`,\r\n      severidad: \"baja\",\r\n    });\r\n  }\r\n\r\n  return inconsistencias;\r\n}\r\n\r\n// ---------------------------------------------------------------------------\r\n// API pública\r\n// ---------------------------------------------------------------------------\r\nfunction validarIncidencia(json) {\r\n  const errores = validarEstructura(json);\r\n  if (errores.length > 0) {\r\n    return { valido: false, errores, inconsistencias: [] };\r\n  }\r\n  const inconsistencias = validarSemantica(json);\r\n  return { valido: true, errores: [], inconsistencias };\r\n}\r\n\n// ===========================================================================\n// Wrapper n8n — modo \"Run Once for Each Item\".\n// El reporte de incidencia llega en $json (igual que en el resto del workflow).\n// Devuelve el reporte intacto + el resultado de la validación en _validacion,\n// para que un nodo IF posterior pueda ramificar según _validacion.valido.\n// ===========================================================================\nconst _resultado = validarIncidencia($json);\nreturn {\n  ...$json,\n  _validacion: _resultado,\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1680,
+        128
+      ],
+      "id": "9dd520af-3580-49d3-b704-21cdbf5234a9",
+      "name": "Validar incidencia"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "11aae295-897a-4076-87ad-d0701952372d",
+              "leftValue": "={{ $json._validacion.valido }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1840,
+        128
+      ],
+      "id": "eeaa392e-e328-4cb7-95e4-66c36925cf3a",
+      "name": "¿Reporte válido?"
+    },
+    {
+      "parameters": {
+        "errorMessage": "=Reporte inválido — {{ $json._validacion.errores.map(e => e.campo + \": \" + e.mensaje).join(\" | \") }}"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        1840,
+        -32
+      ],
+      "id": "b77674a0-6675-4754-8e4d-0cc89f03632a",
+      "name": "Reporte inválido"
     }
   ],
   "pinData": {},
@@ -1138,7 +1207,7 @@
       "main": [
         [
           {
-            "node": "Code in JavaScript",
+            "node": "Validar incidencia",
             "type": "main",
             "index": 0
           }
@@ -1187,7 +1256,7 @@
       "main": [
         [
           {
-            "node": "Code in JavaScript",
+            "node": "Validar incidencia",
             "type": "main",
             "index": 0
           }
@@ -1252,7 +1321,7 @@
       "main": [
         [
           {
-            "node": "Code in JavaScript",
+            "node": "Validar incidencia",
             "type": "main",
             "index": 0
           }
@@ -1264,6 +1333,35 @@
         [
           {
             "node": "Generar JSON a partir del texto1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validar incidencia": {
+      "main": [
+        [
+          {
+            "node": "¿Reporte válido?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Reporte válido?": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Reporte inválido",
             "type": "main",
             "index": 0
           }
