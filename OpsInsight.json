@@ -821,7 +821,7 @@
         "messages": {
           "values": [
             {
-              "content": "=Eres un extractor de datos. Tu tarea es EXTRAER información del texto y devolver SOLO un JSON válido.\n\nREGLAS ESTRICTAS:\n- NO inventes información. Si un campo no aparece, deja valor vacío \"\" o 0 según corresponda\n- NO añadas texto explicativo, comentarios ni bloques de código (```json)\n- NO modifiques los nombres de los campos del JSON de ejemplo\n- NO modifiques la estructura del JSON de ejemplo\n- Las señales eléctricas SIEMPRE deben ser 0 (apagado/inactivo) o 1 (encendido/activo). NUNCA uses true/false\n\nEste es el JSON de ejemplo. Cambia únicamente los valores de sus campos:\n\n{\n    \"fecha\": \"\",\n    \"maquina\": \"\",\n    \"operario\": \"\",\n    \"descripcion\": \"\",\n    \"variables\":\n    {\n        \"presiones\":\n        {\n            \"tp2\": 0,\n            \"tp3\": 0,\n            \"h1\": 0,\n            \"dv\": 0,\n            \"r\": 0\n        },\n        \"senales_electricas\":\n        {\n            \"comp\": 0,\n            \"dv_electric\": 0,\n            \"towers\": 0,\n            \"mpg\": 0,\n            \"lps\": 0,\n            \"pressure_switch\": 0,\n            \"oil_level\": 0\n        },\n        \"corriente_motor\": 0,\n        \"temperatura_aceite\": 0\n    }\n}\n\nEl texto del que debes extraer los datos es el siguiente:\n\n{{ $json.text }}"
+              "content": "=RESPONDE ÚNICAMENTE CON EL JSON. NADA MÁS. NI SALUDOS NI EXPLICACIONES.\n\nEres un extractor de datos. Tu tarea es EXTRAER información del texto y devolver SOLO un JSON válido.\n\nREGLAS ESTRICTAS:\n- NO inventes información. Si un campo no aparece, deja valor vacío \"\" o 0 según corresponda\n- NO añadas texto explicativo, comentarios ni bloques de código (```json)\n- NO modifiques los nombres de los campos del JSON de ejemplo\n- NO modifiques la estructura del JSON de ejemplo\n- Las señales eléctricas SIEMPRE deben ser 0 (apagado/inactivo) o 1 (encendido/activo). NUNCA uses true/false\n\nEste es el JSON de ejemplo. Cambia únicamente los valores de sus campos:\n\n{\n    \"fecha\": \"\",\n    \"maquina\": \"\",\n    \"operario\": \"\",\n    \"descripcion\": \"\",\n    \"variables\":\n    {\n        \"presiones\":\n        {\n            \"tp2\": 0,\n            \"tp3\": 0,\n            \"h1\": 0,\n            \"dv\": 0,\n            \"r\": 0\n        },\n        \"senales_electricas\":\n        {\n            \"comp\": 0,\n            \"dv_electric\": 0,\n            \"towers\": 0,\n            \"mpg\": 0,\n            \"lps\": 0,\n            \"pressure_switch\": 0,\n            \"oil_level\": 0\n        },\n        \"corriente_motor\": 0,\n        \"temperatura_aceite\": 0\n    }\n}\n\nEl texto del que debes extraer los datos es el siguiente:\n\n{{ $json.text }}"
             }
           ]
         },
@@ -956,7 +956,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const item = $input.first().json;\n\n// El LLM devuelve JSON como string dentro de \"content\"\nconst parsed = JSON.parse(item.content);\n\nreturn [\n  {\n    json: parsed\n  }\n];"
+        "jsCode": "const item = $input.first().json;\nconst raw = item.content || '';\n\n// Extraer el bloque JSON aunque el LLM haya añadido texto conversacional\nconst match = raw.match(/\\{[\\s\\S]*\\}/);\nif (!match) {\n  throw new Error('El LLM no devolvió JSON válido. Respuesta: ' + raw.substring(0, 200));\n}\n\nconst parsed = JSON.parse(match[0]);\nreturn [{ json: parsed }];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
