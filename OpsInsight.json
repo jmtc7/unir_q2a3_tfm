@@ -652,7 +652,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Simplificar acceso al JSON (siempre habrá un único item)\nconst item = $input.first().json;\n\n// Función para convertir de checkboxes a booleanos\nfunction checkboxToBool(value)\n{\n  // [] => false, [\"\"] => true\n  if (Array.isArray(value))\n  {\n    return value.length > 0;\n  }\n  \n  return Boolean(value);\n}\n\n// Construir salida\nreturn {\n  \"fecha\": item[\"Fecha\"],\n  \"maquina\": item[\"Máquina problemática\"],\n  \"operario\": item[\"Nombre del operario\"],\n  \"descripcion\": item[\"Descripción del problema\"],\n\n  \"variables\": {\n    \"presiones\": {\n      \"tp2\": item[\"Presión del compresor (TP2)\"],\n      \"tp3\": item[\"Presión del panel neumático (TP3)\"],\n      \"h1\": item[\"Presión al descargar el filtro ciclónico (H1)\"],\n      \"dv\": item[\"Presión al descargar los secadores (DV)\"],\n      \"r\": item[\"Presión del depósito de aire (R)\"],\n    },\n\n    \"senales_electricas\": {\n      \"comp\": checkboxToBool(item[\"COMP\"]),\n      \"dv_electric\": checkboxToBool(item[\"DV Electric\"]),\n      \"towers\": checkboxToBool(item[\"TOWERS\"]),\n      \"mpg\": checkboxToBool(item[\"MPG\"]),\n      \"lps\": checkboxToBool(item[\"LPS\"]),\n      \"pressure_switch\": checkboxToBool(item[\"Pressure Switch\"]),\n      \"oil_level\": checkboxToBool(item[\"Oil Level\"]),\n    },\n\n    \"corriente_motor\": item[\"Corriente del motor (A)\"],\n    \"temperatura_aceite\": item[\"Temperatura del aceite (ºC)\"],\n  }\n};\n"
+        "jsCode": "// Simplificar acceso al JSON (siempre habrá un único item)\nconst item = $input.first().json;\n\n// Función para convertir de checkboxes a booleanos\nfunction checkboxToBool(value)\n{\n  // [] => false, [\"\"] => true\n  if (Array.isArray(value))\n  {\n    return value.length > 0 ? 1 : 0;\n  }\n  \n  return value ? 1 : 0;\n}\n\n// Construir salida\nreturn {\n  \"fecha\": item[\"Fecha\"],\n  \"maquina\": item[\"Máquina problemática\"],\n  \"operario\": item[\"Nombre del operario\"],\n  \"descripcion\": item[\"Descripción del problema\"],\n\n  \"variables\": {\n    \"presiones\": {\n      \"tp2\": item[\"Presión del compresor (TP2)\"],\n      \"tp3\": item[\"Presión del panel neumático (TP3)\"],\n      \"h1\": item[\"Presión al descargar el filtro ciclónico (H1)\"],\n      \"dv\": item[\"Presión al descargar los secadores (DV)\"],\n      \"r\": item[\"Presión del depósito de aire (R)\"],\n    },\n\n    \"senales_electricas\": {\n      \"comp\": checkboxToBool(item[\"COMP\"]),\n      \"dv_electric\": checkboxToBool(item[\"DV Electric\"]),\n      \"towers\": checkboxToBool(item[\"TOWERS\"]),\n      \"mpg\": checkboxToBool(item[\"MPG\"]),\n      \"lps\": checkboxToBool(item[\"LPS\"]),\n      \"pressure_switch\": checkboxToBool(item[\"Pressure Switch\"]),\n      \"oil_level\": checkboxToBool(item[\"Oil Level\"]),\n    },\n\n    \"corriente_motor\": item[\"Corriente del motor (A)\"],\n    \"temperatura_aceite\": item[\"Temperatura del aceite (ºC)\"],\n  }\n};\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -1031,10 +1031,75 @@
     },
     {
       "parameters": {
-        "errorMessage": "=Reporte inválido — {{ $json._validacion.errores.map(e => e.campo + \": \" + e.mensaje).join(\" | \") }}"
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f18d7c51-51e1-4bb3-ac68-f6dd28c86a9c",
+              "name": "fecha",
+              "value": "={{ $now.toISO() }}",
+              "type": "string"
+            },
+            {
+              "id": "9265082f-e5e3-490b-b106-9eec80ec9c31",
+              "name": "maquina",
+              "value": "={{ $json.maquina ?? 'desconocida' }}",
+              "type": "string"
+            },
+            {
+              "id": "bc022fd8-2f35-444d-a319-c2f6c3ced767",
+              "name": "operario",
+              "value": "={{ $json.operario ?? 'desconocido' }}",
+              "type": "string"
+            },
+            {
+              "id": "4633f6bf-bc80-4a83-917f-7097e078b4d0",
+              "name": "descripcion",
+              "value": "={{ $json.descripcion ?? 'reporte inválido' }}",
+              "type": "string"
+            },
+            {
+              "id": "e160505e-087a-40b1-900f-f79cd983a52d",
+              "name": "solucion_propuesta",
+              "value": "=REPORTE INVÁLIDO: {{ $json._validacion.errores.map(e => e.campo + ': ' + e.mensaje).join(' | ') }}",
+              "type": "string"
+            },
+            {
+              "id": "4b6c8737-da26-4ae2-aa9e-cf9e4245b66f",
+              "name": "criticidad",
+              "value": "ERROR",
+              "type": "string"
+            },
+            {
+              "id": "8139b139-bcf3-49b7-9e90-2cf1e2cb111b",
+              "name": "tiempo_estimado",
+              "value": "0",
+              "type": "string"
+            },
+            {
+              "id": "166cf011-5a70-4c88-bfbf-bee311b1685f",
+              "name": "coste_estimado",
+              "value": "0",
+              "type": "string"
+            },
+            {
+              "id": "8d7bbe1e-e65d-4bc0-be69-445385b10c83",
+              "name": "validacion_ok",
+              "value": "=0",
+              "type": "number"
+            },
+            {
+              "id": "e9f0377d-7077-45e4-8a6a-4d6ac119927e",
+              "name": "alertas_validacion",
+              "value": "={{ JSON.stringify($json._validacion.errores) }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
       },
-      "type": "n8n-nodes-base.stopAndError",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
       "position": [
         1200,
         64
@@ -1067,6 +1132,76 @@
       ],
       "id": "f434b090-befc-4f4f-93d1-98e4036ba164",
       "name": "Edit Fields (demo)"
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "registro_incidencias",
+          "mode": "list",
+          "cachedResultName": "registro_incidencias"
+        },
+        "dataMode": "defineBelow",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "fecha",
+              "value": "={{ $json.fecha }}"
+            },
+            {
+              "column": "maquina",
+              "value": "={{ $json.maquina }}"
+            },
+            {
+              "column": "operario",
+              "value": "={{ $json.operario }}"
+            },
+            {
+              "column": "descripcion",
+              "value": "={{ $json.descripcion }}"
+            },
+            {
+              "column": "solucion_propuesta",
+              "value": "={{ $json.solucion_propuesta }}"
+            },
+            {
+              "column": "criticidad",
+              "value": "={{ $json.criticidad }}"
+            },
+            {
+              "column": "tiempo_estimado",
+              "value": "={{ $json.tiempo_estimado }}"
+            },
+            {
+              "column": "coste_estimado",
+              "value": "={{ $json.coste_estimado }}"
+            },
+            {
+              "column": "validacion_ok",
+              "value": "={{ $json.validacion_ok }}"
+            },
+            {
+              "column": "alertas_validacion",
+              "value": "={{ $json.alertas_validacion }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        1392,
+        64
+      ],
+      "id": "66818d16-d426-4d93-9612-e28b146c06bf",
+      "name": "Registrar error validacion",
+      "credentials": {
+        "mySql": {
+          "id": "3bzeFNf7VC4wHLoy",
+          "name": "MySQL account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -1410,6 +1545,17 @@
         [
           {
             "node": "Validar incidencia",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reporte inválido": {
+      "main": [
+        [
+          {
+            "node": "Registrar error validacion",
             "type": "main",
             "index": 0
           }
