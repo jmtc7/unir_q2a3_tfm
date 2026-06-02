@@ -12,6 +12,37 @@
   "panels": [
 
     {
+      "id": 9,
+      "type": "stat",
+      "title": "Errores de Sistema",
+      "description": "Fallos en nodos de infraestructura (LLM, OCR, AI Agent, MySQL) capturados por el error handler global.",
+      "gridPos": { "h": 2, "w": 24, "x": 0, "y": -2 },
+      "datasource": { "type": "mysql", "uid": "opsinsight-mysql" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }, { "color": "red", "value": 1 }] },
+          "unit": "short", "noValue": "0"
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "background", "graphMode": "none", "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "datasource": { "type": "mysql", "uid": "opsinsight-mysql" },
+          "format": "table",
+          "rawSql": "SELECT COUNT(*) AS \"Errores de sistema\" FROM registro_incidencias WHERE criticidad = 'SISTEMA_ERROR'",
+          "refId": "A"
+        }
+      ]
+    },
+
+    {
       "id": 1,
       "type": "stat",
       "title": "Total Incidencias",
@@ -344,9 +375,11 @@
               {
                 "id": "mappings",
                 "value": [
-                  { "type": "value", "options": { "Alta":  { "color": "red",    "index": 0 } } },
-                  { "type": "value", "options": { "Media": { "color": "orange", "index": 1 } } },
-                  { "type": "value", "options": { "Baja":  { "color": "green",  "index": 2 } } }
+                  { "type": "value", "options": { "Alta":          { "color": "red",    "index": 0 } } },
+                  { "type": "value", "options": { "Media":         { "color": "orange", "index": 1 } } },
+                  { "type": "value", "options": { "Baja":          { "color": "green",  "index": 2 } } },
+                  { "type": "value", "options": { "ERROR":         { "color": "dark-red",   "index": 3 } } },
+                  { "type": "value", "options": { "SISTEMA_ERROR": { "color": "purple",     "index": 4 } } }
                 ]
               },
               { "id": "custom.width", "value": 80 }
