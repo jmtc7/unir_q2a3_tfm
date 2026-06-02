@@ -1567,7 +1567,8 @@
   "settings": {
     "executionOrder": "v1",
     "binaryMode": "separate",
-    "availableInMCP": false
+    "availableInMCP": false,
+    "errorWorkflow": "OpsInsightErrHandler"
   },
   "versionId": "363c93cb-d6b6-440b-b364-375c5e5333fa",
   "meta": {

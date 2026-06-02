@@ -1,0 +1,193 @@
+{
+  "id": "OpsInsightErrHandler",
+  "name": "OpsInsight_ErrorHandler",
+  "nodes": [
+    {
+      "id": "ddaf2cd2-8e56-4cc2-9d3d-63380aa469e4",
+      "name": "Error Trigger",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        200
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "13ba424b-3868-44a9-ae5a-d11e564643c0",
+      "name": "Preparar registro de error",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        240,
+        200
+      ],
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "216bcd4e-63bf-444a-89ee-7bbf3763a051",
+              "name": "fecha",
+              "value": "={{ $now.toISO() }}",
+              "type": "string"
+            },
+            {
+              "id": "bdf63f3e-2410-48e2-9a61-7a56503d4e76",
+              "name": "maquina",
+              "value": "={{ $json.workflow?.name ?? 'OpsInsight' }}",
+              "type": "string"
+            },
+            {
+              "id": "f6e4d3e9-f61e-41e0-ac05-a3bf5096babd",
+              "name": "operario",
+              "value": "=SISTEMA",
+              "type": "string"
+            },
+            {
+              "id": "61b0c05b-f687-43e9-9cc4-e0391f025734",
+              "name": "descripcion",
+              "value": "=Error en nodo: {{ $json.execution?.lastNodeExecuted ?? 'desconocido' }}",
+              "type": "string"
+            },
+            {
+              "id": "8c5942cc-d3ff-49d7-98f5-2e8c0b085e48",
+              "name": "solucion_propuesta",
+              "value": "={{ $json.error?.message ?? 'Error desconocido' }}",
+              "type": "string"
+            },
+            {
+              "id": "aed58b93-fbb0-42f6-9176-ad7585404957",
+              "name": "criticidad",
+              "value": "=SISTEMA_ERROR",
+              "type": "string"
+            },
+            {
+              "id": "20f2e3a5-2dfd-43db-8c98-bf940ac8a5bf",
+              "name": "tiempo_estimado",
+              "value": "=0",
+              "type": "string"
+            },
+            {
+              "id": "2c2b6949-8a27-43bc-b66a-8d249ae03ec2",
+              "name": "coste_estimado",
+              "value": "=0",
+              "type": "string"
+            },
+            {
+              "id": "6bce4de5-99e9-4d06-9232-0bb4704d9a25",
+              "name": "validacion_ok",
+              "value": "=0",
+              "type": "number"
+            },
+            {
+              "id": "36388d62-7326-485d-8506-ba0d021a9ac5",
+              "name": "alertas_validacion",
+              "value": "={{ JSON.stringify({ nodo: $json.execution?.lastNodeExecuted, error: $json.error?.message, stack: $json.error?.stack?.split('\\n')[0] }) }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "a5ab3996-38b6-487d-bd88-3b025e427bf5",
+      "name": "Registrar en MySQL",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        480,
+        200
+      ],
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "registro_incidencias",
+          "mode": "list",
+          "cachedResultName": "registro_incidencias"
+        },
+        "dataMode": "defineBelow",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "fecha",
+              "value": "={{ $json.fecha }}"
+            },
+            {
+              "column": "maquina",
+              "value": "={{ $json.maquina }}"
+            },
+            {
+              "column": "operario",
+              "value": "={{ $json.operario }}"
+            },
+            {
+              "column": "descripcion",
+              "value": "={{ $json.descripcion }}"
+            },
+            {
+              "column": "solucion_propuesta",
+              "value": "={{ $json.solucion_propuesta }}"
+            },
+            {
+              "column": "criticidad",
+              "value": "={{ $json.criticidad }}"
+            },
+            {
+              "column": "tiempo_estimado",
+              "value": "={{ $json.tiempo_estimado }}"
+            },
+            {
+              "column": "coste_estimado",
+              "value": "={{ $json.coste_estimado }}"
+            },
+            {
+              "column": "validacion_ok",
+              "value": "={{ $json.validacion_ok }}"
+            },
+            {
+              "column": "alertas_validacion",
+              "value": "={{ $json.alertas_validacion }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "credentials": {
+        "mySql": {
+          "id": "3bzeFNf7VC4wHLoy",
+          "name": "MySQL account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Preparar registro de error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar registro de error": {
+      "main": [
+        [
+          {
+            "node": "Registrar en MySQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "active": true
+}
