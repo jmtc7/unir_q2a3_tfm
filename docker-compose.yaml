@@ -30,6 +30,7 @@ services:
     container_name: ocr
     ports:
       - "8001:8000"
+    restart: unless-stopped
 
   n8n:
     image: docker.n8n.io/n8nio/n8n
