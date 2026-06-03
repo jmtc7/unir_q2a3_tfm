@@ -35,7 +35,7 @@ Todo esto se implementa en un ***workflow* n8n** que, a alto nivel, utiliza los 
 
 ## Guía de Instalación y Uso
 ### Prerrequisitos
-Como **prerrequisitos**, se asume que ya se dispone de una **instalación funcional de [Docker Desktop](https://www.docker.com/products/docker-desktop/)**.
+Como **prerrequisitos**, se asume que ya se dispone de una **instalación funcional de [Docker Desktop](https://www.docker.com/products/docker-desktop/)** así como **conocimientos básicos** de n8n y uso de Docker.
 
 
 ### Instalación (con Docker)
@@ -43,14 +43,68 @@ El *workflow* está automatizado con [n8n](https://n8n.io), desde donde se utili
 - Crea un **contenedor `ollama`** que abrirá un **servicio** en [ollama:11434](http://ollama:11434). Este se basa en la **imagen** [ollama/ollama](https://hub.docker.com/r/ollama/ollama). También se crea un **volumen de datos** persistente llamado `ollama` que se aloja en `/root/.ollama`.
 - Crea un **contenedor `n8n`**, con **servicio** en [localhost:5678](http://localhost:5678), basado en la **imagen** [n8nio/n8n](https://hub.docker.com/r/n8nio/n8n) y que usa el **volumen** `n8n_data` (alojado en `/home/node/.n8n`). También se configuran varias **variables de entorno**, incluyendo el uso de la zona horaria `Europe/Madrid`. Finalmente, se le declara como **dependiente** del contenedor `ollama` para que puedan comunicarse.
 
-> **Instalación alternativa**: La instalación con Docker Compose es fuertemente recomendada por su simplicidad, reproducibilidad y manejo automático de redes Docker y volúmenes de datos. Sin embargo, si por cualquier motivo NO quieres utilizar Docker Compose, puedes seguir el [tutorial de instalación alternativo](doc/instalacion_alternativa.md).
-
 Para **crear estos contenedores** y ejecutarlos, debes utilizar `docker compose up -d` (`-d` es para que los contenedores se ejecuten en segundo plano). Una vez creados, podrás detenerlos y volverlos a lanzar con `docker stop [contenedor]` y `docker start [contenedor]`.
 
 Una vez creados, es necesario **descargar el LLM** a utilizar. Por defecto, el *workflow* utiliza QWen2.5:3b y nomic-embed-text, que se descargan ejecutando `docker exec -it ollama ollama pull qwen2.5:3b` y `docker exec -it ollama ollama pull nomic-embed-text:latest`, respectivamente. Puedes ver la lista de modelos instalados en el contenedor `ollama` ejecutando `docker exec -it ollama ollama list`.
 
+Por motivos de seguridad, n8n no exporta las credenciales de conexión al exportar el *workflow* en JSON, por lo que es necesario **configurar manualmente la credencial** del nodo de **MySQL** `Insert rows in a table` con los siguientes parámetros:
+- **Host**: `mysql_db` *(Nombre del servicio del contenedor Docker, NO localhost)*
+- **Database**: `opsinsight_db`
+- **User**: `admin`
+- **Password**: `1234`
+- **Port**: `3306`
 
-### *Troubleshooting*
+Por último, debes crear la tabla **entrando al contenedor docker**, desde una **sesión MySQL**:
+
+```bash
+docker exec -it mysql_db bash       # Entrar al contenedor "mysql_db"
+mysql --user=admin --password=1234  # Conectarte a MySQL
+```
+
+A continuación, **escoge la BBDD** con la que trabajar y **crea la tabla** con:
+
+```JavaScript
+USE opsinsight_db;
+
+CREATE TABLE registro_incidencias (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    fecha DATETIME,
+    maquina VARCHAR(50),
+    descripcion TEXT,
+    solucion_propuesta TEXT,
+    presion_tp2 FLOAT,
+    presion_tp3 FLOAT,
+    nivel_h1 FLOAT,
+    criticidad VARCHAR(20),
+    operario VARCHAR(100),
+    tiempo_estimado INT,
+    coste_estimado FLOAT
+);
+```
+
+
+### Cómo utilizarlo
+Tal y como se ha mencionado, `n8n` se levanta en [localhost:5678](http://localhost:5678), por lo que para utilizar el sistema, basta con:
+1. Acceder a n8n abriendo [localhost:5678](http://localhost:5678) desde un navegador.
+2. Crear un nuevo *workflow* e importar [`OpsInsight.json`](OpsInsight.json).
+3. Lanzar el proceso con cualquiera de los *triggers* del bloque *Ingesta Documental* (encuesta, PDF o imagen).
+
+---
+
+## *Troubleshooting*
+Para **verificar que la base de datos funciona bien**, tras lanzar el contenedor, puedes entrar en él y verificar la existencia de las BBDD usadas desde n8n ejecutando lo siguiente:
+
+```bash
+docker exec -it mysql_db bash       # Entrar al contenedor "mysql_db"
+mysql --user=admin --password=1234  # Conectarte a MySQL
+```
+
+```JavaScript
+SHOW DATABASES;     // Ver la lista de BBDD ("opsinsight_db" debe aparecer)
+USE opsinsight_db;  // Indicar que se quiere usar la BBDD "opsinsight_db"
+SHOW TABLES;        // Mostrar las tablas existentes ("registro_incidencias" debe aparecer)
+```
+
 Si en algún momento algo falla, prueba a **reconstruir la imagen sin utilizar cache** con:
 
 ```bash
@@ -58,40 +112,3 @@ docker compose down
 docker compose build --no-cache
 docker compose up -d
 ```
-## Guía de Despliegue y Configuración Técnica (n8n + Base de Datos)
-
-Hemos integrado con éxito la capa de **Ingesta Documental y OCR** con el **Agente Inteligente de Diagnóstico Técnico** utilizando n8n y Ollama de forma local.
-
-### Configuración Obligatoria de Credenciales (Base de Datos)
-Por motivos de seguridad, n8n no exporta las credenciales de conexión al exportar el flujo en formato JSON. Al importar el workflow en vuestro entorno local, se debe configurar manualmente el nodo de **MySQL** (`Insert rows in a table`) creando una nueva credencial con los siguientes parámetros del entorno:
-
-* **Host:** `mysql_db` *(Es crucial usar el nombre del servicio del contenedor Docker, NO localhost)*
-* **Database:** `opsinsight_db`
-* **User:** `admin`
-* **Password:** `1234`
-* **Port:** `3306`
-
-### Estructura del Flujo de Trabajo Integrado
-1. **Ingesta y Extracción:** Los formularios (PDF/Imagen) son procesados por el servicio OCR, estructurándolos en variables JSON nativas de la máquina (`tp2`, `tp3`, `corriente_motor`, `temperatura_aceite`, etc.).
-2. **Filtrado y Limpieza (Nodo Limit & Code):** Se asegura la recepción de un único ítem estructurado para evitar ejecuciones duplicadas en Ollama.
-3. **Agente IA Operativo:** El nodo `AI Agent` (conectado a Ollama) recibe el JSON formateado y consume el contexto del manual de la máquina para calcular automáticamente los KPIs económicos (costes por hora técnicos/externos, parada de línea) y tiempos estimados de reparación.
-4. **Persistencia (MySQL):** Los resultados del diagnóstico se guardan automáticamente en la tabla `incidencias` para alimentar el cuadro de mando.
-
-
-## Evolución y Optimización de la Arquitectura (Mejoras sobre la Versión Base)
-
-Tomando como punto de partida la versión inicial del flujo desarrollada por Jose Miguel, se detectaron ineficiencias críticas de diseño asíncrono y de concurrencia en entornos locales. El workflow original sufría del "Efecto Eco" (duplicidad de ejecuciones en la base de datos) y colapsaba el rendimiento del servidor. 
-
-A través de un rediseño centrado en la linealidad y la gestión eficiente de la memoria de n8n, se han implementado las siguientes mejoras estructurales:
-
-### 1. Desacoplamiento del Pipeline de Ingesta del RAG (Carga del Manual)
-* **Problema en la versión base:** El nodo de lectura del manual (`Read/Write Files from Disk`) compartía disparadores y flujo lineal con la entrada de incidencias. Cada vez que un operario enviaba un formulario, el sistema se veía obligado a re-leer el PDF/MD completo, re-trocearlo y recalcular miles de vectores en bucle. Esto provocaba tiempos de espera inasumibles de hasta 30 minutos por incidencia.
-* **Solución implementada:** Se ha aislado por completo la rama del RAG (Ingesta Documental). El manual de la máquina ahora se procesa e indexa de forma estática una única vez. La base de datos vectorial de n8n retiene la información de manera persistente en memoria, permitiendo que el `AI Agent` acceda al contexto en milisegundos de forma invisible, sin necesidad de cables físicos de ejecución que reinicien el flujo.
-
-### 2. Eliminación de Ejecuciones Duplicadas y Datos Residuales ("Fantasmas")
-* **Problema en la versión base:** Debido a la naturaleza iterativa del nodo `AI Agent` de LangChain (que realiza varias pasadas internas para evaluar herramientas) y a la lentitud de procesamiento de los LLMs locales (Ollama con Qwen), el nodo del agente emitía dos ítems de salida de manera asíncrona: uno con el diagnóstico real y otro residual con valores en vacío debido a las cláusulas de salvaguarda del código. Esto provocaba que toda la sección de registro (`Prepare register`, `Insert rows`, etc.) se ejecutara dos veces, inyectando filas duplicadas e inventadas en MySQL (ej. Operario No Identificado).
-* **Solución implementada:** Se ha introducido un nodo de unificación de flujos mediante una lógica de embudo lineal. Se ha garantizado que el agente de IA solo propague un único ítem limpio hacia los nodos de persistencia. Con esto se ha erradicado por completo la duplicidad de registros, asegurando que cada envío de formulario genere única y estrictamente una fila real en la base de datos.
-
-### 3. Modularidad en la Ingesta de Datos (Soporte Omnicanal Real)
-* **Problema en la versión base:** El flujo de datos adolecía de cruces de cables que mezclaban las variables de los reportes digitales (PDF) y manuscritos (OCR) con los del formulario online, confundiendo al agente de IA al recibir esquemas de datos híbridos.
-* **Solución implementada:** Se ha reorganizado el lienzo en zonas de responsabilidad independientes mediante notas adhesivas estructuradas (Formulario Online, PDF con reporte digital, Foto con reporte manuscrito). Cada canal extrae y normaliza los datos de manera aislada antes de confluir de forma limpia en el procesador JavaScript común. Esto dota al sistema de una arquitectura robusta, escalable y preparada para producción.
