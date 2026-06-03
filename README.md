@@ -3,9 +3,10 @@ Este repositorio continene información, datos y documentos desarrollados para m
 - [`datos/`](datos/): Carpeta con los **datos** utilizados para desarrollar y testear la solución. Algunos de los archivos clave son:
   - [`plantilla_reporte_incidencia.odt`](datos/plantilla_reporte_incidencia.odt): Plantilla que los usuarios podrían utilizar para reportar incidencias. Puede rellenarse virtualmente y generar un PDF a partir de ella o imprimirse para rellenarse a mano y darle al sistema una foto del formulario rellenado a mano.
   - [`ejemplo_incidencia.json`](datos/ejemplo_incidencia.json): Ejemplo de JSON que deberá generar el agente de ingesta y que debe recibir el agente de análisis documental.
-  - [`ejemplo_incidencia.pdf`](datos/ejemplo_incidencia.pdf): Ejemplo de un reporte de incidencia digital en PDF que puede recibir el agente de ingesta.
-  - [`ejemplo_incidencia_manuscrito.jpg`](datos/ejemplo_incidencia_manuscrito.jpg): Ejemplo de una fotografía de un reporte de incidencia totalmente manuscrito que puede recibir el agente de ingesta.
+  - [`ejemplo_incidencia.pdf`](datos/ejemplo_incidencia.pdf): Ejemplo de un reporte de incidencia digital en PDF que podría recibir el agente de ingesta.
+  - [`ejemplos_imagenes/`](datos/ejemplos_imagenes/): Ejemplos de fotografías de reportes de incidencia que podría recibir el agente de ingesta. Hay uno totalmente manuscrito, otro totalmente impreso y otro híbrido (enunciados impresos y datos rellenados a mano).
   - [`manual_MetroPT3.md`](datos/manual_MetroPT3.md): Manual en MarkDown de una supuesta máquina MetroPT3. Se basa en los datos del [dataset MetroPT3](https://archive.ics.uci.edu/dataset/791/metropt+3+dataset), que contiene datos reales de la Unidad de Producción de Aire (APU) de un metro.
+  - [`historico_incidencias.csv`](datos/historico_incidencias.csv): CSV con un ejemplo de un registro histórico de incidencias reportadas. Replica el contenido que tendría la base de datos relacional MySQL.
 - [`doc/`](doc/): Carpeta con **documentación** detallada sobre:
   - [`propuesta.md`](doc/propuesta.md): La **propuesta de TFM escogida**, incluyendo sus objetivos, metodología y entregables.
   - [`entregas.md`](doc/entregas.md): El **contenido** esperado en cada una **de las entregas intermedias** a realizar.
