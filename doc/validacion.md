@@ -92,7 +92,6 @@ Detecta **inconsistencias de coherencia** derivadas del `manual_MetroPT3.md`. El
 | `src/validacion/validador.test.js` | 19 tests con `node:test` (cero dependencias externas) |
 | `src/validacion/nodo_n8n_validacion.js` | Snippet autogenerado para el nodo Code de n8n |
 | `src/validacion/build-n8n.js` | Genera el snippet desde `validador.js` (fuente única de verdad) |
-| `src/validacion/integrar_en_workflow.js` | Inserta los nodos en `Workflow_RAG.json` (idempotente) |
 
 ### Ejecutar los tests
 

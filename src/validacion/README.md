@@ -61,30 +61,22 @@ Copiar el contenido de `nodo_n8n_validacion.js` en un nodo **`Code`** de n8n en 
 
 ## Integración en el workflow
 
-Ya integrado en [`../Workflow_RAG.json`](../Workflow_RAG.json) mediante el script idempotente
-[`integrar_en_workflow.js`](integrar_en_workflow.js). Inserta tres nodos entre **Edit Fields** y
-**Code in JavaScript** (donde el JSON del reporte aún conserva su estructura completa):
+Los nodos de validación están integrados en el _workflow_ unificado
+[`OpsInsight.json`](../../OpsInsight.json), en la zona **"Validación del JSON"**, entre la
+ingesta y el `Merge` (donde el JSON del reporte ya conserva su estructura completa):
 
 ```
-Edit Fields → [Validar incidencia] → [¿Reporte válido?] ─ true ─→ Code in JavaScript → AI Agent → … → MySQL
-                                                         └ false ─→ [Reporte inválido]  (Stop and Error)
+… → Validar incidencia → ¿Reporte válido? ─ true ─→ Merge → Análisis → … → MySQL
+                                            └ false ─→ Reporte inválido → Registrar error validacion
 ```
 
 - **Validar incidencia** (`Code`): ejecuta `validarIncidencia($json)` y añade `_validacion` al item.
 - **¿Reporte válido?** (`IF`): ramifica según `{{ $json._validacion.valido }}`.
-- **Reporte inválido** (`Stop and Error`): detiene la ejecución mostrando los errores estructurales.
+- **Reporte inválido** (`Set`) → **Registrar error validacion** (`MySQL`): registra el reporte inválido
+  (`validacion_ok = 0` y los errores en `alertas_validacion`) para su monitorización, en lugar de descartarlo.
+- Las **inconsistencias semánticas** de los reportes válidos llegan al dashboard vía `Prepare register`,
+  que las referencia con `{{ $('Validar incidencia').item.json._validacion.inconsistencias }}`
+  (columna `alertas_validacion`).
 
-Para regenerar la integración tras un cambio en las reglas:
-
-```bash
-node build-n8n.js && node integrar_en_workflow.js
-```
-
-> El original está versionado en git; para revertir la integración: `git checkout src/Workflow_RAG.json`.
-
-### Pendiente (parte de monitorización)
-Tras **Code in JavaScript** y el **AI Agent**, el item se reemplaza por `query_texto` y luego por la salida
-del agente, de modo que `_validacion.inconsistencias` **no llega** a `Prepare register`. Para registrar las
-inconsistencias como **alertas** en el dashboard hay que referenciarlas en `Prepare register` con
-`{{ $('Validar incidencia').item.json._validacion.inconsistencias }}` y añadir su columna en MySQL
-(coordinar el esquema con el resto del equipo).
+Para actualizar el nodo tras un cambio en las reglas, regenera el snippet con `node build-n8n.js`
+y pega `nodo_n8n_validacion.js` en el nodo **Validar incidencia** del workflow.
