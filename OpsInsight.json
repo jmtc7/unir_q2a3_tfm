@@ -308,13 +308,13 @@
               "type": "string"
             },
             {
-              "id": "733950ad-00f5-41cd-b3c4-74c10af7b0db",
+              "id": "3ff8ecab-22ca-489a-a33a-aa0be8f8bc7b",
               "name": "validacion_ok",
               "value": "=1",
               "type": "number"
             },
             {
-              "id": "82c114dd-82d5-46b8-9438-a78ec63b0e8c",
+              "id": "2d95ffd2-5cd4-4676-984e-2e69882cae07",
               "name": "alertas_validacion",
               "value": "={{ JSON.stringify($('Validar incidencia').item.json._validacion.inconsistencias) }}",
               "type": "string"
@@ -656,7 +656,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Simplificar acceso al JSON (siempre habrá un único item)\nconst item = $input.first().json;\n\n// Función para convertir de checkboxes a booleanos\nfunction checkboxToBool(value)\n{\n  // [] => false, [\"\"] => true\n  if (Array.isArray(value))\n  {\n    return value.length > 0;\n  }\n  \n  return Boolean(value);\n}\n\n// Construir salida\nreturn {\n  \"fecha\": item[\"Fecha\"],\n  \"maquina\": item[\"Máquina problemática\"],\n  \"operario\": item[\"Nombre del operario\"],\n  \"descripcion\": item[\"Descripción del problema\"],\n\n  \"variables\": {\n    \"presiones\": {\n      \"tp2\": item[\"Presión del compresor (TP2)\"],\n      \"tp3\": item[\"Presión del panel neumático (TP3)\"],\n      \"h1\": item[\"Presión al descargar el filtro ciclónico (H1)\"],\n      \"dv\": item[\"Presión al descargar los secadores (DV)\"],\n      \"r\": item[\"Presión del depósito de aire (R)\"],\n    },\n\n    \"senales_electricas\": {\n      \"comp\": checkboxToBool(item[\"COMP\"]),\n      \"dv_electric\": checkboxToBool(item[\"DV Electric\"]),\n      \"towers\": checkboxToBool(item[\"TOWERS\"]),\n      \"mpg\": checkboxToBool(item[\"MPG\"]),\n      \"lps\": checkboxToBool(item[\"LPS\"]),\n      \"pressure_switch\": checkboxToBool(item[\"Pressure Switch\"]),\n      \"oil_level\": checkboxToBool(item[\"Oil Level\"]),\n    },\n\n    \"corriente_motor\": item[\"Corriente del motor (A)\"],\n    \"temperatura_aceite\": item[\"Temperatura del aceite (ºC)\"],\n  }\n};\n"
+        "jsCode": "// Simplificar acceso al JSON (siempre habrá un único item)\nconst item = $input.first().json;\n\n// Función para convertir de checkboxes a booleanos\nfunction checkboxToBool(value)\n{\n  // [] => false, [\"\"] => true\n  if (Array.isArray(value))\n  {\n    return value.length > 0 ? 1 : 0;\n  }\n  \n  return value ? 1 : 0;\n}\n\n// Construir salida\nreturn {\n  \"fecha\": item[\"Fecha\"],\n  \"maquina\": item[\"Máquina problemática\"],\n  \"operario\": item[\"Nombre del operario\"],\n  \"descripcion\": item[\"Descripción del problema\"],\n\n  \"variables\": {\n    \"presiones\": {\n      \"tp2\": item[\"Presión del compresor (TP2)\"],\n      \"tp3\": item[\"Presión del panel neumático (TP3)\"],\n      \"h1\": item[\"Presión al descargar el filtro ciclónico (H1)\"],\n      \"dv\": item[\"Presión al descargar los secadores (DV)\"],\n      \"r\": item[\"Presión del depósito de aire (R)\"],\n    },\n\n    \"senales_electricas\": {\n      \"comp\": checkboxToBool(item[\"COMP\"]),\n      \"dv_electric\": checkboxToBool(item[\"DV Electric\"]),\n      \"towers\": checkboxToBool(item[\"TOWERS\"]),\n      \"mpg\": checkboxToBool(item[\"MPG\"]),\n      \"lps\": checkboxToBool(item[\"LPS\"]),\n      \"pressure_switch\": checkboxToBool(item[\"Pressure Switch\"]),\n      \"oil_level\": checkboxToBool(item[\"Oil Level\"]),\n    },\n\n    \"corriente_motor\": item[\"Corriente del motor (A)\"],\n    \"temperatura_aceite\": item[\"Temperatura del aceite (ºC)\"],\n  }\n};\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
