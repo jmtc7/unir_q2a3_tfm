@@ -3,18 +3,18 @@
   "nodes": [
     {
       "parameters": {
-        "content": "# Validación del JSON\nEstructural + Semántica\n(src/validacion/)",
+        "content": "# Validación del JSON\n\nCapa **estructural** (bloqueante) + capa **semántica** (alertas de coherencia con el manual). Los reportes inválidos se registran como error y NO continúan al análisis.",
         "height": 848,
-        "width": 416,
+        "width": 304,
         "color": 3
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        976,
+        992,
         0
       ],
       "typeVersion": 1,
-      "id": "c361e75d-ddd8-48b1-bcfa-bb36799a58f3",
+      "id": "476ac21d-5048-47ef-a1f3-3b5e59cf9654",
       "name": "Sticky Note3"
     },
     {
@@ -26,27 +26,27 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        2512,
+        2624,
         0
       ],
       "typeVersion": 1,
-      "id": "d0d9a4d2-854f-4410-8ec7-7578ed16929a",
+      "id": "e8373d15-3365-4fa4-93fd-29472ef4f1c5",
       "name": "Sticky Note4"
     },
     {
       "parameters": {
         "content": "# Análisis Documental\nJSON de incidencia + manual",
         "height": 848,
-        "width": 1088,
+        "width": 1296,
         "color": 4
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1408,
+        1312,
         0
       ],
       "typeVersion": 1,
-      "id": "5aba52db-0666-4cb8-afd8-b1c1b1e3cd83",
+      "id": "6eb77fe8-3dbb-49cd-a765-0f37155d9cfd",
       "name": "Sticky Note5"
     },
     {
@@ -58,11 +58,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        3088,
+        3200,
         0
       ],
       "typeVersion": 1,
-      "id": "054879f4-0ede-4ff0-8808-3a52e91060fe",
+      "id": "d01338c0-c455-409a-98f0-01edcd075452",
       "name": "Sticky Note6"
     },
     {
@@ -74,11 +74,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -32,
+        -16,
         864
       ],
       "typeVersion": 1,
-      "id": "34401b4f-2b9d-49c2-97fc-9fb966a60c5a",
+      "id": "15920c8c-7573-40c3-b9f7-ac541fa36475",
       "name": "Sticky Note8"
     },
     {
@@ -91,14 +91,14 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
       "typeVersion": 1,
       "position": [
-        2160,
+        2272,
         448
       ],
-      "id": "ddd100f6-2c00-487d-8fc6-d7473b3c9f20",
+      "id": "d737bd9e-462e-4659-bbef-d1aa0fed070f",
       "name": "Ollama Chat Model",
       "credentials": {
         "ollamaApi": {
-          "id": "LCUMVmjmDKC7SGgz",
+          "id": "U1xlVxbLPNgV0uQC",
           "name": "Ollama account"
         }
       }
@@ -115,10 +115,10 @@
       "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
       "typeVersion": 1.3,
       "position": [
-        1472,
+        1392,
         384
       ],
-      "id": "370a8bce-2ef8-4eb7-8afd-b1c100406e75",
+      "id": "369f33d5-4431-4073-a392-a4fc97cd6593",
       "name": "Simple Vector Store"
     },
     {
@@ -128,14 +128,14 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
       "typeVersion": 1,
       "position": [
-        1472,
+        1392,
         688
       ],
-      "id": "d65251a8-4008-4ff2-a684-fecee4583616",
+      "id": "9e41b81b-be17-435e-908a-68b73ce513a6",
       "name": "Embeddings Ollama",
       "credentials": {
         "ollamaApi": {
-          "id": "LCUMVmjmDKC7SGgz",
+          "id": "U1xlVxbLPNgV0uQC",
           "name": "Ollama account"
         }
       }
@@ -150,10 +150,10 @@
       "type": "n8n-nodes-base.readWriteFile",
       "typeVersion": 1.1,
       "position": [
-        112,
+        128,
         944
       ],
-      "id": "994a341f-4c72-4e2e-913b-a38ead2cb1a6",
+      "id": "b5891a4e-1e22-4638-aeea-154758cdbb6e",
       "name": "Read/Write Files from Disk"
     },
     {
@@ -165,10 +165,10 @@
       "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
       "typeVersion": 1.1,
       "position": [
-        1632,
+        1552,
         528
       ],
-      "id": "8ac979ad-f802-4c31-b286-4057a94fb066",
+      "id": "6565c90f-f9ca-4bbf-81a8-25a8c73f8b74",
       "name": "Default Data Loader"
     },
     {
@@ -306,6 +306,18 @@
               "name": "coste_estimado",
               "value": "={{ parseInt(($json.output.split(/cost(e|o) estimado/i).pop().match(/\\d+/)?.[0]) || 0) }}",
               "type": "string"
+            },
+            {
+              "id": "733950ad-00f5-41cd-b3c4-74c10af7b0db",
+              "name": "validacion_ok",
+              "value": "=1",
+              "type": "number"
+            },
+            {
+              "id": "82c114dd-82d5-46b8-9438-a78ec63b0e8c",
+              "name": "alertas_validacion",
+              "value": "={{ JSON.stringify($('Validar incidencia').item.json._validacion.inconsistencias) }}",
+              "type": "string"
             }
           ]
         },
@@ -327,10 +339,10 @@
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        2704,
+        2816,
         128
       ],
-      "id": "2328f804-5bdc-4746-943a-18de04e42169",
+      "id": "a3bcd3e3-35e6-49a4-a6dd-81c3caa21d96",
       "name": "Convert to File"
     },
     {
@@ -344,10 +356,10 @@
       "type": "n8n-nodes-base.readWriteFile",
       "typeVersion": 1.1,
       "position": [
-        2880,
+        2992,
         128
       ],
-      "id": "572647a6-e30a-43e6-8f8a-5660ca3cff13",
+      "id": "0d1020d1-eb5e-4d3c-9f7c-6c070556b79f",
       "name": "Read/Write Files from Disk1"
     },
     {
@@ -394,14 +406,6 @@
               "value": "={{ $json.criticidad }}"
             },
             {
-              "column": "nivel_h1",
-              "value": "={{ $json.presiones_h1 }}"
-            },
-            {
-              "column": "solucion_propuesta",
-              "value": "={{ $json.Solution_proposed }}"
-            },
-            {
               "column": "operario",
               "value": "={{ $json.operario }}"
             },
@@ -415,11 +419,11 @@
             },
             {
               "column": "validacion_ok",
-              "value": "={{ $('Validar incidencia').item.json._validacion.valido ? 1 : 0 }}"
+              "value": "={{ $json.validacion_ok }}"
             },
             {
               "column": "alertas_validacion",
-              "value": "={{ JSON.stringify($('Validar incidencia').item.json._validacion.inconsistencias) }}"
+              "value": "={{ $json.alertas_validacion }}"
             }
           ]
         },
@@ -428,14 +432,14 @@
       "type": "n8n-nodes-base.mySql",
       "typeVersion": 2.5,
       "position": [
-        2704,
+        2816,
         304
       ],
-      "id": "e69ecb9e-ebfc-4ad5-9bda-72a27c2cd19f",
+      "id": "4316a26b-f0d4-4e55-af36-b6ce497555d4",
       "name": "Insert rows in a table",
       "credentials": {
         "mySql": {
-          "id": "udeCICpoe6gcFOLx",
+          "id": "nOgIV2gI3TtPqrK6",
           "name": "MySQL account"
         }
       }
@@ -449,14 +453,14 @@
       "type": "n8n-nodes-base.mySql",
       "typeVersion": 2.5,
       "position": [
-        2880,
+        2992,
         304
       ],
-      "id": "502de5a8-4aef-46f8-90e5-e13809f471a6",
+      "id": "f0948e2f-f407-47b2-9ac0-d8efe7414521",
       "name": "Execute a SQL query",
       "credentials": {
         "mySql": {
-          "id": "udeCICpoe6gcFOLx",
+          "id": "nOgIV2gI3TtPqrK6",
           "name": "MySQL account"
         }
       }
@@ -472,23 +476,23 @@
       "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
       "typeVersion": 1.3,
       "position": [
-        2144,
+        2256,
         592
       ],
-      "id": "c9335222-0974-40d3-8fa0-9ed4735a18c7",
+      "id": "fe0b8be2-0c02-4e13-9743-2f30184b481d",
       "name": "Simple Vector Store2"
     },
     {
       "parameters": {
-        "jsCode": "// Capturamos los datos que vienen del técnico\nconst fecha = $json.fecha;\nconst maquina = $json.maquina;\nconst operario = $json.operario;\nconst desc = $json.descripcion;\nconst presiones = $json.variables.presiones;\nconst temperatura = $json.variables.temperatura_aceite;\n\n// Construimos una única cadena de texto limpia (String)\nconst consultaLimpia = `El operario ${operario} reporta una incidencia en la máquina ${maquina} el día ${fecha}. \nDescripción del problema: \"${desc}\". \nEstado de la máquina: Presión TP2 de ${presiones.tp2} bar, TP3 de ${presiones.tp3} bar, H1 de ${presiones.h1} bar. Temperatura del aceite: ${temperatura}°C. \nPor favor, busca en el manual qué significa este comportamiento o ruido extraño con estas presiones.`;\n\n// Devolvemos el texto en una propiedad llamada \"query_texto\"\nreturn {\n  query_texto: consultaLimpia\n};"
+        "jsCode": "// n8n guarda en una estructura interna el flujo. \n// Con esto leemos los datos del nodo que REALMENTE inició la ejecución actual de la incidencia.\nconst inputData = typeof json !== 'undefined' ? json : $input.item.json;\n\nconst fecha = inputData.fecha || new Date().toISOString();\nconst maquina = inputData.maquina || 'MetroPT3';\nconst operario = inputData.operario || 'Operario No Identificado';\nconst desc = inputData.descripcion || 'Sin descripción';\n\n// Accedemos a las variables mapeadas de forma segura y agnóstica\nconst presiones = inputData.variables?.presiones || { tp2: 0, tp3: 0, h1: 0 };\nconst temperatura = inputData.variables?.temperatura_aceite || 0;\n\n// Construimos una única cadena de texto limpia (String)\nconst consultaLimpia = `El operario ${operario} reporta una incidencia en la máquina ${maquina} el día ${fecha}. \nDescripción del problema: \"${desc}\". \nEstado de la máquina: Presión TP2 de ${presiones.tp2} bar, TP3 de ${presiones.tp3} bar, H1 de ${presiones.h1} bar. Temperatura del aceite: ${temperatura}°C. \nPor favor, busca en el manual qué significa este comportamiento o ruido extraño con estas presiones.`;\n\n// Devolvemos el texto en una propiedad llamada \"query_texto\"\nreturn {\n  query_texto: consultaLimpia\n};"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2000,
+        2112,
         128
       ],
-      "id": "324ca0e4-ea48-4cdb-ba5e-0d83d3afdc29",
+      "id": "f2d0732d-cd51-4788-9e5f-bc42d1be8f1a",
       "name": "Code in JavaScript"
     },
     {
@@ -499,10 +503,10 @@
       "type": "@n8n/n8n-nodes-langchain.toolVectorStore",
       "typeVersion": 1.1,
       "position": [
-        2224,
+        2336,
         320
       ],
-      "id": "db6296f0-0131-4c64-a1a8-8d3ed97740d4",
+      "id": "cfaad025-8821-47cf-8a6f-e384cdc77485",
       "name": "buscador_manual"
     },
     {
@@ -510,16 +514,16 @@
         "promptType": "define",
         "text": "=Analiza esta incidencia y busca la solución en el manual: {{ $json.query_texto }}",
         "options": {
-          "systemMessage": "CRITICAL TECHNICAL INSTRUCTION: Whenever you call the 'buscador_manual' tool, the 'input' MUST be a single plain text string (e.g., \"ruido extraño presion tp2\"). You are strictly FORBIDDEN from passing a JSON object, braces {}, or multiple fields into the tool query. Extract the core symptom from the data and search using text only.\n\n---\n\nEres un experto en mantenimiento industrial especializado en la Unidad de Producción de Aire (APU) MetroPT3. Tu misión es diagnosticar incidencias utilizando exclusivamente la información del manual_MetroPT3.md.\n\nInstrucciones de Razonamiento:\n1. Analiza los valores de los sensores recibidos (presiones TP2, TP3, R, corriente del motor, etc.) y compáralos con las 'Condiciones de Operación Normales' del manual.\n2. Identifica si el problema coincide con algún escenario de la 'Guía de Resolución de Problemas' (usa la herramienta 'buscador_manual' para consultarlo usando solo texto).\n3. Determina la criticidad basándote en la seguridad: si hay riesgo de rotura o parada no programada, es Alta; si hay degradación, es Media; si es preventivo o leve, es Baja.\n4. Consulta la 'Matriz de Tiempos' para proponer una solución técnica y un tiempo estimado de intervención.\n\nFormato Obligatorio de Salida: Al final de todo el texto, es estrictamente obligatorio incluir estas tres líneas exactas y separadas: \nClasificación: [Alta/Media/Baja] \nTiempo Estimado: [X] horas \nCoste Estimado: [X] €"
+          "systemMessage": "CRITICAL TECHNICAL INSTRUCTION: Whenever you call the 'buscador_manual' tool, the 'input' MUST be a single plain text string with ONLY the main symptoms (e.g., \"ruido extraño\" or \"maquina lenta\"). \nYou are strictly FORBIDDEN from passing bar values, sensor metrics, numbers, temperatures, or JSON objects into the tool query. Extract ONLY the words describing the physical anomaly and search using text only.\n\n---\n\nEres un experto en mantenimiento industrial especializado en la Unidad de Producción de Aire (APU) MetroPT3. Tu misión es diagnosticar incidencias utilizando exclusivamente la información del manual_MetroPT3.md.\n\nInstrucciones de Razonamiento Obligatorias:\n1. Analiza el texto recibido y extrae el síntoma principal (ej: \"ruido extraño\" o \"va lenta\").\n2. Llama a la herramienta 'buscador_manual' pasando ÚNICAMENTE ese síntoma en texto plano (sin números de presión ni unidades).\n3. Busca en la información devuelta por el manual el escenario correspondiente para identificar la Criticidad, el Tiempo Estimado y las Tarifas aplicables.\n4. Si la herramienta 'buscador_manual' responde que no encuentra información o no hay datos exactos, NO te disculpes en inglés ni cambies la estructura. Por defecto, determina: Clasificación: Baja, Tiempo Estimado: 2 horas, Coste Estimado: 90 €.\n\nFormato Obligatorio de Salida:\nAl final de tu respuesta es estrictamente obligatorio incluir este bloque de texto plano. No alteres las etiquetas bajo ningún concepto para evitar errores en la base de datos:\n\nClasificación: [Alta/Media/Baja]\nTiempo Estimado: [Solo el número] horas\nCoste Estimado: [Solo el número calculado] €\nDatos_Maquina: MetroPT3\nDatos_Operario: [Nombre del operario]\nDatos_Descripcion: [Breve resumen del problema en una sola línea]\nDatos_TP2: [Solo el número de la presión TP2, o 0 si no hay]\nDatos_TP3: [Solo el número de la presión TP3, o 0 si no hay]\nDatos_H1: [Solo el número de la presión H1, o 0 si no hay]\nDatos_DV: [Solo el número de la presión DV, o 0 si no hay]\nDatos_R: [Solo el número de la presión R, o 0 si no hay]\nDatos_Comp: [Solo el número, o 0 si no hay]\nDatos_DV_Electric: [Solo el número, o 0 si no hay]\nDatos_Towers: [Solo el número, o 0 si no hay]\nDatos_MPG: [Solo el número, o 0 si no hay]\nDatos_LPS: [Solo el número, o 0 si no hay]\nDatos_Pressure_Switch: [Solo el número, o 0 si no hay]\nDatos_Oil_Level: [Solo el número, o 0 si no hay]\nDatos_Corriente_Motor: [Solo el número, o 0 si no hay]\nDatos_Temperatura_Aceite: [Solo el número de la temperatura, o 0 si no hay]"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
       "position": [
-        2160,
+        2272,
         128
       ],
-      "id": "5444e896-ea80-478e-860d-b6da258c41e9",
+      "id": "304f185b-3795-4281-90cc-15a5d8be7b37",
       "name": "AI Agent"
     },
     {
@@ -530,10 +534,10 @@
       "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
       "typeVersion": 1,
       "position": [
-        1632,
+        1552,
         688
       ],
-      "id": "fc5cc432-3daf-4afa-9f22-4134ebcf8185",
+      "id": "733cef50-a21f-4c6d-b047-708addb0500e",
       "name": "Recursive Character Text Splitter"
     },
     {
@@ -541,10 +545,10 @@
       "type": "n8n-nodes-base.limit",
       "typeVersion": 1,
       "position": [
-        1744,
+        1664,
         384
       ],
-      "id": "b4768b53-aaa6-4219-9ae4-9eafc6cb8ac3",
+      "id": "753566c2-1164-40bf-b1d3-e1d0c3aefebe",
       "name": "Limit"
     },
     {
@@ -556,11 +560,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1424,
+        1344,
         320
       ],
       "typeVersion": 1,
-      "id": "d3465d5a-bac4-4af2-bc34-a7ce82452011",
+      "id": "b3ace155-247b-4ee2-9ffb-9721ce8e4ab1",
       "name": "Sticky Note9"
     },
     {
@@ -572,11 +576,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1952,
+        2064,
         64
       ],
       "typeVersion": 1,
-      "id": "3f09b4ff-7944-43ae-98f8-75f60d61c64a",
+      "id": "af325396-0cca-4e4c-912a-9af644c80f64",
       "name": "Sticky Note10"
     },
     {
@@ -596,10 +600,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        272,
+        288,
         368
       ],
-      "id": "5d40d262-fdd3-4a99-b7b9-2211cf84ac73",
+      "id": "d731a6e5-2c16-461a-823c-ea9323308a3d",
       "name": "Limpiar texto",
       "notesInFlow": false
     },
@@ -611,11 +615,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -112,
+        -96,
         0
       ],
       "typeVersion": 1,
-      "id": "d10c6b22-1c0a-47e0-a522-a4d2d2269964",
+      "id": "6c661525-e955-4b22-aabb-54a3eb4489cd",
       "name": "Sticky Note11"
     },
     {
@@ -627,11 +631,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -96,
+        -80,
         64
       ],
       "typeVersion": 1,
-      "id": "a3636b35-53da-4c10-9f8b-a62a41e847af",
+      "id": "81b36d72-51c7-46fc-b8fe-013188e8aab8",
       "name": "Sticky Note12"
     },
     {
@@ -643,24 +647,24 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -96,
+        -80,
         304
       ],
       "typeVersion": 1,
-      "id": "7f43ff94-56d7-4e9c-9a7d-8de05667d9c6",
+      "id": "17ea59e8-30af-41ad-8a77-7a7c311df1d6",
       "name": "Sticky Note13"
     },
     {
       "parameters": {
-        "jsCode": "// Simplificar acceso al JSON (siempre habrá un único item)\nconst item = $input.first().json;\n\n// Función para convertir de checkboxes a booleanos\nfunction checkboxToBool(value)\n{\n  // [] => false, [\"\"] => true\n  if (Array.isArray(value))\n  {\n    return value.length > 0 ? 1 : 0;\n  }\n  \n  return value ? 1 : 0;\n}\n\n// Construir salida\nreturn {\n  \"fecha\": item[\"Fecha\"],\n  \"maquina\": item[\"Máquina problemática\"],\n  \"operario\": item[\"Nombre del operario\"],\n  \"descripcion\": item[\"Descripción del problema\"],\n\n  \"variables\": {\n    \"presiones\": {\n      \"tp2\": item[\"Presión del compresor (TP2)\"],\n      \"tp3\": item[\"Presión del panel neumático (TP3)\"],\n      \"h1\": item[\"Presión al descargar el filtro ciclónico (H1)\"],\n      \"dv\": item[\"Presión al descargar los secadores (DV)\"],\n      \"r\": item[\"Presión del depósito de aire (R)\"],\n    },\n\n    \"senales_electricas\": {\n      \"comp\": checkboxToBool(item[\"COMP\"]),\n      \"dv_electric\": checkboxToBool(item[\"DV Electric\"]),\n      \"towers\": checkboxToBool(item[\"TOWERS\"]),\n      \"mpg\": checkboxToBool(item[\"MPG\"]),\n      \"lps\": checkboxToBool(item[\"LPS\"]),\n      \"pressure_switch\": checkboxToBool(item[\"Pressure Switch\"]),\n      \"oil_level\": checkboxToBool(item[\"Oil Level\"]),\n    },\n\n    \"corriente_motor\": item[\"Corriente del motor (A)\"],\n    \"temperatura_aceite\": item[\"Temperatura del aceite (ºC)\"],\n  }\n};\n"
+        "jsCode": "// Simplificar acceso al JSON (siempre habrá un único item)\nconst item = $input.first().json;\n\n// Función para convertir de checkboxes a booleanos\nfunction checkboxToBool(value)\n{\n  // [] => false, [\"\"] => true\n  if (Array.isArray(value))\n  {\n    return value.length > 0;\n  }\n  \n  return Boolean(value);\n}\n\n// Construir salida\nreturn {\n  \"fecha\": item[\"Fecha\"],\n  \"maquina\": item[\"Máquina problemática\"],\n  \"operario\": item[\"Nombre del operario\"],\n  \"descripcion\": item[\"Descripción del problema\"],\n\n  \"variables\": {\n    \"presiones\": {\n      \"tp2\": item[\"Presión del compresor (TP2)\"],\n      \"tp3\": item[\"Presión del panel neumático (TP3)\"],\n      \"h1\": item[\"Presión al descargar el filtro ciclónico (H1)\"],\n      \"dv\": item[\"Presión al descargar los secadores (DV)\"],\n      \"r\": item[\"Presión del depósito de aire (R)\"],\n    },\n\n    \"senales_electricas\": {\n      \"comp\": checkboxToBool(item[\"COMP\"]),\n      \"dv_electric\": checkboxToBool(item[\"DV Electric\"]),\n      \"towers\": checkboxToBool(item[\"TOWERS\"]),\n      \"mpg\": checkboxToBool(item[\"MPG\"]),\n      \"lps\": checkboxToBool(item[\"LPS\"]),\n      \"pressure_switch\": checkboxToBool(item[\"Pressure Switch\"]),\n      \"oil_level\": checkboxToBool(item[\"Oil Level\"]),\n    },\n\n    \"corriente_motor\": item[\"Corriente del motor (A)\"],\n    \"temperatura_aceite\": item[\"Temperatura del aceite (ºC)\"],\n  }\n};\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        112,
+        128,
         128
       ],
-      "id": "9a200355-d370-4bcc-9500-6d7ebe5b2023",
+      "id": "ffaff04a-00c8-44fa-9a06-238e29898a5f",
       "name": "Encuesta -> JSON deseado1",
       "notesInFlow": false
     },
@@ -802,12 +806,12 @@
       "type": "n8n-nodes-base.formTrigger",
       "typeVersion": 2.5,
       "position": [
-        -48,
+        -32,
         128
       ],
-      "id": "5d730144-45a9-4f13-8bd4-0ab716a87561",
+      "id": "9ae56b18-1106-46f7-93c4-7a030c8b14f7",
       "name": "Formulario online1",
-      "webhookId": "08c21a02-320d-4881-918e-b2b715cb9f7a",
+      "webhookId": "7f7b73ca-e3f5-4bd0-ba7d-32c1ff0a40ee",
       "notesInFlow": false
     },
     {
@@ -821,7 +825,7 @@
         "messages": {
           "values": [
             {
-              "content": "=RESPONDE ÚNICAMENTE CON EL JSON. NADA MÁS. NI SALUDOS NI EXPLICACIONES.\n\nEres un extractor de datos. Tu tarea es EXTRAER información del texto y devolver SOLO un JSON válido.\n\nREGLAS ESTRICTAS:\n- NO inventes información. Si un campo no aparece, deja valor vacío \"\" o 0 según corresponda\n- NO añadas texto explicativo, comentarios ni bloques de código (```json)\n- NO modifiques los nombres de los campos del JSON de ejemplo\n- NO modifiques la estructura del JSON de ejemplo\n- Las señales eléctricas SIEMPRE deben ser 0 (apagado/inactivo) o 1 (encendido/activo). NUNCA uses true/false\n\nEste es el JSON de ejemplo. Cambia únicamente los valores de sus campos:\n\n{\n    \"fecha\": \"\",\n    \"maquina\": \"\",\n    \"operario\": \"\",\n    \"descripcion\": \"\",\n    \"variables\":\n    {\n        \"presiones\":\n        {\n            \"tp2\": 0,\n            \"tp3\": 0,\n            \"h1\": 0,\n            \"dv\": 0,\n            \"r\": 0\n        },\n        \"senales_electricas\":\n        {\n            \"comp\": 0,\n            \"dv_electric\": 0,\n            \"towers\": 0,\n            \"mpg\": 0,\n            \"lps\": 0,\n            \"pressure_switch\": 0,\n            \"oil_level\": 0\n        },\n        \"corriente_motor\": 0,\n        \"temperatura_aceite\": 0\n    }\n}\n\nEl texto del que debes extraer los datos es el siguiente:\n\n{{ $json.text }}"
+              "content": "=Eres un extractor de datos. Tu tarea es EXTRAER información del texto y devolver SOLO un JSON válido.\n\nREGLAS ESTRICTAS:\n- NO inventes información. Si un campo no aparece, deja valor vacío \"\" o -1 o false según corresponda\n- NO añadas texto explicativo ni comentarios\n- NO modifiques los nombres de los campos del JSON de ejemplo\n- NO modifiques la estructura del JSON de ejemplo\n\nEste es el JSON de ejemplo. Cambia únicamente los valores de sus campos:\n\n{\n    \"fecha\": \"\",\n    \"maquina\": \"\",\n    \"operario\": \"\",\n    \"descripcion\": \"\",\n    \"variables\":\n    {\n        \"presiones\":\n        {\n            \"tp2\": 0,\n            \"tp3\": 0,\n            \"h1\": 0,\n            \"dv\": 0,\n            \"r\": 0\n        },\n        \"senales_electricas\":\n        {\n            \"comp\": false,\n            \"dv_electric\": false,\n            \"towers\": false,\n            \"mpg\": false,\n            \"lps\": false,\n            \"pressure_switch\": false,\n            \"oil_level\": false\n        },\n        \"corriente_motor\": 0,\n        \"temperatura_aceite\": 0\n    }\n}\n\nEl texto del que debes extraer los datos es el siguiente:\n\n{{ $json.text }}"
             }
           ]
         },
@@ -830,15 +834,15 @@
       "type": "@n8n/n8n-nodes-langchain.ollama",
       "typeVersion": 1,
       "position": [
-        432,
+        448,
         368
       ],
-      "id": "7b9bbc55-d510-4cf8-804a-70d82d38cc43",
+      "id": "425f1f9d-af68-483b-a4a4-726d5147e353",
       "name": "Generar JSON a partir del texto1",
       "notesInFlow": false,
       "credentials": {
         "ollamaApi": {
-          "id": "LCUMVmjmDKC7SGgz",
+          "id": "U1xlVxbLPNgV0uQC",
           "name": "Ollama account"
         }
       }
@@ -852,11 +856,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -96,
+        -80,
         576
       ],
       "typeVersion": 1,
-      "id": "68821107-6915-4888-b89e-302e29e31a09",
+      "id": "43d13ecd-734e-429a-955d-548b6a870ad6",
       "name": "Sticky Note14"
     },
     {
@@ -878,12 +882,12 @@
       "type": "n8n-nodes-base.formTrigger",
       "typeVersion": 2.5,
       "position": [
-        -48,
+        -32,
         368
       ],
-      "id": "24319865-ede5-4efe-9769-a7a967103b5c",
+      "id": "a5684adc-6c4b-421d-95c1-0705f81685e5",
       "name": "Ingesta de PDFs",
-      "webhookId": "785c498e-35ed-431a-a3ec-9a7523de8e9a",
+      "webhookId": "10993c12-aae1-473d-9347-37cdb26cd2a7",
       "notesInFlow": false
     },
     {
@@ -905,12 +909,12 @@
       "type": "n8n-nodes-base.formTrigger",
       "typeVersion": 2.5,
       "position": [
-        -48,
+        -32,
         640
       ],
-      "id": "de5aa9b7-f419-4071-bad1-90047c4ea646",
+      "id": "0a07e8ae-2ba1-42ce-a5ca-34945babc442",
       "name": "Ingesta de imágenes",
-      "webhookId": "aa02092e-061f-451b-8ea1-954d4fd0f527",
+      "webhookId": "d24e9ba5-4367-404e-b39e-416a314594c9",
       "notesInFlow": false
     },
     {
@@ -933,10 +937,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        112,
+        128,
         640
       ],
-      "id": "9886e1cf-86df-418d-8c5d-3781779e9979",
+      "id": "c2a40f77-7d2d-4341-9378-cf5515ddb1cb",
       "name": "Ejecutar OCR"
     },
     {
@@ -948,23 +952,23 @@
       "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1.1,
       "position": [
-        112,
+        128,
         368
       ],
-      "id": "54d2cb05-95ba-455b-b762-0a9ce1cb9441",
+      "id": "c501fb02-94a8-4922-b2d6-0c945b4bfbe8",
       "name": "Extraer texto del PDF"
     },
     {
       "parameters": {
-        "jsCode": "const item = $input.first().json;\nconst raw = item.content || '';\n\n// Extraer el bloque JSON aunque el LLM haya añadido texto conversacional\nconst match = raw.match(/\\{[\\s\\S]*\\}/);\nif (!match) {\n  throw new Error('El LLM no devolvió JSON válido. Respuesta: ' + raw.substring(0, 200));\n}\n\nconst parsed = JSON.parse(match[0]);\nreturn [{ json: parsed }];"
+        "jsCode": "const item = $input.first().json;\n\n// El LLM devuelve JSON como string dentro de \"content\"\nconst parsed = JSON.parse(item.content);\n\nreturn [\n  {\n    json: parsed\n  }\n];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        720,
+        736,
         368
       ],
-      "id": "e4f18de5-fff8-46c6-aa8e-75d017d1138f",
+      "id": "93116ea6-2925-4f6b-bebf-02de9ce11227",
       "name": "Respuesta -> JSON deseado",
       "notesInFlow": false
     },
@@ -975,11 +979,22 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        272,
+        288,
         640
       ],
-      "id": "91d9490a-569e-499e-b3dc-e6005eb68776",
+      "id": "fb5cac4d-49bb-4185-8c6e-ac898f37262d",
       "name": "Extraer texto del OCR"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1840,
+        128
+      ],
+      "id": "5ac37e38-7fa2-4f81-8344-277e96d32108",
+      "name": "Merge"
     },
     {
       "parameters": {
@@ -989,8 +1004,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1000,
-        256
+        1024,
+        192
       ],
       "id": "9dd520af-3580-49d3-b704-21cdbf5234a9",
       "name": "Validar incidencia"
@@ -1023,8 +1038,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        1200,
-        256
+        1168,
+        192
       ],
       "id": "eeaa392e-e328-4cb7-95e4-66c36925cf3a",
       "name": "¿Reporte válido?"
@@ -1101,37 +1116,11 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1200,
-        64
+        1024,
+        400
       ],
       "id": "b77674a0-6675-4754-8e4d-0cc89f03632a",
       "name": "Reporte inválido"
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
-      "position": [
-        -80,
-        944
-      ],
-      "id": "d88a26b8-0019-41e9-9f8e-0ea0e51c87fd",
-      "name": "When clicking 'Execute workflow'"
-    },
-    {
-      "parameters": {
-        "mode": "raw",
-        "jsonOutput": "{\n    \"fecha\": \"2026-05-18\",\n    \"maquina\": \"MetroPT3\",\n    \"operario\": \"José Miguel Torres Cámara\",\n    \"descripcion\": \"La máquina está funcionando bajo carga sin problema, pero hace un ruido extraño.\",\n    \"variables\": {\n        \"presiones\": {\n            \"tp2\": 12.4,\n            \"tp3\": 10.9,\n            \"h1\": 3.6,\n            \"dv\": 0,\n            \"r\": 11.1\n        },\n        \"senales_electricas\": {\n            \"comp\": 0,\n            \"dv_electric\": 1,\n            \"towers\": 1,\n            \"mpg\": 0,\n            \"lps\": 0,\n            \"pressure_switch\": 0,\n            \"oil_level\": 0\n        },\n        \"corriente_motor\": 6.8,\n        \"temperatura_aceite\": 63\n    }\n}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        1936,
-        384
-      ],
-      "id": "f434b090-befc-4f4f-93d1-98e4036ba164",
-      "name": "Edit Fields (demo)"
     },
     {
       "parameters": {
@@ -1191,14 +1180,14 @@
       "type": "n8n-nodes-base.mySql",
       "typeVersion": 2.5,
       "position": [
-        1392,
-        64
+        1168,
+        400
       ],
       "id": "66818d16-d426-4d93-9612-e28b146c06bf",
       "name": "Registrar error validacion",
       "credentials": {
         "mySql": {
-          "id": "3bzeFNf7VC4wHLoy",
+          "id": "nOgIV2gI3TtPqrK6",
           "name": "MySQL account"
         }
       }
@@ -1368,9 +1357,9 @@
       "main": [
         [
           {
-            "node": "Edit Fields (demo)",
+            "node": "Merge",
             "type": "main",
-            "index": 0
+            "index": 1
           }
         ]
       ]
@@ -1500,6 +1489,17 @@
         ]
       ]
     },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "Validar incidencia": {
       "main": [
         [
@@ -1515,7 +1515,7 @@
       "main": [
         [
           {
-            "node": "Code in JavaScript",
+            "node": "Merge",
             "type": "main",
             "index": 0
           }
@@ -1523,28 +1523,6 @@
         [
           {
             "node": "Reporte inválido",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "When clicking 'Execute workflow'": {
-      "main": [
-        [
-          {
-            "node": "Read/Write Files from Disk",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Edit Fields (demo)": {
-      "main": [
-        [
-          {
-            "node": "Validar incidencia",
             "type": "main",
             "index": 0
           }
@@ -1567,14 +1545,13 @@
   "settings": {
     "executionOrder": "v1",
     "binaryMode": "separate",
-    "availableInMCP": false,
     "errorWorkflow": "OpsInsightErrHandler"
   },
-  "versionId": "363c93cb-d6b6-440b-b364-375c5e5333fa",
+  "versionId": "8822dd05-163d-4925-9b93-e5c5c16a1f59",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "9f9b15948ac0cabd97d7730cb7a79cef7ff8cf9c567e668e052c4eead1ee7ffb"
+    "instanceId": "3ebd3397630f537a39122186b36ec0f8f0da069c27a32be9cbace42da034695b"
   },
-  "id": "UPAWvT4PJcRrUvoB",
+  "id": "JSuniAJZaZONx2EP",
   "tags": []
 }
