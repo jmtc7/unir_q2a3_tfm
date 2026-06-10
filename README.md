@@ -135,3 +135,9 @@ SHOW DATABASES;     // Ver la lista de BBDD ("opsinsight_db" debe aparecer)
 USE opsinsight_db;  // Indicar que se quiere usar la BBDD "opsinsight_db"
 SHOW TABLES;        // Mostrar las tablas existentes ("registro_incidencias" debe aparecer)
 ```
+
+Si n8n da errores diciendo que **falta algún campo**, puede ser porque creaste la tabla `registro_incidencias` con un esquema desfasado y [`schema.sql`](db/schema.sql), al utilizar `CREATE TABLE IF NOT EXISTS`, no la sobreescribe. Para resolverlo, **elimina la tabla vieja** con `DROP TABLE IF EXISTS registro_incidencias;` y vuelve a crearla con el esquema actualizado con:
+
+```bash
+docker exec -i mysql_db mysql -uadmin -p1234 opsinsight_db < db/schema.sql
+```
