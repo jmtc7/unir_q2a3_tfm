@@ -1,68 +1,68 @@
 {
-  "name": "OpsInsight_rag",
+  "name": "OpsInsight",
   "nodes": [
     {
       "parameters": {
         "content": "# Validación del JSON\n\nCapa **estructural** (bloqueante) + capa **semántica** (alertas de coherencia con el manual). Los reportes inválidos se registran como error y NO continúan al análisis.",
-        "height": 848,
-        "width": 304,
+        "height": 864,
+        "width": 496,
         "color": 3
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        992,
+        1008,
         0
       ],
       "typeVersion": 1,
-      "id": "476ac21d-5048-47ef-a1f3-3b5e59cf9654",
+      "id": "04aff523-0b7e-4499-91f0-a7984733c497",
       "name": "Sticky Note3"
     },
     {
       "parameters": {
         "content": "# Registro de Incidencias\nCSV y MySQL",
-        "height": 848,
+        "height": 864,
         "width": 560,
         "color": 5
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        2624,
+        2688,
         0
       ],
       "typeVersion": 1,
-      "id": "e8373d15-3365-4fa4-93fd-29472ef4f1c5",
+      "id": "23c943bc-4155-45d9-87c9-93c5329a8600",
       "name": "Sticky Note4"
     },
     {
       "parameters": {
         "content": "# Análisis Documental\nJSON de incidencia + manual",
-        "height": 848,
-        "width": 1296,
+        "height": 864,
+        "width": 1152,
         "color": 4
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1312,
+        1520,
         0
       ],
       "typeVersion": 1,
-      "id": "6eb77fe8-3dbb-49cd-a765-0f37155d9cfd",
+      "id": "c1f41df3-6241-4c84-9ca3-c6118df46cce",
       "name": "Sticky Note5"
     },
     {
       "parameters": {
         "content": "# Dashboard\nTODO",
-        "height": 848,
+        "height": 864,
         "width": 416,
         "color": 7
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        3200,
+        3264,
         0
       ],
       "typeVersion": 1,
-      "id": "d01338c0-c455-409a-98f0-01edcd075452",
+      "id": "8b55fa42-cef4-416d-8e08-e7aa5d6107d9",
       "name": "Sticky Note6"
     },
     {
@@ -74,11 +74,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -16,
-        864
+        80,
+        880
       ],
       "typeVersion": 1,
-      "id": "15920c8c-7573-40c3-b9f7-ac541fa36475",
+      "id": "eea0ee93-2285-438c-88cc-196e648bf02a",
       "name": "Sticky Note8"
     },
     {
@@ -91,14 +91,14 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
       "typeVersion": 1,
       "position": [
-        2272,
-        448
+        2336,
+        480
       ],
-      "id": "d737bd9e-462e-4659-bbef-d1aa0fed070f",
+      "id": "bc014a25-bb2e-4791-ad10-2e85049340bd",
       "name": "Ollama Chat Model",
       "credentials": {
         "ollamaApi": {
-          "id": "U1xlVxbLPNgV0uQC",
+          "id": "LCUMVmjmDKC7SGgz",
           "name": "Ollama account"
         }
       }
@@ -115,10 +115,10 @@
       "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
       "typeVersion": 1.3,
       "position": [
-        1392,
-        384
+        1584,
+        256
       ],
-      "id": "369f33d5-4431-4073-a392-a4fc97cd6593",
+      "id": "f3262ae2-fe5e-4dc8-923b-27a9debd37b5",
       "name": "Simple Vector Store"
     },
     {
@@ -128,14 +128,14 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
       "typeVersion": 1,
       "position": [
-        1392,
-        688
+        1584,
+        560
       ],
-      "id": "9e41b81b-be17-435e-908a-68b73ce513a6",
+      "id": "2d07453c-adb4-45ff-8cda-11e86c4c1c58",
       "name": "Embeddings Ollama",
       "credentials": {
         "ollamaApi": {
-          "id": "U1xlVxbLPNgV0uQC",
+          "id": "LCUMVmjmDKC7SGgz",
           "name": "Ollama account"
         }
       }
@@ -150,10 +150,10 @@
       "type": "n8n-nodes-base.readWriteFile",
       "typeVersion": 1.1,
       "position": [
-        128,
-        944
+        224,
+        960
       ],
-      "id": "b5891a4e-1e22-4638-aeea-154758cdbb6e",
+      "id": "fb72dcee-48f3-4369-a4b7-42230708c28d",
       "name": "Read/Write Files from Disk"
     },
     {
@@ -165,10 +165,10 @@
       "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
       "typeVersion": 1.1,
       "position": [
-        1552,
-        528
+        1744,
+        416
       ],
-      "id": "6565c90f-f9ca-4bbf-81a8-25a8c73f8b74",
+      "id": "f0ad5220-b463-4a94-963a-5cbedcdf9421",
       "name": "Default Data Loader"
     },
     {
@@ -326,10 +326,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2544,
-        128
+        2720,
+        160
       ],
-      "id": "e57895ba-ec07-4c2f-9c9d-007a5cdac101",
+      "id": "e774f20c-0d1a-4c25-b56f-c3bcecda9bd3",
       "name": "Prepare register"
     },
     {
@@ -339,10 +339,10 @@
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        2816,
-        128
+        2880,
+        160
       ],
-      "id": "a3bcd3e3-35e6-49a4-a6dd-81c3caa21d96",
+      "id": "eae49bf6-5e58-46c6-a663-710ef4f65b5b",
       "name": "Convert to File"
     },
     {
@@ -356,10 +356,10 @@
       "type": "n8n-nodes-base.readWriteFile",
       "typeVersion": 1.1,
       "position": [
-        2992,
-        128
+        3056,
+        160
       ],
-      "id": "0d1020d1-eb5e-4d3c-9f7c-6c070556b79f",
+      "id": "a7b062ce-ba4d-4f04-9db4-27c6fe3e00d5",
       "name": "Read/Write Files from Disk1"
     },
     {
@@ -432,14 +432,14 @@
       "type": "n8n-nodes-base.mySql",
       "typeVersion": 2.5,
       "position": [
-        2816,
-        304
+        2880,
+        336
       ],
-      "id": "4316a26b-f0d4-4e55-af36-b6ce497555d4",
+      "id": "947ae7b2-304f-47ba-ab0e-ee7e9934f211",
       "name": "Insert rows in a table",
       "credentials": {
         "mySql": {
-          "id": "nOgIV2gI3TtPqrK6",
+          "id": "udeCICpoe6gcFOLx",
           "name": "MySQL account"
         }
       }
@@ -453,14 +453,14 @@
       "type": "n8n-nodes-base.mySql",
       "typeVersion": 2.5,
       "position": [
-        2992,
-        304
+        3056,
+        336
       ],
-      "id": "f0948e2f-f407-47b2-9ac0-d8efe7414521",
+      "id": "c288ff97-687c-4fb1-b4e7-7f5086407052",
       "name": "Execute a SQL query",
       "credentials": {
         "mySql": {
-          "id": "nOgIV2gI3TtPqrK6",
+          "id": "udeCICpoe6gcFOLx",
           "name": "MySQL account"
         }
       }
@@ -476,10 +476,10 @@
       "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
       "typeVersion": 1.3,
       "position": [
-        2256,
-        592
+        2320,
+        624
       ],
-      "id": "fe0b8be2-0c02-4e13-9743-2f30184b481d",
+      "id": "a5b30c2d-b83a-485d-9d83-f96611bc2f7e",
       "name": "Simple Vector Store2"
     },
     {
@@ -489,10 +489,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2112,
-        128
+        2176,
+        160
       ],
-      "id": "f2d0732d-cd51-4788-9e5f-bc42d1be8f1a",
+      "id": "10513934-2e70-4dc1-a569-d1a62bfb4271",
       "name": "Code in JavaScript"
     },
     {
@@ -503,10 +503,10 @@
       "type": "@n8n/n8n-nodes-langchain.toolVectorStore",
       "typeVersion": 1.1,
       "position": [
-        2336,
-        320
+        2400,
+        352
       ],
-      "id": "cfaad025-8821-47cf-8a6f-e384cdc77485",
+      "id": "870ac1e0-db8e-4596-a0fd-91ddfc3e53d1",
       "name": "buscador_manual"
     },
     {
@@ -520,10 +520,10 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
       "position": [
-        2272,
-        128
+        2336,
+        160
       ],
-      "id": "304f185b-3795-4281-90cc-15a5d8be7b37",
+      "id": "2e04e2e5-2900-4e78-995e-cc78817a39ba",
       "name": "AI Agent"
     },
     {
@@ -534,10 +534,10 @@
       "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
       "typeVersion": 1,
       "position": [
-        1552,
-        688
+        1744,
+        560
       ],
-      "id": "733cef50-a21f-4c6d-b047-708addb0500e",
+      "id": "7011234b-dc05-4ede-890a-8d0dfa1d90d7",
       "name": "Recursive Character Text Splitter"
     },
     {
@@ -545,26 +545,26 @@
       "type": "n8n-nodes-base.limit",
       "typeVersion": 1,
       "position": [
-        1664,
-        384
+        1856,
+        256
       ],
-      "id": "753566c2-1164-40bf-b1d3-e1d0c3aefebe",
+      "id": "ecbf0a64-d621-4793-9bfb-d3c5a6b7e431",
       "name": "Limit"
     },
     {
       "parameters": {
         "content": "# RAG",
-        "height": 512,
-        "width": 512,
+        "height": 656,
+        "width": 576,
         "color": "#021F03"
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1344,
-        320
+        1536,
+        96
       ],
       "typeVersion": 1,
-      "id": "b3ace155-247b-4ee2-9ffb-9721ce8e4ab1",
+      "id": "0f96a82d-57d7-473c-b472-013120fe81a6",
       "name": "Sticky Note9"
     },
     {
@@ -576,11 +576,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        2064,
-        64
+        2128,
+        96
       ],
       "typeVersion": 1,
-      "id": "af325396-0cca-4e4c-912a-9af644c80f64",
+      "id": "23d5cfa2-d34c-4d13-b5f8-3115fc655daa",
       "name": "Sticky Note10"
     },
     {
@@ -600,58 +600,58 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        288,
-        368
+        384,
+        416
       ],
-      "id": "d731a6e5-2c16-461a-823c-ea9323308a3d",
+      "id": "6585e933-3ed9-4ae1-846e-e4d45f004068",
       "name": "Limpiar texto",
       "notesInFlow": false
     },
     {
       "parameters": {
-        "content": "# Ingesta Documental",
-        "height": 848,
-        "width": 1072
+        "content": "# Ingesta Documental\nEncuesta online, PDF o foto",
+        "height": 864,
+        "width": 992
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -96,
+        0,
         0
       ],
       "typeVersion": 1,
-      "id": "6c661525-e955-4b22-aabb-54a3eb4489cd",
+      "id": "c63774e8-5b65-4455-a830-9b5838fc87e0",
       "name": "Sticky Note11"
     },
     {
       "parameters": {
         "content": "## Formulario online",
         "height": 224,
-        "width": 400,
+        "width": 336,
         "color": 2
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -80,
-        64
+        16,
+        96
       ],
       "typeVersion": 1,
-      "id": "81b36d72-51c7-46fc-b8fe-013188e8aab8",
+      "id": "a5cdc255-699b-4b47-a087-99fda30a8df5",
       "name": "Sticky Note12"
     },
     {
       "parameters": {
         "content": "## PDF con reporte digital\n",
-        "height": 256,
-        "width": 1040,
+        "height": 240,
+        "width": 960,
         "color": 2
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -80,
-        304
+        16,
+        352
       ],
       "typeVersion": 1,
-      "id": "17ea59e8-30af-41ad-8a77-7a7c311df1d6",
+      "id": "4551e014-cd61-4ca8-8113-0f66a5145315",
       "name": "Sticky Note13"
     },
     {
@@ -661,10 +661,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        128,
-        128
+        224,
+        160
       ],
-      "id": "ffaff04a-00c8-44fa-9a06-238e29898a5f",
+      "id": "5fcfe4c8-c844-4de8-b87d-fb673eb8366a",
       "name": "Encuesta -> JSON deseado1",
       "notesInFlow": false
     },
@@ -806,12 +806,12 @@
       "type": "n8n-nodes-base.formTrigger",
       "typeVersion": 2.5,
       "position": [
-        -32,
-        128
+        64,
+        160
       ],
-      "id": "9ae56b18-1106-46f7-93c4-7a030c8b14f7",
+      "id": "c64611fc-1d4a-4100-aec2-044e47eaac14",
       "name": "Formulario online1",
-      "webhookId": "7f7b73ca-e3f5-4bd0-ba7d-32c1ff0a40ee",
+      "webhookId": "5615047d-2079-4392-a30c-b069073f1459",
       "notesInFlow": false
     },
     {
@@ -834,15 +834,15 @@
       "type": "@n8n/n8n-nodes-langchain.ollama",
       "typeVersion": 1,
       "position": [
-        448,
-        368
+        544,
+        416
       ],
-      "id": "425f1f9d-af68-483b-a4a4-726d5147e353",
+      "id": "ef1eadc7-65b0-4c0a-9024-368d790d2f88",
       "name": "Generar JSON a partir del texto1",
       "notesInFlow": false,
       "credentials": {
         "ollamaApi": {
-          "id": "U1xlVxbLPNgV0uQC",
+          "id": "LCUMVmjmDKC7SGgz",
           "name": "Ollama account"
         }
       }
@@ -850,17 +850,17 @@
     {
       "parameters": {
         "content": "## Foto con reporte manuscrito",
-        "height": 256,
-        "width": 592,
+        "height": 224,
+        "width": 512,
         "color": 2
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -80,
-        576
+        16,
+        624
       ],
       "typeVersion": 1,
-      "id": "43d13ecd-734e-429a-955d-548b6a870ad6",
+      "id": "b6858c6f-a057-4bbf-bb74-fdacaee1cf02",
       "name": "Sticky Note14"
     },
     {
@@ -882,12 +882,12 @@
       "type": "n8n-nodes-base.formTrigger",
       "typeVersion": 2.5,
       "position": [
-        -32,
-        368
+        64,
+        416
       ],
-      "id": "a5684adc-6c4b-421d-95c1-0705f81685e5",
+      "id": "2c3bc866-66cf-415a-922a-7921be09e771",
       "name": "Ingesta de PDFs",
-      "webhookId": "10993c12-aae1-473d-9347-37cdb26cd2a7",
+      "webhookId": "a72bfe42-2809-4431-8acf-074c3b8b8b1c",
       "notesInFlow": false
     },
     {
@@ -909,12 +909,12 @@
       "type": "n8n-nodes-base.formTrigger",
       "typeVersion": 2.5,
       "position": [
-        -32,
-        640
+        64,
+        688
       ],
-      "id": "0a07e8ae-2ba1-42ce-a5ca-34945babc442",
+      "id": "7b5317f4-aba2-4d40-b899-28fb73e8e959",
       "name": "Ingesta de imágenes",
-      "webhookId": "d24e9ba5-4367-404e-b39e-416a314594c9",
+      "webhookId": "b6919c43-2021-407e-8ad8-43169ea605a8",
       "notesInFlow": false
     },
     {
@@ -937,10 +937,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        128,
-        640
+        224,
+        688
       ],
-      "id": "c2a40f77-7d2d-4341-9378-cf5515ddb1cb",
+      "id": "d168720b-1665-42e2-83eb-4486b7b3c8c1",
       "name": "Ejecutar OCR"
     },
     {
@@ -952,10 +952,10 @@
       "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1.1,
       "position": [
-        128,
-        368
+        224,
+        416
       ],
-      "id": "c501fb02-94a8-4922-b2d6-0c945b4bfbe8",
+      "id": "c7daec50-d382-44c1-91f9-2b9bb52bdade",
       "name": "Extraer texto del PDF"
     },
     {
@@ -965,10 +965,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        736,
-        368
+        832,
+        416
       ],
-      "id": "93116ea6-2925-4f6b-bebf-02de9ce11227",
+      "id": "f2ed5752-4e22-4828-9096-1586bb4dbfd4",
       "name": "Respuesta -> JSON deseado",
       "notesInFlow": false
     },
@@ -979,10 +979,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        288,
-        640
+        384,
+        688
       ],
-      "id": "fb5cac4d-49bb-4185-8c6e-ac898f37262d",
+      "id": "3d6a834e-47fa-4a08-9a99-f33a3b41e1a7",
       "name": "Extraer texto del OCR"
     },
     {
@@ -990,10 +990,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        1840,
-        128
+        2000,
+        160
       ],
-      "id": "5ac37e38-7fa2-4f81-8344-277e96d32108",
+      "id": "d2fef442-4540-46c2-b6d7-2272d0c7401d",
       "name": "Merge"
     },
     {
@@ -1004,10 +1004,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1024,
-        192
+        1040,
+        160
       ],
-      "id": "9dd520af-3580-49d3-b704-21cdbf5234a9",
+      "id": "923ba9ec-1e13-4229-aeb0-60c7d21989c5",
       "name": "Validar incidencia"
     },
     {
@@ -1038,15 +1038,14 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        1168,
-        192
+        1200,
+        160
       ],
-      "id": "eeaa392e-e328-4cb7-95e4-66c36925cf3a",
+      "id": "07f84d20-9074-4571-a651-851828220597",
       "name": "¿Reporte válido?"
     },
     {
       "parameters": {
-        "mode": "manual",
         "assignments": {
           "assignments": [
             {
@@ -1116,10 +1115,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1024,
-        400
+        1376,
+        720
       ],
-      "id": "b77674a0-6675-4754-8e4d-0cc89f03632a",
+      "id": "fe6780f1-71dd-4216-b2f8-4d91b14d17a4",
       "name": "Reporte inválido"
     },
     {
@@ -1180,14 +1179,14 @@
       "type": "n8n-nodes-base.mySql",
       "typeVersion": 2.5,
       "position": [
-        1168,
-        400
+        2880,
+        720
       ],
-      "id": "66818d16-d426-4d93-9612-e28b146c06bf",
+      "id": "c4985191-1039-4797-8426-8ed707c868b6",
       "name": "Registrar error validacion",
       "credentials": {
         "mySql": {
-          "id": "nOgIV2gI3TtPqrK6",
+          "id": "udeCICpoe6gcFOLx",
           "name": "MySQL account"
         }
       }
@@ -1544,14 +1543,13 @@
   "active": false,
   "settings": {
     "executionOrder": "v1",
-    "binaryMode": "separate",
-    "errorWorkflow": "OpsInsightErrHandler"
+    "binaryMode": "separate"
   },
-  "versionId": "8822dd05-163d-4925-9b93-e5c5c16a1f59",
+  "versionId": "07e3b40c-598b-4377-a74f-f0ab65a4b2df",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "3ebd3397630f537a39122186b36ec0f8f0da069c27a32be9cbace42da034695b"
+    "instanceId": "9f9b15948ac0cabd97d7730cb7a79cef7ff8cf9c567e668e052c4eead1ee7ffb"
   },
-  "id": "JSuniAJZaZONx2EP",
+  "id": "UWJD9y96W36zEMJI",
   "tags": []
 }
