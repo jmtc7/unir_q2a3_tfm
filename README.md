@@ -34,14 +34,14 @@ Todo esto se implementa en un ***workflow* n8n** que, a alto nivel, utiliza los 
   <img src="imgs/n8n/0_global.png" height="350">
 </p>
 
-Las cinco zonas del *workflow* y sus vistas detalladas:
+Las zonas del *workflow* y sus vistas detalladas:
 
-| Zona | Imagen |
-| :--- | :--- |
-| Ingesta Documental (formulario, PDF, OCR) | ![Ingesta](imgs/n8n/1_ingesta.png) |
+| Zona                                          | Imagen                                   |
+| :-------------------------------------------- | :--------------------------------------: |
+| Ingesta Documental (formulario, PDF u OCR)    | ![Ingesta](imgs/n8n/1_ingesta.png)       |
 | Validación del JSON (estructural + semántica) | ![Validación](imgs/n8n/2_validacion.png) |
-| Análisis Documental (RAG + AI Agent) | ![Análisis](imgs/n8n/3_analisis.png) |
-| Registro de Incidencias (MySQL + CSV) | ![Registro](imgs/n8n/4_registro.png) |
+| Análisis Documental (RAG + AI Agent)          | ![Análisis](imgs/n8n/3_analisis.png)     |
+| Registro de Incidencias (MySQL + CSV)         | ![Registro](imgs/n8n/4_registro.png)     |
 
 El dashboard de monitorización en Grafana (`localhost:3000`):
 
