@@ -1543,7 +1543,8 @@
   "active": false,
   "settings": {
     "executionOrder": "v1",
-    "binaryMode": "separate"
+    "binaryMode": "separate",
+    "errorWorkflow": "OpsInsightErrHandler"
   },
   "versionId": "07e3b40c-598b-4377-a74f-f0ab65a4b2df",
   "meta": {
