@@ -1,68 +1,68 @@
 {
-  "name": "OpsInsight_rag",
+  "name": "OpsInsight",
   "nodes": [
     {
       "parameters": {
-        "content": "# Validación del JSON\nTODO",
-        "height": 848,
-        "width": 304,
+        "content": "# Validación del JSON\n\nCapa **estructural** (bloqueante) + capa **semántica** (alertas de coherencia con el manual). Los reportes inválidos se registran como error y NO continúan al análisis.",
+        "height": 864,
+        "width": 496,
         "color": 3
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        992,
+        1008,
         0
       ],
       "typeVersion": 1,
-      "id": "476ac21d-5048-47ef-a1f3-3b5e59cf9654",
+      "id": "04aff523-0b7e-4499-91f0-a7984733c497",
       "name": "Sticky Note3"
     },
     {
       "parameters": {
         "content": "# Registro de Incidencias\nCSV y MySQL",
-        "height": 848,
+        "height": 864,
         "width": 560,
         "color": 5
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        2624,
+        2688,
         0
       ],
       "typeVersion": 1,
-      "id": "e8373d15-3365-4fa4-93fd-29472ef4f1c5",
+      "id": "23c943bc-4155-45d9-87c9-93c5329a8600",
       "name": "Sticky Note4"
     },
     {
       "parameters": {
         "content": "# Análisis Documental\nJSON de incidencia + manual",
-        "height": 848,
-        "width": 1296,
+        "height": 864,
+        "width": 1152,
         "color": 4
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1312,
+        1520,
         0
       ],
       "typeVersion": 1,
-      "id": "6eb77fe8-3dbb-49cd-a765-0f37155d9cfd",
+      "id": "c1f41df3-6241-4c84-9ca3-c6118df46cce",
       "name": "Sticky Note5"
     },
     {
       "parameters": {
         "content": "# Dashboard\nTODO",
-        "height": 848,
+        "height": 864,
         "width": 416,
         "color": 7
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        3200,
+        3264,
         0
       ],
       "typeVersion": 1,
-      "id": "d01338c0-c455-409a-98f0-01edcd075452",
+      "id": "8b55fa42-cef4-416d-8e08-e7aa5d6107d9",
       "name": "Sticky Note6"
     },
     {
@@ -74,11 +74,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -16,
-        864
+        80,
+        880
       ],
       "typeVersion": 1,
-      "id": "15920c8c-7573-40c3-b9f7-ac541fa36475",
+      "id": "eea0ee93-2285-438c-88cc-196e648bf02a",
       "name": "Sticky Note8"
     },
     {
@@ -91,14 +91,14 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
       "typeVersion": 1,
       "position": [
-        2272,
-        448
+        2336,
+        480
       ],
-      "id": "d737bd9e-462e-4659-bbef-d1aa0fed070f",
+      "id": "bc014a25-bb2e-4791-ad10-2e85049340bd",
       "name": "Ollama Chat Model",
       "credentials": {
         "ollamaApi": {
-          "id": "U1xlVxbLPNgV0uQC",
+          "id": "LCUMVmjmDKC7SGgz",
           "name": "Ollama account"
         }
       }
@@ -115,10 +115,10 @@
       "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
       "typeVersion": 1.3,
       "position": [
-        1392,
-        384
+        1584,
+        256
       ],
-      "id": "369f33d5-4431-4073-a392-a4fc97cd6593",
+      "id": "f3262ae2-fe5e-4dc8-923b-27a9debd37b5",
       "name": "Simple Vector Store"
     },
     {
@@ -128,14 +128,14 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
       "typeVersion": 1,
       "position": [
-        1392,
-        688
+        1584,
+        560
       ],
-      "id": "9e41b81b-be17-435e-908a-68b73ce513a6",
+      "id": "2d07453c-adb4-45ff-8cda-11e86c4c1c58",
       "name": "Embeddings Ollama",
       "credentials": {
         "ollamaApi": {
-          "id": "U1xlVxbLPNgV0uQC",
+          "id": "LCUMVmjmDKC7SGgz",
           "name": "Ollama account"
         }
       }
@@ -150,10 +150,10 @@
       "type": "n8n-nodes-base.readWriteFile",
       "typeVersion": 1.1,
       "position": [
-        128,
-        944
+        224,
+        960
       ],
-      "id": "b5891a4e-1e22-4638-aeea-154758cdbb6e",
+      "id": "fb72dcee-48f3-4369-a4b7-42230708c28d",
       "name": "Read/Write Files from Disk"
     },
     {
@@ -165,10 +165,10 @@
       "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
       "typeVersion": 1.1,
       "position": [
-        1552,
-        528
+        1744,
+        416
       ],
-      "id": "6565c90f-f9ca-4bbf-81a8-25a8c73f8b74",
+      "id": "f0ad5220-b463-4a94-963a-5cbedcdf9421",
       "name": "Default Data Loader"
     },
     {
@@ -184,19 +184,19 @@
             {
               "id": "f46ef8fd-78fe-4fd3-a169-c816797d0732",
               "name": "maquina",
-              "value": "={{ $json.output.split(/Datos_Maquina:/i).pop().split('\\n')[0].trim() }}",
+              "value": "={{ $('Validar incidencia').item.json.maquina }}",
               "type": "string"
             },
             {
               "id": "b40b8c98-f5be-4210-929b-2451971f9369",
               "name": "operario",
-              "value": "={{ $json.output.split(/Datos_Operario:/i).pop().split('\\n')[0].trim() }}",
+              "value": "={{ $('Validar incidencia').item.json.operario }}",
               "type": "string"
             },
             {
               "id": "6d0949aa-786d-4723-8f54-870c6660c1a4",
               "name": "descripcion",
-              "value": "={{ $json.output.split(/Datos_Descripcion:/i).pop().split('\\n')[0].trim() }}",
+              "value": "={{ $('Validar incidencia').item.json.descripcion }}",
               "type": "string"
             },
             {
@@ -208,85 +208,85 @@
             {
               "id": "28d2e364-be52-48a4-805e-d8d906709a0d",
               "name": "presiones_tp2",
-              "value": "={{ parseInt($json.output.split(/Datos_TP2:/i).pop().match(/\\d+/)?.[0] || 0) }}",
+              "value": "={{ $('Validar incidencia').item.json.variables.presiones.tp2 }}",
               "type": "number"
             },
             {
               "id": "4e3baf25-1a04-48d5-b5ee-7377ae518c51",
               "name": "presiones_tp3",
-              "value": "={{ parseInt($json.output.split(/Datos_TP3:/i).pop().match(/\\d+/)?.[0] || 0) }}",
+              "value": "={{ $('Validar incidencia').item.json.variables.presiones.tp3 }}",
               "type": "number"
             },
             {
               "id": "2fc4a386-63e1-4676-acb1-ad65b785d591",
               "name": "presiones_h1",
-              "value": "={{ parseInt($json.output.split(/Datos_H1:/i).pop().match(/\\d+/)?.[0] || 0) }}",
+              "value": "={{ $('Validar incidencia').item.json.variables.presiones.h1 }}",
               "type": "number"
             },
             {
               "id": "35ba6c8c-6fa2-4811-ac43-b10bb7bed5f2",
               "name": "presiones_dv",
-              "value": "={{ parseInt($json.output.split(/Datos_DV:/i).pop().match(/\\d+/)?.[0] || 0) }}",
+              "value": "={{ $('Validar incidencia').item.json.variables.presiones.dv }}",
               "type": "number"
             },
             {
               "id": "f55c7589-f06f-458b-aabe-e9d9d69e9678",
               "name": "presiones_r",
-              "value": "={{ parseInt($json.output.split(/Datos_R:/i).pop().match(/\\d+/)?.[0] || 0) }}",
+              "value": "={{ $('Validar incidencia').item.json.variables.presiones.r }}",
               "type": "number"
             },
             {
               "id": "aff2bdf4-2c44-4b03-826c-ca812b7080c1",
               "name": "senales_electricas_comp",
-              "value": "={{ parseInt($json.output.split(/Datos_Comp:/i).pop().match(/\\d+/)?.[0] || 0) }}",
+              "value": "={{ $('Validar incidencia').item.json.variables.senales_electricas.comp }}",
               "type": "number"
             },
             {
               "id": "eb0ec53e-65d3-4033-a274-e4e37c0b74cb",
               "name": "senales_electricas_dv_electric",
-              "value": "={{ parseInt($json.output.split(/Datos_DV_Electric:/i).pop().match(/\\d+/)?.[0] || 0) }}",
+              "value": "={{ $('Validar incidencia').item.json.variables.senales_electricas.dv_electric }}",
               "type": "number"
             },
             {
               "id": "72a8c96c-df86-4368-a996-6713f0c0322b",
               "name": "senales_electricas_towers",
-              "value": "={{ parseInt($json.output.split(/Datos_Towers:/i).pop().match(/\\d+/)?.[0] || 0) }}",
+              "value": "={{ $('Validar incidencia').item.json.variables.senales_electricas.towers }}",
               "type": "number"
             },
             {
               "id": "919d5d03-558f-4440-acb3-c3d8a4d5e844",
               "name": "senales_electricas_mpg",
-              "value": "={{ parseInt($json.output.split(/Datos_MPG:/i).pop().match(/\\d+/)?.[0] || 0) }}",
+              "value": "={{ $('Validar incidencia').item.json.variables.senales_electricas.mpg }}",
               "type": "number"
             },
             {
               "id": "a9a0e4eb-9160-4cc1-8d73-6522cc188fa8",
               "name": "senales_electricas_lps",
-              "value": "={{ parseInt($json.output.split(/Datos_LPS:/i).pop().match(/\\d+/)?.[0] || 0) }}",
+              "value": "={{ $('Validar incidencia').item.json.variables.senales_electricas.lps }}",
               "type": "number"
             },
             {
               "id": "eea4dd3c-0866-45c8-8db8-fc6b0890f284",
               "name": "senales_electricas_pressure_switch",
-              "value": "={{ parseInt($json.output.split(/Datos_Pressure_Switch:/i).pop().match(/\\d+/)?.[0] || 0) }}",
+              "value": "={{ $('Validar incidencia').item.json.variables.senales_electricas.pressure_switch }}",
               "type": "number"
             },
             {
               "id": "26824e71-01eb-420e-a70d-244054c91b43",
               "name": "senales_electricas_oil_level",
-              "value": "={{ parseInt($json.output.split(/Datos_Oil_Level:/i).pop().match(/\\d+/)?.[0] || 0) }}",
+              "value": "={{ $('Validar incidencia').item.json.variables.senales_electricas.oil_level }}",
               "type": "number"
             },
             {
               "id": "ced817a1-62ec-4231-b747-098e6c2359fc",
               "name": "corriente_motor",
-              "value": "={{ parseInt($json.output.split(/Datos_Corriente_Motor:/i).pop().match(/\\d+/)?.[0] || 0) }}",
+              "value": "={{ $('Validar incidencia').item.json.variables.corriente_motor }}",
               "type": "number"
             },
             {
               "id": "c714eb13-d61d-4950-9cb1-89acdbb599e8",
               "name": "temperatura_aceite",
-              "value": "={{ parseInt($json.output.split(/Datos_Temperatura_Aceite:/i).pop().match(/\\d+/)?.[0] || 0) }}",
+              "value": "={{ $('Validar incidencia').item.json.variables.temperatura_aceite }}",
               "type": "number"
             },
             {
@@ -306,6 +306,18 @@
               "name": "coste_estimado",
               "value": "={{ parseInt(($json.output.split(/cost(e|o) estimado/i).pop().match(/\\d+/)?.[0]) || 0) }}",
               "type": "string"
+            },
+            {
+              "id": "3ff8ecab-22ca-489a-a33a-aa0be8f8bc7b",
+              "name": "validacion_ok",
+              "value": "=1",
+              "type": "number"
+            },
+            {
+              "id": "2d95ffd2-5cd4-4676-984e-2e69882cae07",
+              "name": "alertas_validacion",
+              "value": "={{ JSON.stringify($('Validar incidencia').item.json._validacion.inconsistencias) }}",
+              "type": "string"
             }
           ]
         },
@@ -314,10 +326,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2656,
-        128
+        2720,
+        160
       ],
-      "id": "4f208355-8d0f-45ba-a5cd-5fec2aedaca5",
+      "id": "e774f20c-0d1a-4c25-b56f-c3bcecda9bd3",
       "name": "Prepare register"
     },
     {
@@ -327,10 +339,10 @@
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        2816,
-        128
+        2880,
+        160
       ],
-      "id": "a3bcd3e3-35e6-49a4-a6dd-81c3caa21d96",
+      "id": "eae49bf6-5e58-46c6-a663-710ef4f65b5b",
       "name": "Convert to File"
     },
     {
@@ -344,10 +356,10 @@
       "type": "n8n-nodes-base.readWriteFile",
       "typeVersion": 1.1,
       "position": [
-        2992,
-        128
+        3056,
+        160
       ],
-      "id": "0d1020d1-eb5e-4d3c-9f7c-6c070556b79f",
+      "id": "a7b062ce-ba4d-4f04-9db4-27c6fe3e00d5",
       "name": "Read/Write Files from Disk1"
     },
     {
@@ -404,6 +416,14 @@
             {
               "column": "coste_estimado",
               "value": "={{ $json.coste_estimado }}"
+            },
+            {
+              "column": "validacion_ok",
+              "value": "={{ $json.validacion_ok }}"
+            },
+            {
+              "column": "alertas_validacion",
+              "value": "={{ $json.alertas_validacion }}"
             }
           ]
         },
@@ -412,14 +432,14 @@
       "type": "n8n-nodes-base.mySql",
       "typeVersion": 2.5,
       "position": [
-        2816,
-        304
+        2880,
+        336
       ],
-      "id": "4316a26b-f0d4-4e55-af36-b6ce497555d4",
+      "id": "947ae7b2-304f-47ba-ab0e-ee7e9934f211",
       "name": "Insert rows in a table",
       "credentials": {
         "mySql": {
-          "id": "nOgIV2gI3TtPqrK6",
+          "id": "udeCICpoe6gcFOLx",
           "name": "MySQL account"
         }
       }
@@ -433,14 +453,14 @@
       "type": "n8n-nodes-base.mySql",
       "typeVersion": 2.5,
       "position": [
-        2992,
-        304
+        3056,
+        336
       ],
-      "id": "f0948e2f-f407-47b2-9ac0-d8efe7414521",
+      "id": "c288ff97-687c-4fb1-b4e7-7f5086407052",
       "name": "Execute a SQL query",
       "credentials": {
         "mySql": {
-          "id": "nOgIV2gI3TtPqrK6",
+          "id": "udeCICpoe6gcFOLx",
           "name": "MySQL account"
         }
       }
@@ -456,10 +476,10 @@
       "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
       "typeVersion": 1.3,
       "position": [
-        2256,
-        592
+        2320,
+        624
       ],
-      "id": "fe0b8be2-0c02-4e13-9743-2f30184b481d",
+      "id": "a5b30c2d-b83a-485d-9d83-f96611bc2f7e",
       "name": "Simple Vector Store2"
     },
     {
@@ -469,10 +489,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2112,
-        128
+        2176,
+        160
       ],
-      "id": "f2d0732d-cd51-4788-9e5f-bc42d1be8f1a",
+      "id": "10513934-2e70-4dc1-a569-d1a62bfb4271",
       "name": "Code in JavaScript"
     },
     {
@@ -483,10 +503,10 @@
       "type": "@n8n/n8n-nodes-langchain.toolVectorStore",
       "typeVersion": 1.1,
       "position": [
-        2336,
-        320
+        2400,
+        352
       ],
-      "id": "cfaad025-8821-47cf-8a6f-e384cdc77485",
+      "id": "870ac1e0-db8e-4596-a0fd-91ddfc3e53d1",
       "name": "buscador_manual"
     },
     {
@@ -500,10 +520,10 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
       "position": [
-        2272,
-        128
+        2336,
+        160
       ],
-      "id": "304f185b-3795-4281-90cc-15a5d8be7b37",
+      "id": "2e04e2e5-2900-4e78-995e-cc78817a39ba",
       "name": "AI Agent"
     },
     {
@@ -514,10 +534,10 @@
       "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
       "typeVersion": 1,
       "position": [
-        1552,
-        688
+        1744,
+        560
       ],
-      "id": "733cef50-a21f-4c6d-b047-708addb0500e",
+      "id": "7011234b-dc05-4ede-890a-8d0dfa1d90d7",
       "name": "Recursive Character Text Splitter"
     },
     {
@@ -525,26 +545,26 @@
       "type": "n8n-nodes-base.limit",
       "typeVersion": 1,
       "position": [
-        1664,
-        384
+        1856,
+        256
       ],
-      "id": "753566c2-1164-40bf-b1d3-e1d0c3aefebe",
+      "id": "ecbf0a64-d621-4793-9bfb-d3c5a6b7e431",
       "name": "Limit"
     },
     {
       "parameters": {
         "content": "# RAG",
-        "height": 512,
-        "width": 512,
+        "height": 656,
+        "width": 576,
         "color": "#021F03"
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1344,
-        320
+        1536,
+        96
       ],
       "typeVersion": 1,
-      "id": "b3ace155-247b-4ee2-9ffb-9721ce8e4ab1",
+      "id": "0f96a82d-57d7-473c-b472-013120fe81a6",
       "name": "Sticky Note9"
     },
     {
@@ -556,11 +576,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        2064,
-        64
+        2128,
+        96
       ],
       "typeVersion": 1,
-      "id": "af325396-0cca-4e4c-912a-9af644c80f64",
+      "id": "23d5cfa2-d34c-4d13-b5f8-3115fc655daa",
       "name": "Sticky Note10"
     },
     {
@@ -580,71 +600,71 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        288,
-        368
+        384,
+        416
       ],
-      "id": "d731a6e5-2c16-461a-823c-ea9323308a3d",
+      "id": "6585e933-3ed9-4ae1-846e-e4d45f004068",
       "name": "Limpiar texto",
       "notesInFlow": false
     },
     {
       "parameters": {
-        "content": "# Ingesta Documental",
-        "height": 848,
-        "width": 1072
+        "content": "# Ingesta Documental\nEncuesta online, PDF o foto",
+        "height": 864,
+        "width": 992
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -96,
+        0,
         0
       ],
       "typeVersion": 1,
-      "id": "6c661525-e955-4b22-aabb-54a3eb4489cd",
+      "id": "c63774e8-5b65-4455-a830-9b5838fc87e0",
       "name": "Sticky Note11"
     },
     {
       "parameters": {
         "content": "## Formulario online",
         "height": 224,
-        "width": 400,
+        "width": 336,
         "color": 2
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -80,
-        64
+        16,
+        96
       ],
       "typeVersion": 1,
-      "id": "81b36d72-51c7-46fc-b8fe-013188e8aab8",
+      "id": "a5cdc255-699b-4b47-a087-99fda30a8df5",
       "name": "Sticky Note12"
     },
     {
       "parameters": {
         "content": "## PDF con reporte digital\n",
-        "height": 256,
-        "width": 1040,
+        "height": 240,
+        "width": 960,
         "color": 2
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -80,
-        304
+        16,
+        352
       ],
       "typeVersion": 1,
-      "id": "17ea59e8-30af-41ad-8a77-7a7c311df1d6",
+      "id": "4551e014-cd61-4ca8-8113-0f66a5145315",
       "name": "Sticky Note13"
     },
     {
       "parameters": {
-        "jsCode": "// Simplificar acceso al JSON (siempre habrá un único item)\nconst item = $input.first().json;\n\n// Función para convertir de checkboxes a booleanos\nfunction checkboxToBool(value)\n{\n  // [] => false, [\"\"] => true\n  if (Array.isArray(value))\n  {\n    return value.length > 0;\n  }\n  \n  return Boolean(value);\n}\n\n// Construir salida\nreturn {\n  \"fecha\": item[\"Fecha\"],\n  \"maquina\": item[\"Máquina problemática\"],\n  \"operario\": item[\"Nombre del operario\"],\n  \"descripcion\": item[\"Descripción del problema\"],\n\n  \"variables\": {\n    \"presiones\": {\n      \"tp2\": item[\"Presión del compresor (TP2)\"],\n      \"tp3\": item[\"Presión del panel neumático (TP3)\"],\n      \"h1\": item[\"Presión al descargar el filtro ciclónico (H1)\"],\n      \"dv\": item[\"Presión al descargar los secadores (DV)\"],\n      \"r\": item[\"Presión del depósito de aire (R)\"],\n    },\n\n    \"senales_electricas\": {\n      \"comp\": checkboxToBool(item[\"COMP\"]),\n      \"dv_electric\": checkboxToBool(item[\"DV Electric\"]),\n      \"towers\": checkboxToBool(item[\"TOWERS\"]),\n      \"mpg\": checkboxToBool(item[\"MPG\"]),\n      \"lps\": checkboxToBool(item[\"LPS\"]),\n      \"pressure_switch\": checkboxToBool(item[\"Pressure Switch\"]),\n      \"oil_level\": checkboxToBool(item[\"Oil Level\"]),\n    },\n\n    \"corriente_motor\": item[\"Corriente del motor (A)\"],\n    \"temperatura_aceite\": item[\"Temperatura del aceite (ºC)\"],\n  }\n};\n"
+        "jsCode": "// Simplificar acceso al JSON (siempre habrá un único item)\nconst item = $input.first().json;\n\n// Función para convertir de checkboxes a booleanos\nfunction checkboxToBool(value)\n{\n  // [] => false, [\"\"] => true\n  if (Array.isArray(value))\n  {\n    return value.length > 0 ? 1 : 0;\n  }\n  \n  return value ? 1 : 0;\n}\n\n// Construir salida\nreturn {\n  \"fecha\": item[\"Fecha\"],\n  \"maquina\": item[\"Máquina problemática\"],\n  \"operario\": item[\"Nombre del operario\"],\n  \"descripcion\": item[\"Descripción del problema\"],\n\n  \"variables\": {\n    \"presiones\": {\n      \"tp2\": item[\"Presión del compresor (TP2)\"],\n      \"tp3\": item[\"Presión del panel neumático (TP3)\"],\n      \"h1\": item[\"Presión al descargar el filtro ciclónico (H1)\"],\n      \"dv\": item[\"Presión al descargar los secadores (DV)\"],\n      \"r\": item[\"Presión del depósito de aire (R)\"],\n    },\n\n    \"senales_electricas\": {\n      \"comp\": checkboxToBool(item[\"COMP\"]),\n      \"dv_electric\": checkboxToBool(item[\"DV Electric\"]),\n      \"towers\": checkboxToBool(item[\"TOWERS\"]),\n      \"mpg\": checkboxToBool(item[\"MPG\"]),\n      \"lps\": checkboxToBool(item[\"LPS\"]),\n      \"pressure_switch\": checkboxToBool(item[\"Pressure Switch\"]),\n      \"oil_level\": checkboxToBool(item[\"Oil Level\"]),\n    },\n\n    \"corriente_motor\": item[\"Corriente del motor (A)\"],\n    \"temperatura_aceite\": item[\"Temperatura del aceite (ºC)\"],\n  }\n};\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        128,
-        128
+        224,
+        160
       ],
-      "id": "ffaff04a-00c8-44fa-9a06-238e29898a5f",
+      "id": "5fcfe4c8-c844-4de8-b87d-fb673eb8366a",
       "name": "Encuesta -> JSON deseado1",
       "notesInFlow": false
     },
@@ -786,12 +806,12 @@
       "type": "n8n-nodes-base.formTrigger",
       "typeVersion": 2.5,
       "position": [
-        -32,
-        128
+        64,
+        160
       ],
-      "id": "9ae56b18-1106-46f7-93c4-7a030c8b14f7",
+      "id": "c64611fc-1d4a-4100-aec2-044e47eaac14",
       "name": "Formulario online1",
-      "webhookId": "7f7b73ca-e3f5-4bd0-ba7d-32c1ff0a40ee",
+      "webhookId": "5615047d-2079-4392-a30c-b069073f1459",
       "notesInFlow": false
     },
     {
@@ -814,15 +834,15 @@
       "type": "@n8n/n8n-nodes-langchain.ollama",
       "typeVersion": 1,
       "position": [
-        448,
-        368
+        544,
+        416
       ],
-      "id": "425f1f9d-af68-483b-a4a4-726d5147e353",
+      "id": "ef1eadc7-65b0-4c0a-9024-368d790d2f88",
       "name": "Generar JSON a partir del texto1",
       "notesInFlow": false,
       "credentials": {
         "ollamaApi": {
-          "id": "U1xlVxbLPNgV0uQC",
+          "id": "LCUMVmjmDKC7SGgz",
           "name": "Ollama account"
         }
       }
@@ -830,17 +850,17 @@
     {
       "parameters": {
         "content": "## Foto con reporte manuscrito",
-        "height": 256,
-        "width": 592,
+        "height": 224,
+        "width": 512,
         "color": 2
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -80,
-        576
+        16,
+        624
       ],
       "typeVersion": 1,
-      "id": "43d13ecd-734e-429a-955d-548b6a870ad6",
+      "id": "b6858c6f-a057-4bbf-bb74-fdacaee1cf02",
       "name": "Sticky Note14"
     },
     {
@@ -862,12 +882,12 @@
       "type": "n8n-nodes-base.formTrigger",
       "typeVersion": 2.5,
       "position": [
-        -32,
-        368
+        64,
+        416
       ],
-      "id": "a5684adc-6c4b-421d-95c1-0705f81685e5",
+      "id": "2c3bc866-66cf-415a-922a-7921be09e771",
       "name": "Ingesta de PDFs",
-      "webhookId": "10993c12-aae1-473d-9347-37cdb26cd2a7",
+      "webhookId": "a72bfe42-2809-4431-8acf-074c3b8b8b1c",
       "notesInFlow": false
     },
     {
@@ -889,12 +909,12 @@
       "type": "n8n-nodes-base.formTrigger",
       "typeVersion": 2.5,
       "position": [
-        -32,
-        640
+        64,
+        688
       ],
-      "id": "0a07e8ae-2ba1-42ce-a5ca-34945babc442",
+      "id": "7b5317f4-aba2-4d40-b899-28fb73e8e959",
       "name": "Ingesta de imágenes",
-      "webhookId": "d24e9ba5-4367-404e-b39e-416a314594c9",
+      "webhookId": "b6919c43-2021-407e-8ad8-43169ea605a8",
       "notesInFlow": false
     },
     {
@@ -917,10 +937,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        128,
-        640
+        224,
+        688
       ],
-      "id": "c2a40f77-7d2d-4341-9378-cf5515ddb1cb",
+      "id": "d168720b-1665-42e2-83eb-4486b7b3c8c1",
       "name": "Ejecutar OCR"
     },
     {
@@ -932,10 +952,10 @@
       "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1.1,
       "position": [
-        128,
-        368
+        224,
+        416
       ],
-      "id": "c501fb02-94a8-4922-b2d6-0c945b4bfbe8",
+      "id": "c7daec50-d382-44c1-91f9-2b9bb52bdade",
       "name": "Extraer texto del PDF"
     },
     {
@@ -945,10 +965,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        736,
-        368
+        832,
+        416
       ],
-      "id": "93116ea6-2925-4f6b-bebf-02de9ce11227",
+      "id": "f2ed5752-4e22-4828-9096-1586bb4dbfd4",
       "name": "Respuesta -> JSON deseado",
       "notesInFlow": false
     },
@@ -959,10 +979,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        288,
-        640
+        384,
+        688
       ],
-      "id": "fb5cac4d-49bb-4185-8c6e-ac898f37262d",
+      "id": "3d6a834e-47fa-4a08-9a99-f33a3b41e1a7",
       "name": "Extraer texto del OCR"
     },
     {
@@ -970,11 +990,206 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        1840,
-        128
+        2000,
+        160
       ],
-      "id": "5ac37e38-7fa2-4f81-8344-277e96d32108",
+      "id": "d2fef442-4540-46c2-b6d7-2272d0c7401d",
       "name": "Merge"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// ============================================================================\n// AUTOGENERADO por build-n8n.js — NO editar a mano.\n// Fuente de verdad: src/validacion/validador.js (cubierto por validador.test.js)\n// Pegar este contenido en un nodo \"Code\" de n8n (Run Once for Each Item).\n// ============================================================================\n// ===========================================================================\r\n// Validador de reportes de incidencia MetroPT-3 (OpsInsight)\r\n// ---------------------------------------------------------------------------\r\n// Función PURA, sin dependencias de n8n: recibe el JSON del reporte y devuelve\r\n// el resultado de la validación. El nodo Code de n8n solo la envuelve.\r\n//\r\n// Resultado:\r\n//   {\r\n//     valido: boolean,                 // false si hay errores estructurales\r\n//     errores: [{ campo, mensaje }],   // capa 1 - estructura/tipos/rangos\r\n//     inconsistencias: [               // capa 2 - coherencia con el manual\r\n//       { codigo, mensaje, severidad } // severidad: 'alta' | 'media' | 'baja'\r\n//     ]\r\n//   }\r\n//\r\n// Regla de diseño: si la validación ESTRUCTURAL falla, NO se evalúa la capa\r\n// semántica (no tiene sentido analizar la coherencia de datos malformados).\r\n// ===========================================================================\r\n\r\n// --- Umbrales configurables (justificados por el manual MetroPT-3) ---------\r\nconst UMBRALES = {\r\n  // Bajo carga (dv_electric=1), la presión DV debe ser ~0 bar.\r\n  DV_MAX_BAJO_CARGA: 0.5,\r\n  // R debe ser \"cercana\" a TP3. Tolerancia absoluta en bar.\r\n  R_TP3_TOLERANCIA: 1.5,\r\n  // LPS se enciende si la presión del depósito (R) cae por debajo de este valor.\r\n  PRESION_UMBRAL_LPS: 7,\r\n  // Corriente del motor: valores nominales y tolerancia para considerarla \"cercana\".\r\n  CORRIENTE_NOMINALES: [0, 4, 7, 9],\r\n  CORRIENTE_TOLERANCIA: 1.5,\r\n};\r\n\r\n// --- Esquema esperado del reporte ------------------------------------------\r\nconst PRESIONES = [\"tp2\", \"tp3\", \"h1\", \"dv\", \"r\"];\r\nconst SENALES = [\r\n  \"comp\",\r\n  \"dv_electric\",\r\n  \"towers\",\r\n  \"mpg\",\r\n  \"lps\",\r\n  \"pressure_switch\",\r\n  \"oil_level\",\r\n];\r\n\r\nconst esNumero = (v) => typeof v === \"number\" && Number.isFinite(v);\r\nconst esBinario = (v) => v === 0 || v === 1;\r\n\r\n// ---------------------------------------------------------------------------\r\n// CAPA 1 — Validación estructural\r\n// ---------------------------------------------------------------------------\r\nfunction validarEstructura(json) {\r\n  const errores = [];\r\n\r\n  if (json === null || typeof json !== \"object\" || Array.isArray(json)) {\r\n    errores.push({ campo: \"(raíz)\", mensaje: \"El reporte no es un objeto JSON válido.\" });\r\n    return errores;\r\n  }\r\n\r\n  // Campos de texto obligatorios\r\n  for (const campo of [\"fecha\", \"maquina\", \"operario\", \"descripcion\"]) {\r\n    if (typeof json[campo] !== \"string\" || json[campo].trim() === \"\") {\r\n      errores.push({ campo, mensaje: `El campo '${campo}' es obligatorio y debe ser texto no vacío.` });\r\n    }\r\n  }\r\n\r\n  // Bloque variables\r\n  const variables = json.variables;\r\n  if (variables === null || typeof variables !== \"object\" || Array.isArray(variables)) {\r\n    errores.push({ campo: \"variables\", mensaje: \"Falta el bloque 'variables' o no es un objeto.\" });\r\n    return errores; // sin variables no podemos validar lo de dentro\r\n  }\r\n\r\n  // Presiones\r\n  const presiones = variables.presiones;\r\n  if (presiones === null || typeof presiones !== \"object\" || Array.isArray(presiones)) {\r\n    errores.push({ campo: \"variables.presiones\", mensaje: \"Falta el bloque 'presiones' o no es un objeto.\" });\r\n  } else {\r\n    for (const p of PRESIONES) {\r\n      const v = presiones[p];\r\n      if (v === undefined) {\r\n        errores.push({ campo: `variables.presiones.${p}`, mensaje: `Falta la presión '${p}'.` });\r\n      } else if (!esNumero(v)) {\r\n        errores.push({ campo: `variables.presiones.${p}`, mensaje: `La presión '${p}' debe ser numérica.` });\r\n      } else if (v < 0) {\r\n        errores.push({ campo: `variables.presiones.${p}`, mensaje: `La presión '${p}' no puede ser negativa.` });\r\n      }\r\n    }\r\n  }\r\n\r\n  // Señales eléctricas\r\n  const senales = variables.senales_electricas;\r\n  if (senales === null || typeof senales !== \"object\" || Array.isArray(senales)) {\r\n    errores.push({ campo: \"variables.senales_electricas\", mensaje: \"Falta el bloque 'senales_electricas' o no es un objeto.\" });\r\n  } else {\r\n    for (const s of SENALES) {\r\n      const v = senales[s];\r\n      if (v === undefined) {\r\n        errores.push({ campo: `variables.senales_electricas.${s}`, mensaje: `Falta la señal '${s}'.` });\r\n      } else if (!esBinario(v)) {\r\n        errores.push({ campo: `variables.senales_electricas.${s}`, mensaje: `La señal '${s}' debe ser binaria (0 o 1).` });\r\n      }\r\n    }\r\n  }\r\n\r\n  // Corriente del motor\r\n  if (!esNumero(variables.corriente_motor)) {\r\n    errores.push({ campo: \"variables.corriente_motor\", mensaje: \"La corriente del motor debe ser numérica.\" });\r\n  } else if (variables.corriente_motor < 0) {\r\n    errores.push({ campo: \"variables.corriente_motor\", mensaje: \"La corriente del motor no puede ser negativa.\" });\r\n  }\r\n\r\n  // Temperatura del aceite\r\n  if (!esNumero(variables.temperatura_aceite)) {\r\n    errores.push({ campo: \"variables.temperatura_aceite\", mensaje: \"La temperatura del aceite debe ser numérica.\" });\r\n  }\r\n\r\n  return errores;\r\n}\r\n\r\n// ---------------------------------------------------------------------------\r\n// CAPA 2 — Validación semántica (coherencia con el manual)\r\n// ---------------------------------------------------------------------------\r\nfunction validarSemantica(json) {\r\n  const inconsistencias = [];\r\n  const { presiones, senales_electricas: s, corriente_motor } = json.variables;\r\n\r\n  // R1 — COMP (sin carga) y DV_Electric (bajo carga) no pueden estar ambas activas.\r\n  if (s.comp === 1 && s.dv_electric === 1) {\r\n    inconsistencias.push({\r\n      codigo: \"COMP_DV_ELECTRIC\",\r\n      mensaje: \"COMP (compresor sin carga/apagado) y DV_Electric (compresor bajo carga) están ambas activas; son estados mutuamente excluyentes.\",\r\n      severidad: \"media\",\r\n    });\r\n  }\r\n\r\n  // R2 — Bajo carga (dv_electric=1), la presión DV debe ser ~0 bar.\r\n  if (s.dv_electric === 1 && presiones.dv > UMBRALES.DV_MAX_BAJO_CARGA) {\r\n    inconsistencias.push({\r\n      codigo: \"DV_BAJO_CARGA\",\r\n      mensaje: `El compresor opera bajo carga (DV_Electric=1) pero la presión DV es ${presiones.dv} bar (debería ser ~0).`,\r\n      severidad: \"media\",\r\n    });\r\n  }\r\n\r\n  // R3 — R debe ser cercana a TP3 (presión del panel neumático).\r\n  if (Math.abs(presiones.r - presiones.tp3) > UMBRALES.R_TP3_TOLERANCIA) {\r\n    inconsistencias.push({\r\n      codigo: \"R_LEJOS_TP3\",\r\n      mensaje: `La presión del depósito R (${presiones.r} bar) difiere de TP3 (${presiones.tp3} bar) más de lo esperado; posible fuga o lectura errónea.`,\r\n      severidad: \"alta\",\r\n    });\r\n  }\r\n\r\n  // R4 — LPS coherente con la presión del depósito: LPS=1 ⟺ R < 7 bar.\r\n  const presionBaja = presiones.r < UMBRALES.PRESION_UMBRAL_LPS;\r\n  if (s.lps === 1 && !presionBaja) {\r\n    inconsistencias.push({\r\n      codigo: \"LPS_INCOHERENTE\",\r\n      mensaje: `LPS está encendida pero la presión R (${presiones.r} bar) no es inferior a ${UMBRALES.PRESION_UMBRAL_LPS} bar.`,\r\n      severidad: \"media\",\r\n    });\r\n  } else if (s.lps === 0 && presionBaja) {\r\n    inconsistencias.push({\r\n      codigo: \"LPS_INCOHERENTE\",\r\n      mensaje: `La presión R (${presiones.r} bar) es inferior a ${UMBRALES.PRESION_UMBRAL_LPS} bar pero LPS está apagada.`,\r\n      severidad: \"media\",\r\n    });\r\n  }\r\n\r\n  // R5 — Corriente del motor cercana a algún valor nominal {0,4,7,9}A.\r\n  const distancia = Math.min(\r\n    ...UMBRALES.CORRIENTE_NOMINALES.map((n) => Math.abs(corriente_motor - n))\r\n  );\r\n  if (distancia > UMBRALES.CORRIENTE_TOLERANCIA) {\r\n    inconsistencias.push({\r\n      codigo: \"CORRIENTE_FUERA_RANGO\",\r\n      mensaje: `La corriente del motor (${corriente_motor} A) está lejos de los valores nominales (0/4/7/9 A).`,\r\n      severidad: \"baja\",\r\n    });\r\n  }\r\n\r\n  return inconsistencias;\r\n}\r\n\r\n// ---------------------------------------------------------------------------\r\n// API pública\r\n// ---------------------------------------------------------------------------\r\nfunction validarIncidencia(json) {\r\n  const errores = validarEstructura(json);\r\n  if (errores.length > 0) {\r\n    return { valido: false, errores, inconsistencias: [] };\r\n  }\r\n  const inconsistencias = validarSemantica(json);\r\n  return { valido: true, errores: [], inconsistencias };\r\n}\r\n\n// ===========================================================================\n// Wrapper n8n — modo \"Run Once for Each Item\".\n// El reporte de incidencia llega en $json (igual que en el resto del workflow).\n// Devuelve el reporte intacto + el resultado de la validación en _validacion,\n// para que un nodo IF posterior pueda ramificar según _validacion.valido.\n// ===========================================================================\nconst _resultado = validarIncidencia($json);\nreturn {\n  ...$json,\n  _validacion: _resultado,\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1040,
+        160
+      ],
+      "id": "923ba9ec-1e13-4229-aeb0-60c7d21989c5",
+      "name": "Validar incidencia"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "11aae295-897a-4076-87ad-d0701952372d",
+              "leftValue": "={{ $json._validacion.valido }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1200,
+        160
+      ],
+      "id": "07f84d20-9074-4571-a651-851828220597",
+      "name": "¿Reporte válido?"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f18d7c51-51e1-4bb3-ac68-f6dd28c86a9c",
+              "name": "fecha",
+              "value": "={{ $now.toISO() }}",
+              "type": "string"
+            },
+            {
+              "id": "9265082f-e5e3-490b-b106-9eec80ec9c31",
+              "name": "maquina",
+              "value": "={{ $json.maquina ?? 'desconocida' }}",
+              "type": "string"
+            },
+            {
+              "id": "bc022fd8-2f35-444d-a319-c2f6c3ced767",
+              "name": "operario",
+              "value": "={{ $json.operario ?? 'desconocido' }}",
+              "type": "string"
+            },
+            {
+              "id": "4633f6bf-bc80-4a83-917f-7097e078b4d0",
+              "name": "descripcion",
+              "value": "={{ $json.descripcion ?? 'reporte inválido' }}",
+              "type": "string"
+            },
+            {
+              "id": "e160505e-087a-40b1-900f-f79cd983a52d",
+              "name": "solucion_propuesta",
+              "value": "=REPORTE INVÁLIDO: {{ $json._validacion.errores.map(e => e.campo + ': ' + e.mensaje).join(' | ') }}",
+              "type": "string"
+            },
+            {
+              "id": "4b6c8737-da26-4ae2-aa9e-cf9e4245b66f",
+              "name": "criticidad",
+              "value": "ERROR",
+              "type": "string"
+            },
+            {
+              "id": "8139b139-bcf3-49b7-9e90-2cf1e2cb111b",
+              "name": "tiempo_estimado",
+              "value": "0",
+              "type": "string"
+            },
+            {
+              "id": "166cf011-5a70-4c88-bfbf-bee311b1685f",
+              "name": "coste_estimado",
+              "value": "0",
+              "type": "string"
+            },
+            {
+              "id": "8d7bbe1e-e65d-4bc0-be69-445385b10c83",
+              "name": "validacion_ok",
+              "value": "=0",
+              "type": "number"
+            },
+            {
+              "id": "e9f0377d-7077-45e4-8a6a-4d6ac119927e",
+              "name": "alertas_validacion",
+              "value": "={{ JSON.stringify($json._validacion.errores) }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1376,
+        720
+      ],
+      "id": "fe6780f1-71dd-4216-b2f8-4d91b14d17a4",
+      "name": "Reporte inválido"
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "registro_incidencias",
+          "mode": "list",
+          "cachedResultName": "registro_incidencias"
+        },
+        "dataMode": "defineBelow",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "fecha",
+              "value": "={{ $json.fecha }}"
+            },
+            {
+              "column": "maquina",
+              "value": "={{ $json.maquina }}"
+            },
+            {
+              "column": "operario",
+              "value": "={{ $json.operario }}"
+            },
+            {
+              "column": "descripcion",
+              "value": "={{ $json.descripcion }}"
+            },
+            {
+              "column": "solucion_propuesta",
+              "value": "={{ $json.solucion_propuesta }}"
+            },
+            {
+              "column": "criticidad",
+              "value": "={{ $json.criticidad }}"
+            },
+            {
+              "column": "tiempo_estimado",
+              "value": "={{ $json.tiempo_estimado }}"
+            },
+            {
+              "column": "coste_estimado",
+              "value": "={{ $json.coste_estimado }}"
+            },
+            {
+              "column": "validacion_ok",
+              "value": "={{ $json.validacion_ok }}"
+            },
+            {
+              "column": "alertas_validacion",
+              "value": "={{ $json.alertas_validacion }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        2880,
+        720
+      ],
+      "id": "c4985191-1039-4797-8426-8ed707c868b6",
+      "name": "Registrar error validacion",
+      "credentials": {
+        "mySql": {
+          "id": "udeCICpoe6gcFOLx",
+          "name": "MySQL account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -1190,7 +1405,7 @@
       "main": [
         [
           {
-            "node": "Merge",
+            "node": "Validar incidencia",
             "type": "main",
             "index": 0
           }
@@ -1255,7 +1470,7 @@
       "main": [
         [
           {
-            "node": "Merge",
+            "node": "Validar incidencia",
             "type": "main",
             "index": 0
           }
@@ -1283,18 +1498,59 @@
           }
         ]
       ]
+    },
+    "Validar incidencia": {
+      "main": [
+        [
+          {
+            "node": "¿Reporte válido?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Reporte válido?": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Reporte inválido",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reporte inválido": {
+      "main": [
+        [
+          {
+            "node": "Registrar error validacion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
   "settings": {
     "executionOrder": "v1",
-    "binaryMode": "separate"
+    "binaryMode": "separate",
+    "errorWorkflow": "OpsInsightErrHandler"
   },
-  "versionId": "8822dd05-163d-4925-9b93-e5c5c16a1f59",
+  "versionId": "07e3b40c-598b-4377-a74f-f0ab65a4b2df",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "3ebd3397630f537a39122186b36ec0f8f0da069c27a32be9cbace42da034695b"
+    "instanceId": "9f9b15948ac0cabd97d7730cb7a79cef7ff8cf9c567e668e052c4eead1ee7ffb"
   },
-  "id": "JSuniAJZaZONx2EP",
+  "id": "UWJD9y96W36zEMJI",
   "tags": []
 }

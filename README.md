@@ -11,7 +11,10 @@ Este repositorio continene información, datos y documentos desarrollados para m
   - [`propuesta.md`](doc/propuesta.md): La **propuesta de TFM escogida**, incluyendo sus objetivos, metodología y entregables.
   - [`entregas.md`](doc/entregas.md): El **contenido** esperado en cada una **de las entregas intermedias** a realizar.
   - [`desarrollo.md`](doc/desarrollo.md): Detalles técnicos sobre el desarrollo del trabajo.
-- [`OpsInsight.json](OpsInsight.json): *Workflow* de n8n que automatiza la solución (ingesta, análisis y registro de incidencias).
+- [`OpsInsight.json`](OpsInsight.json): *Workflow* de n8n que automatiza la solución completa (ingesta, validación, análisis y registro de incidencias).
+- [`src/validacion/`](src/validacion/): Módulo de **validación estructural y semántica** del JSON de incidencia. Incluye lógica pura testeable (`validador.js`), 19 tests con `node:test`, y el snippet autogenerado para el nodo Code de n8n. Ver [`doc/validacion.md`](doc/validacion.md).
+- [`db/schema.sql`](db/schema.sql): Schema SQL de la tabla `registro_incidencias` con las columnas de validación (`validacion_ok`, `alertas_validacion`).
+- [`grafana/`](grafana/): Dashboard de **monitorización operativa** auto-provisionado en Grafana. Incluye KPIs (total incidencias, tasa validación, coste, MTTR), distribución de criticidad, alertas semánticas y registro completo. Accesible en [localhost:3000](http://localhost:3000) (admin/admin).
 
 El trabajo consiste en un sistema que ayude a los operarios de una planta industrial a reaccionar ante incidencias con máquinas complejas. Además, este sistema, registra dichas incidencias y facilita su inspeción y análisis a través de un *dashboard*.
 
@@ -25,10 +28,25 @@ La arquitectura se basa en un **agente IA que ingiera reportes** de incidencias 
   <img src="imgs/arquitectura/arquitectura.drawio.png" height="200">
 </p>
 
-Todo esto se implementa en un ***workflow* n8n** que, a alto nivel, utiliza los siguientes componentes. En la carpeta [`imgs/n8n/`](imgs/n8n/) hay vistas detalladas de cada componente.
+Todo esto se implementa en un ***workflow* n8n** que, a alto nivel, utiliza los siguientes componentes:
 
 <p align="center">
   <img src="imgs/n8n/0_global.png" height="350">
+</p>
+
+Las zonas del *workflow* y sus vistas detalladas:
+
+| Zona                                          | Imagen                                   |
+| :-------------------------------------------- | :--------------------------------------: |
+| Ingesta Documental (formulario, PDF u OCR)    | ![Ingesta](imgs/n8n/1_ingesta.png)       |
+| Validación del JSON (estructural + semántica) | ![Validación](imgs/n8n/2_validacion.png) |
+| Análisis Documental (RAG + AI Agent)          | ![Análisis](imgs/n8n/3_analisis.png)     |
+| Registro de Incidencias (MySQL + CSV)         | ![Registro](imgs/n8n/4_registro.png)     |
+
+El dashboard de monitorización en Grafana (`localhost:3000`):
+
+<p align="center">
+  <img src="imgs/grafana/dashboard.png" height="400">
 </p>
 
 
@@ -44,6 +62,8 @@ El *workflow* está automatizado con [n8n](https://n8n.io), desde donde se utili
 - Crea un **contenedor `ollama`** que abrirá un **servicio** en [ollama:11434](http://ollama:11434). Este se basa en la **imagen** [ollama/ollama](https://hub.docker.com/r/ollama/ollama). También se crea un **volumen de datos** persistente llamado `ollama` que se aloja en `/root/.ollama`.
 - Crea un **contenedor `ocr`** con una API que espera peticiones HTTP POST en [ocr:8001/ocr](http://ocr:8001/ocr) que contengan una imagen binaria en su cuerpo. La API hará OCR con el algoritmo configurado y responderá con el algoritmo utilizado y el texto extraído.
 - Crea un **contenedor `n8n`**, con **servicio** en [localhost:5678](http://localhost:5678), basado en la **imagen** [n8nio/n8n](https://hub.docker.com/r/n8nio/n8n) y que usa el **volumen** `n8n_data` (alojado en `/home/node/.n8n`). También se configuran varias **variables de entorno**, incluyendo el uso de la zona horaria `Europe/Madrid`. Finalmente, se le declara como **dependiente** del contenedor `ollama` para que puedan comunicarse.
+- Crea un **contenedor `db`** (MySQL 8.0) con **servicio** en el puerto 3306, base de datos `opsinsight_db`, usuario `admin` / contraseña `1234`. El schema de la tabla principal está en [`db/schema.sql`](db/schema.sql).
+- Crea un **contenedor `grafana`** (Grafana 11.4) con **servicio** en [localhost:3000](http://localhost:3000). El datasource MySQL y el dashboard se provisionan automáticamente al arrancar (credenciales: `admin/admin`).
 
 Para **configurar el algoritmo de OCR**, modifica el `build` de la sección `ocr` del [`docker-compose.yaml`](docker-compose.yaml) para elegir uno de los algoritmos disponibles en [`ocr/`](ocr) (`tesseract` es más rápido pero funciona peor, especialmente para manuscritos, mientras que `paddle` es más pesado pero rinde mejor). Esto le dice a *Docker Compose* qué `Dockerfile` y `app.py` utilizar.
 
@@ -58,40 +78,19 @@ Por motivos de seguridad, n8n no exporta las credenciales de conexión al export
 - **Password**: `1234`
 - **Port**: `3306`
 
-Por último, debes crear la tabla **entrando al contenedor docker**, desde una **sesión MySQL**:
+### Crear la tabla en MySQL
+El *schema* de la tabla `registro_incidencias` —incluyendo las columnas de validación `validacion_ok` y `alertas_validacion`— está en [`db/schema.sql`](db/schema.sql). Para crearla, cárgalo en el contenedor:
 
 ```bash
-docker exec -it mysql_db bash       # Entrar al contenedor "mysql_db"
-mysql --user=admin --password=1234  # Conectarte a MySQL
+docker exec -i mysql_db mysql -uadmin -p1234 opsinsight_db < db/schema.sql
 ```
-
-A continuación, **escoge la BBDD** con la que trabajar y **crea la tabla** con:
-
-```JavaScript
-USE opsinsight_db;
-
-CREATE TABLE registro_incidencias (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    fecha DATETIME,
-    maquina VARCHAR(50),
-    descripcion TEXT,
-    solucion_propuesta TEXT,
-    presion_tp2 FLOAT,
-    presion_tp3 FLOAT,
-    nivel_h1 FLOAT,
-    criticidad VARCHAR(20),
-    operario VARCHAR(100),
-    tiempo_estimado INT,
-    coste_estimado FLOAT
-);
-```
-
 
 ### Cómo utilizarlo
 Tal y como se ha mencionado, `n8n` se levanta en [localhost:5678](http://localhost:5678), por lo que para utilizar el sistema, basta con:
 1. Acceder a n8n abriendo [localhost:5678](http://localhost:5678) desde un navegador.
 2. Crear un nuevo *workflow* e importar [`OpsInsight.json`](OpsInsight.json).
-3. Lanzar el proceso con cualquiera de los *triggers* del bloque *Ingesta Documental* (encuesta, PDF o imagen).
+3. Configurar la credencial de **Ollama** (`ollamaApi`, Base URL `http://ollama:11434`); la de **MySQL** se detalla en el punto anterior. Asegúrate también de enlazar el *workflow* de manejo de errores [`src/OpsInsight_ErrorHandler.json`](src/OpsInsight_ErrorHandler.json) en *Settings → Error Workflow*.
+4. Lanzar el proceso con cualquiera de los *triggers* del bloque *Ingesta Documental* (encuesta, PDF o imagen).
 
 ---
 
@@ -135,4 +134,10 @@ mysql --user=admin --password=1234  # Conectarte a MySQL
 SHOW DATABASES;     // Ver la lista de BBDD ("opsinsight_db" debe aparecer)
 USE opsinsight_db;  // Indicar que se quiere usar la BBDD "opsinsight_db"
 SHOW TABLES;        // Mostrar las tablas existentes ("registro_incidencias" debe aparecer)
+```
+
+Si n8n da errores diciendo que **falta algún campo**, puede ser porque creaste la tabla `registro_incidencias` con un esquema desfasado y [`schema.sql`](db/schema.sql), al utilizar `CREATE TABLE IF NOT EXISTS`, no la sobreescribe. Para resolverlo, **elimina la tabla vieja** con `DROP TABLE IF EXISTS registro_incidencias;` y vuelve a crearla con el esquema actualizado con:
+
+```bash
+docker exec -i mysql_db mysql -uadmin -p1234 opsinsight_db < db/schema.sql
 ```
