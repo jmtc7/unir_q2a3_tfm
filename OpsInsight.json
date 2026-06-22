@@ -14,7 +14,7 @@
         0
       ],
       "typeVersion": 1,
-      "id": "04aff523-0b7e-4499-91f0-a7984733c497",
+      "id": "78b15358-625a-4159-8319-05ebc4394a03",
       "name": "Sticky Note3"
     },
     {
@@ -30,7 +30,7 @@
         0
       ],
       "typeVersion": 1,
-      "id": "23c943bc-4155-45d9-87c9-93c5329a8600",
+      "id": "0eb86a7e-e1e8-4cb1-bcad-d4e3fd93ec66",
       "name": "Sticky Note4"
     },
     {
@@ -46,24 +46,8 @@
         0
       ],
       "typeVersion": 1,
-      "id": "c1f41df3-6241-4c84-9ca3-c6118df46cce",
+      "id": "681a6c38-0fab-440e-bb3f-e8b448b85d12",
       "name": "Sticky Note5"
-    },
-    {
-      "parameters": {
-        "content": "# Dashboard\nTODO",
-        "height": 864,
-        "width": 416,
-        "color": 7
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        3264,
-        0
-      ],
-      "typeVersion": 1,
-      "id": "8b55fa42-cef4-416d-8e08-e7aa5d6107d9",
-      "name": "Sticky Note6"
     },
     {
       "parameters": {
@@ -78,7 +62,7 @@
         880
       ],
       "typeVersion": 1,
-      "id": "eea0ee93-2285-438c-88cc-196e648bf02a",
+      "id": "966bf1fc-30b0-47a8-9c57-e78ca0439e98",
       "name": "Sticky Note8"
     },
     {
@@ -94,7 +78,7 @@
         2336,
         480
       ],
-      "id": "bc014a25-bb2e-4791-ad10-2e85049340bd",
+      "id": "fb2e6d4d-ea95-42d6-b6bf-7de6564a027c",
       "name": "Ollama Chat Model",
       "credentials": {
         "ollamaApi": {
@@ -118,7 +102,7 @@
         1584,
         256
       ],
-      "id": "f3262ae2-fe5e-4dc8-923b-27a9debd37b5",
+      "id": "020b3b3a-20f1-49ae-a7be-2f3dcffb4d16",
       "name": "Simple Vector Store"
     },
     {
@@ -131,7 +115,7 @@
         1584,
         560
       ],
-      "id": "2d07453c-adb4-45ff-8cda-11e86c4c1c58",
+      "id": "4147b5d0-7916-4355-966c-e2de7e0c82c1",
       "name": "Embeddings Ollama",
       "credentials": {
         "ollamaApi": {
@@ -153,7 +137,7 @@
         224,
         960
       ],
-      "id": "fb72dcee-48f3-4369-a4b7-42230708c28d",
+      "id": "52868f50-b131-439e-b90d-e9e02a836fec",
       "name": "Read/Write Files from Disk"
     },
     {
@@ -168,7 +152,7 @@
         1744,
         416
       ],
-      "id": "f0ad5220-b463-4a94-963a-5cbedcdf9421",
+      "id": "31caf9c2-97e0-4f07-b2fd-14de5aec548d",
       "name": "Default Data Loader"
     },
     {
@@ -329,7 +313,7 @@
         2720,
         160
       ],
-      "id": "e774f20c-0d1a-4c25-b56f-c3bcecda9bd3",
+      "id": "4161d9b9-8112-49df-a7fc-afd3e7afa9fe",
       "name": "Prepare register"
     },
     {
@@ -342,7 +326,7 @@
         2880,
         160
       ],
-      "id": "eae49bf6-5e58-46c6-a663-710ef4f65b5b",
+      "id": "4b2bafb4-95b2-477c-b67f-1a2bd0085ca9",
       "name": "Convert to File"
     },
     {
@@ -359,7 +343,7 @@
         3056,
         160
       ],
-      "id": "a7b062ce-ba4d-4f04-9db4-27c6fe3e00d5",
+      "id": "44a5eb32-b94f-4628-8b55-abe4936d69aa",
       "name": "Read/Write Files from Disk1"
     },
     {
@@ -435,7 +419,7 @@
         2880,
         336
       ],
-      "id": "947ae7b2-304f-47ba-ab0e-ee7e9934f211",
+      "id": "6cdcb241-b1c0-470a-a20a-5266882e9f8a",
       "name": "Insert rows in a table",
       "credentials": {
         "mySql": {
@@ -456,7 +440,7 @@
         3056,
         336
       ],
-      "id": "c288ff97-687c-4fb1-b4e7-7f5086407052",
+      "id": "fdd2e708-8439-4954-91dd-79d179312c87",
       "name": "Execute a SQL query",
       "credentials": {
         "mySql": {
@@ -479,7 +463,7 @@
         2320,
         624
       ],
-      "id": "a5b30c2d-b83a-485d-9d83-f96611bc2f7e",
+      "id": "132fb85d-b792-41d5-9f20-45335cdc708f",
       "name": "Simple Vector Store2"
     },
     {
@@ -492,7 +476,7 @@
         2176,
         160
       ],
-      "id": "10513934-2e70-4dc1-a569-d1a62bfb4271",
+      "id": "c2a59432-6d99-410d-864d-06f81796e5d7",
       "name": "Code in JavaScript"
     },
     {
@@ -506,7 +490,7 @@
         2400,
         352
       ],
-      "id": "870ac1e0-db8e-4596-a0fd-91ddfc3e53d1",
+      "id": "a6976386-723e-48c9-b23a-f91f8bd1b4be",
       "name": "buscador_manual"
     },
     {
@@ -523,7 +507,7 @@
         2336,
         160
       ],
-      "id": "2e04e2e5-2900-4e78-995e-cc78817a39ba",
+      "id": "80f95ba4-5692-4c15-b4f5-ee4609df6aee",
       "name": "AI Agent"
     },
     {
@@ -537,7 +521,7 @@
         1744,
         560
       ],
-      "id": "7011234b-dc05-4ede-890a-8d0dfa1d90d7",
+      "id": "df485ccb-ecfa-4b1c-87b5-09388b95f700",
       "name": "Recursive Character Text Splitter"
     },
     {
@@ -548,7 +532,7 @@
         1856,
         256
       ],
-      "id": "ecbf0a64-d621-4793-9bfb-d3c5a6b7e431",
+      "id": "18de80e8-a845-4ba4-85d2-18db903329cf",
       "name": "Limit"
     },
     {
@@ -564,7 +548,7 @@
         96
       ],
       "typeVersion": 1,
-      "id": "0f96a82d-57d7-473c-b472-013120fe81a6",
+      "id": "9372ee8e-d29e-45dc-8917-7fb92869a47f",
       "name": "Sticky Note9"
     },
     {
@@ -580,7 +564,7 @@
         96
       ],
       "typeVersion": 1,
-      "id": "23d5cfa2-d34c-4d13-b5f8-3115fc655daa",
+      "id": "00a2857b-ffbb-4c13-aa12-5c4d5d6b9c37",
       "name": "Sticky Note10"
     },
     {
@@ -603,7 +587,7 @@
         384,
         416
       ],
-      "id": "6585e933-3ed9-4ae1-846e-e4d45f004068",
+      "id": "af027786-42b1-4bbe-a454-65ef3daf6f39",
       "name": "Limpiar texto",
       "notesInFlow": false
     },
@@ -619,7 +603,7 @@
         0
       ],
       "typeVersion": 1,
-      "id": "c63774e8-5b65-4455-a830-9b5838fc87e0",
+      "id": "40d8723e-145a-4a1f-86b0-25f7dc9b49fb",
       "name": "Sticky Note11"
     },
     {
@@ -635,7 +619,7 @@
         96
       ],
       "typeVersion": 1,
-      "id": "a5cdc255-699b-4b47-a087-99fda30a8df5",
+      "id": "23c5e6b5-ffa5-4c91-9376-6b9437eb75a6",
       "name": "Sticky Note12"
     },
     {
@@ -651,7 +635,7 @@
         352
       ],
       "typeVersion": 1,
-      "id": "4551e014-cd61-4ca8-8113-0f66a5145315",
+      "id": "f3b27367-23f7-42eb-89a5-1b83a19f537f",
       "name": "Sticky Note13"
     },
     {
@@ -664,7 +648,7 @@
         224,
         160
       ],
-      "id": "5fcfe4c8-c844-4de8-b87d-fb673eb8366a",
+      "id": "a2118d11-d289-4116-b88c-bdaf0169f550",
       "name": "Encuesta -> JSON deseado1",
       "notesInFlow": false
     },
@@ -809,9 +793,9 @@
         64,
         160
       ],
-      "id": "c64611fc-1d4a-4100-aec2-044e47eaac14",
+      "id": "038d5790-df91-4c86-a943-85a873f33539",
       "name": "Formulario online1",
-      "webhookId": "5615047d-2079-4392-a30c-b069073f1459",
+      "webhookId": "da9fc771-64c9-4317-a505-eb88b1a8e46a",
       "notesInFlow": false
     },
     {
@@ -837,7 +821,7 @@
         544,
         416
       ],
-      "id": "ef1eadc7-65b0-4c0a-9024-368d790d2f88",
+      "id": "5fbd0167-f789-4224-890c-a5cb31c681fc",
       "name": "Generar JSON a partir del texto1",
       "notesInFlow": false,
       "credentials": {
@@ -860,7 +844,7 @@
         624
       ],
       "typeVersion": 1,
-      "id": "b6858c6f-a057-4bbf-bb74-fdacaee1cf02",
+      "id": "eaeae283-3842-466c-b5ae-ef8c64568a15",
       "name": "Sticky Note14"
     },
     {
@@ -885,9 +869,9 @@
         64,
         416
       ],
-      "id": "2c3bc866-66cf-415a-922a-7921be09e771",
+      "id": "38e527f9-b898-4213-83c2-d5ce94282230",
       "name": "Ingesta de PDFs",
-      "webhookId": "a72bfe42-2809-4431-8acf-074c3b8b8b1c",
+      "webhookId": "d6f988f2-0760-416b-8d01-1359c1fc73b3",
       "notesInFlow": false
     },
     {
@@ -912,9 +896,9 @@
         64,
         688
       ],
-      "id": "7b5317f4-aba2-4d40-b899-28fb73e8e959",
+      "id": "f76dd862-3364-466c-b353-468eda4175cc",
       "name": "Ingesta de imágenes",
-      "webhookId": "b6919c43-2021-407e-8ad8-43169ea605a8",
+      "webhookId": "b1fe5ebe-6420-4dc4-8c2d-c5ddd956e279",
       "notesInFlow": false
     },
     {
@@ -940,7 +924,7 @@
         224,
         688
       ],
-      "id": "d168720b-1665-42e2-83eb-4486b7b3c8c1",
+      "id": "166752f2-996d-4601-9e75-8a5af4ad270e",
       "name": "Ejecutar OCR"
     },
     {
@@ -955,7 +939,7 @@
         224,
         416
       ],
-      "id": "c7daec50-d382-44c1-91f9-2b9bb52bdade",
+      "id": "782e8aba-3631-4572-a2c3-0dc78b594149",
       "name": "Extraer texto del PDF"
     },
     {
@@ -968,7 +952,7 @@
         832,
         416
       ],
-      "id": "f2ed5752-4e22-4828-9096-1586bb4dbfd4",
+      "id": "df20a86b-44b0-4e31-9675-dbb23ec152be",
       "name": "Respuesta -> JSON deseado",
       "notesInFlow": false
     },
@@ -982,7 +966,7 @@
         384,
         688
       ],
-      "id": "3d6a834e-47fa-4a08-9a99-f33a3b41e1a7",
+      "id": "3fd81f23-f009-47a3-b5d8-b9b926f50247",
       "name": "Extraer texto del OCR"
     },
     {
@@ -993,7 +977,7 @@
         2000,
         160
       ],
-      "id": "d2fef442-4540-46c2-b6d7-2272d0c7401d",
+      "id": "2a0b9770-bcfe-40a0-8bf7-970eb2481fab",
       "name": "Merge"
     },
     {
@@ -1007,7 +991,7 @@
         1040,
         160
       ],
-      "id": "923ba9ec-1e13-4229-aeb0-60c7d21989c5",
+      "id": "e6fdeebc-a8d3-41e5-96b0-57834086f0e5",
       "name": "Validar incidencia"
     },
     {
@@ -1041,7 +1025,7 @@
         1200,
         160
       ],
-      "id": "07f84d20-9074-4571-a651-851828220597",
+      "id": "e91b2524-7264-4ada-85a8-9b4554955fb1",
       "name": "¿Reporte válido?"
     },
     {
@@ -1118,7 +1102,7 @@
         1376,
         720
       ],
-      "id": "fe6780f1-71dd-4216-b2f8-4d91b14d17a4",
+      "id": "df173098-85a0-4144-b000-e83b07be73e3",
       "name": "Reporte inválido"
     },
     {
@@ -1182,7 +1166,7 @@
         2880,
         720
       ],
-      "id": "c4985191-1039-4797-8426-8ed707c868b6",
+      "id": "461c2aab-b6f3-4bf8-91d7-2c23cbdb803d",
       "name": "Registrar error validacion",
       "credentials": {
         "mySql": {
@@ -1543,14 +1527,12 @@
   "active": false,
   "settings": {
     "executionOrder": "v1",
-    "binaryMode": "separate",
-    "errorWorkflow": "OpsInsightErrHandler"
+    "binaryMode": "separate"
   },
-  "versionId": "07e3b40c-598b-4377-a74f-f0ab65a4b2df",
+  "versionId": "c89fb281-c1e8-4192-8b1b-1ad567cd3212",
   "meta": {
-    "templateCredsSetupCompleted": true,
     "instanceId": "9f9b15948ac0cabd97d7730cb7a79cef7ff8cf9c567e668e052c4eead1ee7ffb"
   },
-  "id": "UWJD9y96W36zEMJI",
+  "id": "2oNBvgKclDawbsjq",
   "tags": []
 }
