@@ -276,19 +276,19 @@
             {
               "id": "921fad04-0f40-4542-a947-b74cad2f8e92",
               "name": "criticidad",
-              "value": "={{ (($json.output.split(/clasificación/i).pop().match(/\\b(alta|media|baja)\\b/i) || [null, 'Baja'])[1]) }}",
+              "value": "={{ (($json.output.match(/clasificaci[oó]n:?\\s*(alta|media|baja)/i) || [null, 'Baja'])[1]) }}",
               "type": "string"
             },
             {
               "id": "9e417f03-39a7-403c-ad5c-a29528cb3487",
               "name": "tiempo_reparacion",
-              "value": "={{ parseInt(($json.output.split(/tiempo estimado/i).pop().match(/\\d+/)?.[0]) || 0) }}",
+              "value": "={{ parseInt(($json.output.match(/tiempo estimado:?\\s*(\\d+)/i) || [])[1] || 0) }}",
               "type": "string"
             },
             {
               "id": "0848c31b-b283-4f62-b273-f13603aa5fc6",
               "name": "coste_estimado",
-              "value": "={{ parseInt(($json.output.split(/cost(e|o) estimado/i).pop().match(/\\d+/)?.[0]) || 0) }}",
+              "value": "={{ parseInt(($json.output.match(/cost[eo] estimado:?\\s*(\\d+)/i) || [])[1] || 0) }}",
               "type": "string"
             },
             {
@@ -970,7 +970,11 @@
       "name": "Extraer texto del OCR"
     },
     {
-      "parameters": {},
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
