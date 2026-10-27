@@ -89,7 +89,7 @@ docker exec -i mysql_db mysql -uadmin -p1234 opsinsight_db < db/schema.sql
 Tal y como se ha mencionado, `n8n` se levanta en [localhost:5678](http://localhost:5678), por lo que para utilizar el sistema, basta con:
 1. Acceder a n8n abriendo [localhost:5678](http://localhost:5678) desde un navegador.
 2. Crear un nuevo *workflow* e importar [`OpsInsight.json`](OpsInsight.json).
-3. Configurar la credencial de **Ollama** (`ollamaApi`, Base URL `http://ollama:11434`); la de **MySQL** se detalla en el punto anterior. Asegúrate también de enlazar el *workflow* de manejo de errores [`src/OpsInsight_ErrorHandler.json`](src/OpsInsight_ErrorHandler.json) en *Settings → Error Workflow*.
+3. Configurar la credencial de **Ollama** (`ollamaApi`, Base URL `http://ollama:11434`); la de **MySQL** se detalla en el punto anterior. Asegúrate también de importar y **activar/publicar** el *workflow* de manejo de errores [`src/OpsInsight_ErrorHandler.json`](src/OpsInsight_ErrorHandler.json), y de enlazarlo en *Settings → Error Workflow* del workflow principal. **Importante**: enlazarlo en *Settings* no basta — si `OpsInsight_ErrorHandler` no está además *Published*, n8n no lo invoca y los fallos de infraestructura no se registran (ni aparecen en el panel "Errores de Sistema" de Grafana).
 4. Lanzar el proceso con cualquiera de los *triggers* del bloque *Ingesta Documental* (encuesta, PDF o imagen).
 
 ---

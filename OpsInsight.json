@@ -573,7 +573,7 @@
           "assignments": [
             {
               "id": "fc1c60ba-48fd-48b9-9f6a-aed961e9d16f",
-              "name": "texto_limpio",
+              "name": "text",
               "value": "={{ $json.text.replace(/\\n/g, ' ') }}",
               "type": "string"
             }
