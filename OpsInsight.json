@@ -813,7 +813,10 @@
             }
           ]
         },
-        "options": {}
+        "options": {
+          "num_predict": 800,
+          "temperature": 0.2
+        }
       },
       "type": "@n8n/n8n-nodes-langchain.ollama",
       "typeVersion": 1,
